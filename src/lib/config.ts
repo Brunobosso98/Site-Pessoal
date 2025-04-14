@@ -6,5 +6,5 @@
 // and need to be prefixed with VITE_
 export const config = {
   // Acessa a chave da API a partir da variável de ambiente
-  openaiApiKey: import.meta.env.OPENAI_API_KEY || ''
+  openaiApiKey: import.meta.env.VITE_OPENAI_API_KEY || ''
 };
