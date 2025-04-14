@@ -51,6 +51,8 @@ const AnimatedBackground = () => {
       // Propriedades adicionais para animação suave
       targetOpacity?: number;
       targetRadius?: number;
+      lastInteraction?: number; // Timestamp da última interação
+      isActive?: boolean; // Se a partícula está ativa (sob efeito do mouse)
     }
 
     // Create particles
@@ -88,14 +90,14 @@ const AnimatedBackground = () => {
           p.direction = Math.atan2(p.vy, p.vx);
         }
 
-        // Animação suave para opacidade e raio
+        // Animação suave para opacidade e raio - velocidade muito reduzida
         if (p.targetOpacity !== undefined) {
-          p.opacity += (p.targetOpacity - p.opacity) * 0.05;
+          p.opacity += (p.targetOpacity - p.opacity) * 0.02; // Reduzido para 0.02 (muito mais lento)
         }
 
         if (p.targetRadius !== undefined) {
           const originalRadius = Math.random() * 2 + 1;
-          p.radius += (p.targetRadius - p.radius) * 0.1;
+          p.radius += (p.targetRadius - p.radius) * 0.02; // Reduzido para 0.02 (muito mais lento)
 
           // Limitar o raio para evitar partículas muito grandes
           if (p.radius > originalRadius * 3) {
