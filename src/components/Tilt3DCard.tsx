@@ -10,32 +10,32 @@ interface Tilt3DCardProps {
   tiltAmount?: number;
 }
 
-const Tilt3DCard = ({ 
-  children, 
-  className, 
+const Tilt3DCard = ({
+  children,
+  className,
   glareEnabled = true,
-  tiltAmount = 10 
+  tiltAmount = 10
 }: Tilt3DCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
-  
+
   useEffect(() => {
     const card = cardRef.current;
     const glare = glareRef.current;
     if (!card) return;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!isHovering) return;
-      
+
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       // Calculate rotation based on mouse position
       const rotateY = ((x / rect.width) - 0.5) * tiltAmount;
       const rotateX = ((y / rect.height) - 0.5) * -tiltAmount;
-      
+
       // Apply tilt effect with GSAP
       gsap.to(card, {
         rotateY: rotateY,
@@ -44,12 +44,12 @@ const Tilt3DCard = ({
         duration: 0.4,
         ease: "power2.out"
       });
-      
+
       // Move glare effect
       if (glare && glareEnabled) {
         const glareX = (x / rect.width) * 100;
         const glareY = (y / rect.height) * 100;
-        
+
         gsap.to(glare, {
           backgroundPosition: `${glareX}% ${glareY}%`,
           opacity: 0.2,
@@ -57,10 +57,10 @@ const Tilt3DCard = ({
         });
       }
     };
-    
+
     const handleMouseEnter = () => {
       setIsHovering(true);
-      
+
       // Apply hover animation
       gsap.to(card, {
         scale: 1.05,
@@ -68,7 +68,7 @@ const Tilt3DCard = ({
         duration: 0.3,
         ease: "power2.out"
       });
-      
+
       // Show glare effect
       if (glare && glareEnabled) {
         gsap.to(glare, {
@@ -77,10 +77,10 @@ const Tilt3DCard = ({
         });
       }
     };
-    
+
     const handleMouseLeave = () => {
       setIsHovering(false);
-      
+
       // Reset transform
       gsap.to(card, {
         rotateY: 0,
@@ -90,7 +90,7 @@ const Tilt3DCard = ({
         duration: 0.5,
         ease: "power3.out"
       });
-      
+
       // Hide glare effect
       if (glare && glareEnabled) {
         gsap.to(glare, {
@@ -99,20 +99,20 @@ const Tilt3DCard = ({
         });
       }
     };
-    
+
     card.addEventListener('mousemove', handleMouseMove);
     card.addEventListener('mouseenter', handleMouseEnter);
     card.addEventListener('mouseleave', handleMouseLeave);
-    
+
     return () => {
       card.removeEventListener('mousemove', handleMouseMove);
       card.removeEventListener('mouseenter', handleMouseEnter);
       card.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [isHovering, tiltAmount, glareEnabled]);
-  
+
   return (
-    <div 
+    <div
       ref={cardRef}
       className={cn(
         "relative rounded-xl overflow-hidden transition-all duration-300 transform-gpu",
@@ -121,7 +121,7 @@ const Tilt3DCard = ({
       style={{ transformStyle: 'preserve-3d' }}
     >
       {glareEnabled && (
-        <div 
+        <div
           ref={glareRef}
           className="absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity"
           style={{
