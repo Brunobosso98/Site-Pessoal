@@ -1,17 +1,26 @@
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useEffect, useRef, useState } from 'react';
 
 const AnimatedBackground = () => {
+  // Componente de fundo animado com interação de mouse
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!canvasRef.current || !containerRef.current) return;
+    console.log('AnimatedBackground useEffect called');
+    if (!canvasRef.current || !containerRef.current) {
+      console.log('Canvas or container ref is null');
+      return;
+    }
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      console.log('Failed to get canvas context');
+      return;
+    }
+
+    console.log('Canvas and context initialized successfully');
 
     // Set canvas size
     const updateSize = () => {
@@ -39,6 +48,9 @@ const AnimatedBackground = () => {
       vx: number;
       vy: number;
       opacity: number;
+      // Propriedades adicionais para animação suave
+      targetOpacity?: number;
+      targetRadius?: number;
     }
 
     // Create particles
@@ -74,6 +86,21 @@ const AnimatedBackground = () => {
         if (p.y < 0 || p.y > canvas.height) {
           p.vy = -p.vy;
           p.direction = Math.atan2(p.vy, p.vx);
+        }
+
+        // Animação suave para opacidade e raio
+        if (p.targetOpacity !== undefined) {
+          p.opacity += (p.targetOpacity - p.opacity) * 0.05;
+        }
+
+        if (p.targetRadius !== undefined) {
+          const originalRadius = Math.random() * 2 + 1;
+          p.radius += (p.targetRadius - p.radius) * 0.1;
+
+          // Limitar o raio para evitar partículas muito grandes
+          if (p.radius > originalRadius * 3) {
+            p.radius = originalRadius * 3;
+          }
         }
       });
     };
@@ -119,47 +146,49 @@ const AnimatedBackground = () => {
     // Mouse interaction
     let mouseX = 0;
     let mouseY = 0;
-    let mouseRadius = 100;
+    const mouseRadius = 100;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
 
-      // Create ripple effect
-      gsap.to(particles, {
-        stagger: {
-          each: 0.001,
-          grid: "auto" // Fixed: Changed from "random" to "auto"
-        },
-        opacity: (i, target) => {
-          const particle = target as unknown as Particle;
-          const dx = mouseX - particle.x;
-          const dy = mouseY - particle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+      // Mouse move detectado
 
-          if (distance < mouseRadius) {
-            return 0.8;
-          }
-          return particle.opacity;
-        },
-        radius: (i, target) => {
-          const particle = target as unknown as Particle;
-          const dx = mouseX - particle.x;
-          const dy = mouseY - particle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+      // Abordagem direta sem usar GSAP para evitar o erro
+      particles.forEach(particle => {
+        const dx = mouseX - particle.x;
+        const dy = mouseY - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < mouseRadius) {
-            return particle.radius * 1.5;
-          }
-          return particle.radius;
-        },
-        duration: 0.5,
-        ease: "power2.out"
+        if (distance < mouseRadius) {
+          // Aplicar efeito diretamente nas partículas
+          particle.targetOpacity = 1.0;
+          particle.targetRadius = particle.radius * 3.0;
+        } else {
+          // Restaurar valores originais gradualmente
+          particle.targetOpacity = Math.random() * 0.5 + 0.2;
+          particle.targetRadius = Math.random() * 2 + 1;
+        }
       });
     };
 
+    console.log('Adding mousemove event listeners');
     canvas.addEventListener('mousemove', handleMouseMove);
+
+    // Adicionar evento ao documento como fallback
+    const documentMouseMoveHandler = (e: MouseEvent) => {
+      // Document mousemove detectado
+      // Simular o evento no canvas
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+
+      // Chamar a função de manipulação diretamente
+      handleMouseMove(e);
+    };
+
+    document.addEventListener('mousemove', documentMouseMoveHandler);
 
     // Touch interaction for mobile devices
     const handleTouchMove = (e: TouchEvent) => {
@@ -168,36 +197,23 @@ const AnimatedBackground = () => {
         mouseX = e.touches[0].clientX - rect.left;
         mouseY = e.touches[0].clientY - rect.top;
 
-        // Same ripple effect as mouse
-        gsap.to(particles, {
-          stagger: {
-            each: 0.001,
-            grid: "auto"
-          },
-          opacity: (i, target) => {
-            const particle = target as unknown as Particle;
-            const dx = mouseX - particle.x;
-            const dy = mouseY - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        // Touch move detectado
 
-            if (distance < mouseRadius) {
-              return 0.8;
-            }
-            return particle.opacity;
-          },
-          radius: (i, target) => {
-            const particle = target as unknown as Particle;
-            const dx = mouseX - particle.x;
-            const dy = mouseY - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        // Mesma abordagem direta usada para o mouse
+        particles.forEach(particle => {
+          const dx = mouseX - particle.x;
+          const dy = mouseY - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < mouseRadius) {
-              return particle.radius * 1.5;
-            }
-            return particle.radius;
-          },
-          duration: 0.5,
-          ease: "power2.out"
+          if (distance < mouseRadius) {
+            // Aplicar efeito diretamente nas partículas
+            particle.targetOpacity = 0.2;
+            particle.targetRadius = particle.radius * 1.2;
+          } else {
+            // Restaurar valores originais gradualmente
+            particle.targetOpacity = Math.random() * 0.5 + 0.2;
+            particle.targetRadius = Math.random() * 2 + 1;
+          }
         });
       }
     };
@@ -221,12 +237,70 @@ const AnimatedBackground = () => {
       window.removeEventListener('resize', updateSize);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('mousemove', documentMouseMoveHandler);
+    };
+  }, []);
+
+  // Implementação alternativa para interação com o mouse
+  const [isMouseActive, setIsMouseActive] = useState(false);
+
+  // Efeito para atualizar as partículas quando o mouse se move
+  useEffect(() => {
+    if (!isMouseActive || !canvasRef.current) return;
+
+    // Adicionar um efeito visual quando o mouse está ativo
+    const canvas = canvasRef.current;
+    canvas.style.filter = 'brightness(1.2)';
+
+    // Resetar o efeito quando o mouse fica inativo
+    return () => {
+      // Usar a referência capturada no escopo do efeito
+      canvas.style.filter = 'none';
+    };
+  }, [isMouseActive]);
+
+  useEffect(() => {
+    const globalMouseHandler = (_e: MouseEvent) => {
+      // Global mouse handler
+      // Ativar o estado de interação
+      setIsMouseActive(true);
+
+      // Resetar o estado após um tempo
+      setTimeout(() => setIsMouseActive(false), 500);
+    };
+
+    window.addEventListener('mousemove', globalMouseHandler);
+
+    return () => {
+      window.removeEventListener('mousemove', globalMouseHandler);
     };
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 -z-50">
-      <canvas ref={canvasRef} className="w-full h-full" />
+    <div
+      ref={containerRef}
+      className="fixed inset-0 -z-50 overflow-hidden"
+      style={{ pointerEvents: 'auto' }}
+    >
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          cursor: isMouseActive ? 'pointer' : 'default',
+          transition: 'opacity 0.3s ease',
+          opacity: 1
+        }}
+        onMouseMove={(_e) => {
+          // Direct canvas mouse move
+          // Atualizar o estado diretamente aqui também
+          // Ativar o estado de interação
+          setIsMouseActive(true);
+          setTimeout(() => setIsMouseActive(false), 500);
+        }}
+      />
     </div>
   );
 };
