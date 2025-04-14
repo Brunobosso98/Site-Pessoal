@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -18,17 +17,32 @@ const Index = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Initialize any global GSAP animations or ScrollTriggers here
-    
+    // Para dispositivos móveis, mostrar o conteúdo diretamente sem animação ao scroll
+    if (isMobile) {
+      document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        gsap.set(element, { opacity: 1, y: 0 });
+      });
+
+      // Limpe todas as animações ScrollTrigger existentes em dispositivos móveis
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      return;
+    }
+
+    // Configuração para desktop
     // Animate sections as they come into view
     const sections = document.querySelectorAll('section');
-    
+
     sections.forEach(section => {
+      const elements = section.querySelectorAll('.animate-on-scroll');
+
+      // Se não há elementos para animar, não crie o ScrollTrigger
+      if (elements.length === 0) return;
+
       gsap.fromTo(
-        section.querySelectorAll('.animate-on-scroll'),
-        { 
-          y: 50, 
-          opacity: 0 
+        elements,
+        {
+          y: 50,
+          opacity: 0
         },
         {
           y: 0,
@@ -38,40 +52,42 @@ const Index = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 70%",
-            toggleActions: "play none none reverse"
+            start: "top 80%", // Mudança para iniciar animação mais cedo
+            toggleActions: "play none none none" // Alterado para não reverter
           }
         }
       );
     });
-    
-    // Add parallax effect to section backgrounds
-    sections.forEach(section => {
-      const bg = section.querySelector('.section-bg');
-      if (bg && !isMobile) {
-        gsap.to(bg, {
-          y: () => section.offsetHeight * 0.2,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true
-          }
-        });
-      }
-    });
-    
+
+    // Add parallax effect to section backgrounds (apenas no desktop)
+    if (!isMobile) {
+      sections.forEach(section => {
+        const bg = section.querySelector('.section-bg');
+        if (bg) {
+          gsap.to(bg, {
+            y: () => section.offsetHeight * 0.2,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true
+            }
+          });
+        }
+      });
+    }
+
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const href = this.getAttribute('href');
         if (!href) return;
-        
+
         const target = document.querySelector(href);
         if (!target) return;
-        
+
         window.scrollTo({
           top: (target as HTMLElement).offsetTop - 100,
           behavior: 'smooth'

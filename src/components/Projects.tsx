@@ -1,10 +1,10 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,9 +22,15 @@ type Project = {
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!cardRef.current) return;
+
+    if (isMobile) {
+      gsap.set(cardRef.current, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.from(cardRef.current, {
       y: 40,
@@ -37,12 +43,12 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         start: "top bottom-=100",
       }
     });
-  }, [index]);
+  }, [index, isMobile]);
 
   return (
     <div
       ref={cardRef}
-      className="bg-foreground/5 rounded-xl overflow-hidden card-hover flex flex-col"
+      className="bg-foreground/5 rounded-xl overflow-hidden card-hover flex flex-col animate-on-scroll"
     >
       <div className="h-48 overflow-hidden">
         <img
@@ -54,18 +60,18 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       <div className="p-6 flex flex-col flex-1">
         <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
         <p className="text-foreground/70 mb-4 flex-1">{project.description}</p>
-        
+
         <div className="flex flex-wrap gap-2 mb-4">
           {project.technologies.map((tech, techIndex) => (
-            <span 
-              key={techIndex} 
+            <span
+              key={techIndex}
               className="bg-foreground/10 px-2 py-1 rounded-md text-xs hover:bg-accent/20 hover:text-accent transition-colors duration-300"
             >
               {tech}
             </span>
           ))}
         </div>
-        
+
         <div className="flex gap-3">
           {project.githubUrl && (
             <a
@@ -108,9 +114,17 @@ const Projects = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!sectionRef.current) return;
+
+    if (isMobile) {
+      [titleRef.current, tabsRef.current].forEach(el => {
+        if (el) gsap.set(el, { opacity: 1, y: 0 });
+      });
+      return;
+    }
 
     gsap.from(titleRef.current, {
       y: 30,
@@ -134,7 +148,7 @@ const Projects = () => {
         start: "top bottom-=100",
       }
     });
-  }, []);
+  }, [isMobile]);
 
   const projects: Project[] = [
     {
@@ -209,7 +223,7 @@ const Projects = () => {
   return (
     <section ref={sectionRef} id="projects" className="py-20 relative">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.08),transparent_50%)]"></div>
-      
+
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Meus <span className="highlight-gradient">Projetos</span>

@@ -1,8 +1,8 @@
-
 import { useEffect, useRef } from 'react';
 import { Zap, Code, BarChart, Rocket } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,9 +13,16 @@ const ServiceCard = ({ icon: Icon, title, description, delay }: {
   delay: number
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!cardRef.current) return;
+
+    // Em dispositivos móveis, mostrar o card imediatamente
+    if (isMobile) {
+      gsap.set(cardRef.current, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.from(cardRef.current, {
       y: 40,
@@ -28,12 +35,12 @@ const ServiceCard = ({ icon: Icon, title, description, delay }: {
         start: "top bottom-=100",
       }
     });
-  }, [delay]);
+  }, [delay, isMobile]);
 
   return (
     <div
       ref={cardRef}
-      className="bg-foreground/5 hover:bg-foreground/10 p-6 rounded-xl transition-all duration-300 hover:shadow-md card-hover"
+      className="bg-foreground/5 hover:bg-foreground/10 p-6 rounded-xl transition-all duration-300 hover:shadow-md card-hover animate-on-scroll"
     >
       <div className="bg-accent/10 rounded-lg p-3 w-fit mb-4">
         <Icon className="h-6 w-6 text-accent" />
@@ -49,9 +56,18 @@ const About = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!sectionRef.current) return;
+
+    // Em dispositivos móveis, mostrar o conteúdo imediatamente
+    if (isMobile) {
+      [titleRef.current, textRef.current, imageRef.current].forEach(el => {
+        if (el) gsap.set(el, { opacity: 1, y: 0, x: 0 });
+      });
+      return;
+    }
 
     gsap.from(titleRef.current, {
       y: 30,
@@ -86,7 +102,7 @@ const About = () => {
         start: "top bottom-=100",
       }
     });
-  }, []);
+  }, [isMobile]);
 
   const services = [
     {
@@ -116,12 +132,12 @@ const About = () => {
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.08),transparent_50%)]"></div>
 
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-6 text-center">
+        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-6 text-center animate-on-scroll">
           Sobre <span className="highlight-gradient">Mim</span>
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          <div ref={textRef} className="flex flex-col justify-center">
+          <div ref={textRef} className="flex flex-col justify-center animate-on-scroll">
             <p className="text-lg mb-4">
               Olá! Sou Bruno Martins, um desenvolvedor full-stack apaixonado por criar soluções tecnológicas inovadoras que resolvem problemas reais.
             </p>
@@ -143,7 +159,7 @@ const About = () => {
             </div>
           </div>
 
-          <div ref={imageRef} className="relative rounded-2xl overflow-hidden shadow-xl h-[400px] group bg-gradient-to-br from-background to-muted">
+          <div ref={imageRef} className="relative rounded-2xl overflow-hidden shadow-xl h-[400px] group bg-gradient-to-br from-background to-muted animate-on-scroll">
             <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary/10 group-hover:opacity-75 transition-opacity duration-300"></div>
             <img
               src="/eu.jpeg"

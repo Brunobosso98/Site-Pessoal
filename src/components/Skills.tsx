@@ -1,7 +1,7 @@
-
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +14,17 @@ type Skill = {
 const SkillBar = ({ name, level, index }: { name: string; level: number; index: number }) => {
   const barRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!barRef.current || !progressRef.current) return;
+
+    // Em dispositivos móveis, mostrar as barras de progresso imediatamente
+    if (isMobile) {
+      gsap.set(barRef.current, { opacity: 1, y: 0 });
+      gsap.set(progressRef.current, { width: `${level}%` });
+      return;
+    }
 
     gsap.from(barRef.current, {
       y: 20,
@@ -44,10 +52,10 @@ const SkillBar = ({ name, level, index }: { name: string; level: number; index: 
         }
       }
     );
-  }, [index, level]);
+  }, [index, level, isMobile]);
 
   return (
-    <div ref={barRef} className="mb-4">
+    <div ref={barRef} className="mb-4 animate-on-scroll">
       <div className="flex justify-between mb-1">
         <span className="text-sm font-medium">{name}</span>
         <span className="text-sm font-medium text-foreground/60">{level}%</span>
@@ -63,16 +71,23 @@ const SkillBar = ({ name, level, index }: { name: string; level: number; index: 
   );
 };
 
-const SkillCategory = ({ title, skills, category }: { 
-  title: string; 
+const SkillCategory = ({ title, skills, category }: {
+  title: string;
   skills: Skill[];
   category: Skill['category'];
 }) => {
   const filteredSkills = skills.filter(skill => skill.category === category);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!titleRef.current) return;
+
+    // Em dispositivos móveis, mostrar o título imediatamente
+    if (isMobile) {
+      gsap.set(titleRef.current, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.from(titleRef.current, {
       y: 20,
@@ -84,11 +99,11 @@ const SkillCategory = ({ title, skills, category }: {
         start: "top bottom-=50",
       }
     });
-  }, []);
+  }, [isMobile]);
 
   return (
     <div>
-      <h3 ref={titleRef} className="text-xl font-bold mb-6">{title}</h3>
+      <h3 ref={titleRef} className="text-xl font-bold mb-6 animate-on-scroll">{title}</h3>
       {filteredSkills.map((skill, index) => (
         <SkillBar
           key={skill.name}
@@ -104,9 +119,16 @@ const SkillCategory = ({ title, skills, category }: {
 const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!sectionRef.current) return;
+
+    // Em dispositivos móveis, mostrar o título imediatamente
+    if (isMobile) {
+      gsap.set(titleRef.current, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.from(titleRef.current, {
       y: 30,
@@ -118,7 +140,7 @@ const Skills = () => {
         start: "top bottom-=100",
       }
     });
-  }, []);
+  }, [isMobile]);
 
   const skills: Skill[] = [
     // Frontend
@@ -127,21 +149,21 @@ const Skills = () => {
     { name: "HTML / CSS", level: 90, category: 'frontend' },
     { name: "Tailwind CSS", level: 85, category: 'frontend' },
     { name: "GSAP", level: 80, category: 'frontend' },
-    
+
     // Backend
     { name: "Node.js", level: 85, category: 'backend' },
     { name: "Python", level: 90, category: 'backend' },
     { name: "Flask", level: 80, category: 'backend' },
     { name: "PostgreSQL", level: 75, category: 'backend' },
     { name: "REST APIs", level: 85, category: 'backend' },
-    
+
     // Automation
     { name: "Python Automation", level: 95, category: 'automation' },
     { name: "Selenium", level: 90, category: 'automation' },
     { name: "PyAutoGUI", level: 85, category: 'automation' },
     { name: "Web Scraping", level: 90, category: 'automation' },
     { name: "Pandas", level: 80, category: 'automation' },
-    
+
     // Tools & Others
     { name: "Git / GitHub", level: 85, category: 'tools' },
     { name: "Docker", level: 75, category: 'tools' },
@@ -153,9 +175,9 @@ const Skills = () => {
   return (
     <section ref={sectionRef} id="skills" className="py-20 relative">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.08),transparent_50%)]"></div>
-      
+
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-12 text-center">
+        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-12 text-center animate-on-scroll">
           Minhas <span className="highlight-gradient">Habilidades</span>
         </h2>
 
