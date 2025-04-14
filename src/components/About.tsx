@@ -6,9 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ServiceCard = ({ icon: Icon, title, description, delay }: { 
-  icon: React.ElementType, 
-  title: string, 
+const ServiceCard = ({ icon: Icon, title, description, delay }: {
+  icon: React.ElementType,
+  title: string,
   description: string,
   delay: number
 }) => {
@@ -31,7 +31,7 @@ const ServiceCard = ({ icon: Icon, title, description, delay }: {
   }, [delay]);
 
   return (
-    <div 
+    <div
       ref={cardRef}
       className="bg-foreground/5 hover:bg-foreground/10 p-6 rounded-xl transition-all duration-300 hover:shadow-md card-hover"
     >
@@ -114,7 +114,7 @@ const About = () => {
   return (
     <section ref={sectionRef} id="about" className="py-20 relative">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(139,92,246,0.08),transparent_50%)]"></div>
-      
+
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
         <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Sobre <span className="highlight-gradient">Mim</span>
@@ -142,13 +142,13 @@ const About = () => {
               <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm">PostgreSQL</span>
             </div>
           </div>
-          
-          <div ref={imageRef} className="relative rounded-2xl overflow-hidden shadow-xl h-[400px]">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary/10"></div>
+
+          <div ref={imageRef} className="relative rounded-2xl overflow-hidden shadow-xl h-[400px] group bg-gradient-to-br from-background to-muted">
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-primary/10 group-hover:opacity-75 transition-opacity duration-300"></div>
             <img
-              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625" 
-              alt="Bruno Martins" 
-              className="w-full h-full object-cover"
+              src="/eu.jpeg"
+              alt="Bruno Martins"
+              className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         </div>

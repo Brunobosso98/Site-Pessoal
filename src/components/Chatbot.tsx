@@ -17,8 +17,7 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', content: '## Olá! 👋\n\nSou o **Assistente Virtual de Bruno Martins**. Posso fornecer informações sobre Bruno, suas habilidades, projetos desenvolvidos e formas de contato.\n\nVocê pode perguntar sobre "Quem é Bruno" para ver a foto dele e conhecer mais sobre o desenvolvedor.\n\nComo posso ajudar você hoje?', isUser: false }
-  ]);
+    { id: '1', content: '## Olá! 👋\n\nSou o **Assistente Virtual de Bruno Martins**. Posso fornecer informações sobre Bruno, suas habilidades, projetos desenvolvidos e formas de contato.\n\nVocê pode perguntar sobre "Quem é Bruno" para ver a foto dele e conhecer mais sobre o desenvolvedor.\n\nComo posso ajudar você hoje?', isUser: false }  ]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
@@ -329,7 +328,7 @@ const Chatbot = () => {
                   className={`max-w-[80%] p-3 rounded-lg ${
                     msg.isUser
                       ? 'bg-accent text-white rounded-tr-none'
-                      : 'bg-white border border-gray-200 shadow-sm rounded-tl-none'
+                      : 'bg-white border border-gray-200 shadow-sm rounded-tl-none chatbot-message'
                   }`}
                 >
                   {msg.isUser ? (
@@ -416,94 +415,98 @@ const Chatbot = () => {
           pointer-events: none;
         }
 
-        /* Estilos para o conteúdo Markdown */
-        p {
+        /* Estilos para o conteúdo Markdown - limitados ao chatbot */
+        .chatbot-message p {
           margin-bottom: 0.5rem;
         }
-        p:last-child {
+        .chatbot-message p:last-child {
           margin-bottom: 0;
         }
-        ul, ol {
+        .chatbot-message ul,
+        .chatbot-message ol {
           margin-left: 1rem;
           margin-bottom: 0.5rem;
         }
-        ul {
+        .chatbot-message ul {
           list-style-type: disc;
         }
-        ol {
+        .chatbot-message ol {
           list-style-type: decimal;
         }
-        li {
+        .chatbot-message li {
           margin-bottom: 0.25rem;
         }
-        a {
+        .chatbot-message a {
           color: #3b82f6;
           text-decoration: none;
         }
-        a:hover {
+        .chatbot-message a:hover {
           text-decoration: underline;
         }
-        strong {
+        .chatbot-message strong {
           font-weight: bold;
         }
-        em {
+        .chatbot-message em {
           font-style: italic;
         }
-        h1, h2, h3 {
+        .chatbot-message h1,
+        .chatbot-message h2,
+        .chatbot-message h3 {
           font-weight: bold;
           margin-bottom: 0.5rem;
         }
-        h1 {
+        .chatbot-message h1 {
           font-size: 1.125rem;
         }
-        h2 {
+        .chatbot-message h2 {
           font-size: 1rem;
         }
-        h3 {
+        .chatbot-message h3 {
           font-size: 0.875rem;
         }
-        code {
+        .chatbot-message code {
           background-color: #f3f4f6;
           border-radius: 0.25rem;
           padding: 0.125rem 0.25rem;
           font-size: 0.875rem;
         }
-        pre {
+        .chatbot-message pre {
           background-color: #f3f4f6;
           border-radius: 0.25rem;
           padding: 0.5rem;
           margin: 0.5rem 0;
           overflow-x: auto;
         }
-        pre code {
+        .chatbot-message pre code {
           padding: 0;
           background-color: transparent;
         }
-        blockquote {
+        .chatbot-message blockquote {
           border-left: 3px solid #e5e7eb;
           padding-left: 0.5rem;
           margin-left: 0.5rem;
           color: #6b7280;
         }
-        hr {
+        .chatbot-message hr {
           border: 0;
           border-top: 1px solid #e5e7eb;
           margin: 0.5rem 0;
         }
-        table {
+        .chatbot-message table {
           border-collapse: collapse;
           width: 100%;
           margin: 0.5rem 0;
         }
-        th, td {
+        .chatbot-message th,
+        .chatbot-message td {
           border: 1px solid #e5e7eb;
           padding: 0.25rem 0.5rem;
           text-align: left;
         }
-        th {
+        .chatbot-message th {
           background-color: #f3f4f6;
         }
-        img {
+        .chatbot-message img {
           display: block;
           max-width: 100%;
           height: auto;
