@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { ArrowDown, Github, Linkedin } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { Button } from "@/components/ui/button";
 import gsap from 'gsap';
+import WhatsAppModal from './WhatsAppModal';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -72,19 +74,21 @@ const Hero = () => {
           <Button className="bg-accent hover:bg-accent/90 text-white rounded-full px-8 py-6">
             Ver Projetos
           </Button>
-          <Button variant="outline" className="rounded-full px-8 py-6 border-accent/20 hover:border-accent/40">
-            Contato
-          </Button>
+          <WhatsAppModal>
+            <Button variant="outline" className="rounded-full px-8 py-6 border-accent/20 hover:border-accent/40">
+              Contato
+            </Button>
+          </WhatsAppModal>
         </div>
 
         <div className="flex gap-4 mb-24">
           <a href="https://github.com/Brunobosso98" target="_blank" rel="noopener noreferrer"
             className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors">
-            <Github className="h-6 w-6" />
+            <FaGithub className="h-6 w-6" />
           </a>
           <a href="https://www.linkedin.com/in/bruno-bosso-martins-9a1723270/" target="_blank" rel="noopener noreferrer"
             className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors">
-            <Linkedin className="h-6 w-6" />
+            <FaLinkedin className="h-6 w-6" />
           </a>
         </div>
       </div>
