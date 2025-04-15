@@ -190,7 +190,7 @@ const Projects = () => {
       category: 'web',
       technologies: ['Flask', 'PostgreSQL', 'Google OR-Tools', 'Bootstrap'],
       githubUrl: "#",
-      liveUrl: "#",
+      liveUrl: "https://rota.kodiakerp.com.br",
       detailUrl: "/project/sistema-rotas"
     },
     {
@@ -201,7 +201,7 @@ const Projects = () => {
       category: 'web',
       technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'OpenAI'],
       githubUrl: "#",
-      liveUrl: "#",
+      liveUrl: "https://kodiakerp.com.br",
       detailUrl: "/project/kodiak-erp"
     },
     {

@@ -184,19 +184,19 @@ const Contact = () => {
               <ContactInfo
                 icon={Mail}
                 title="Email"
-                content="bruno.martins@exemplo.com"
+                content="brugala@gmail.com"
               />
 
               <ContactInfo
                 icon={Phone}
                 title="Telefone"
-                content="+55 (11) 98765-4321"
+                content="+55 (19) 98711-1198"
               />
 
               <ContactInfo
                 icon={MapPin}
                 title="Localização"
-                content="São Paulo, SP - Brasil"
+                content="Itapira, SP - Brasil"
               />
             </div>
 
@@ -204,7 +204,7 @@ const Contact = () => {
               <h3 className="text-xl font-semibold mb-4">Redes Sociais</h3>
               <div className="flex gap-4">
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/bruno-bosso-martins-9a1723270/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors"
@@ -212,7 +212,7 @@ const Contact = () => {
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Brunobosso98"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors"

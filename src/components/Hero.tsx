@@ -78,11 +78,11 @@ const Hero = () => {
         </div>
 
         <div className="flex gap-4 mb-24">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/Brunobosso98" target="_blank" rel="noopener noreferrer"
             className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors">
             <Github className="h-6 w-6" />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.linkedin.com/in/bruno-bosso-martins-9a1723270/" target="_blank" rel="noopener noreferrer"
             className="bg-foreground/5 hover:bg-foreground/10 p-3 rounded-full transition-colors">
             <Linkedin className="h-6 w-6" />
           </a>
