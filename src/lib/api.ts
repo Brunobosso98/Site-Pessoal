@@ -29,12 +29,27 @@ export const sendMessageToOpenAI = async (message: string) => {
     // Obtém todas as mensagens do contexto para enviar à API
     const messages = chatContext.getMessages();
 
-    const response = await fetch('/api/openai/v1/chat/completions', {
+    // Determinar se estamos em produção ou desenvolvimento
+    const isProduction = window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1');
+
+    // URL da API - em produção, usamos o endpoint serverless, em desenvolvimento, usamos o proxy do Vite
+    const apiUrl = isProduction
+      ? '/api/openai?endpoint=/v1/chat/completions'
+      : '/api/openai/v1/chat/completions';
+
+    // Cabeçalhos da requisição - em produção, não enviamos a chave da API, pois ela será usada pelo servidor
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+
+    // Adicionar a chave da API apenas em desenvolvimento
+    if (!isProduction && config.openaiApiKey) {
+      headers['Authorization'] = `Bearer ${config.openaiApiKey}`;
+    }
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.openaiApiKey}`
-      },
+      headers,
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages,
