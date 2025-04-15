@@ -39,16 +39,6 @@ O projeto usa uma arquitetura de API serverless na Vercel:
 3. O cliente envia requisições para `/api/openai` em vez de diretamente para a API da OpenAI
 4. A chave da API é usada apenas no servidor, nunca exposta no cliente
 
-#### Solução de Problemas na Vercel
-
-Se o chatbot não estiver funcionando corretamente na Vercel, verifique:
-
-1. **Variáveis de Ambiente**: Certifique-se de que `OPENAI_API_KEY` está configurada corretamente nas configurações do projeto na Vercel
-2. **Logs de Erro**: Verifique os logs de funções serverless na Vercel para identificar erros
-3. **CORS**: Se houver erros de CORS, verifique se as configurações em `vercel.json` estão corretas
-4. **Rotas**: Certifique-se de que as rotas em `vercel.json` estão configuradas corretamente
-5. **Fallback**: O chatbot tem um sistema de fallback que funciona mesmo se a API falhar
-
 ## Recursos
 
 - Site responsivo com design moderno

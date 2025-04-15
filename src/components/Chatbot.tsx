@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { X, Send, Bot, RefreshCw } from 'lucide-react';
 import gsap from 'gsap';
 import { sendMessageToOpenAI, clearChatContext } from '@/lib/api';
-import { getFallbackResponse } from '@/lib/fallback-responses';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -199,8 +198,56 @@ const Chatbot = () => {
       console.error('Error sending message:', error);
       setIsTyping(false);
 
-      // Usar a função de fallback para obter uma resposta
-      const botResponse = getFallbackResponse(input);
+      // Fallback to predefined responses if API fails
+      const prompts = {
+        "quem é bruno": "![Bruno Martins](/eu.jpeg)\n\n**Bruno Martins** é um desenvolvedor full-stack e especialista em automação com vasta experiência em desenvolvimento de sistemas web, automação de processos e criação de chatbots com IA. Ele combina conhecimentos técnicos avançados com uma compreensão profunda de processos de negócio.",
+
+        "projetos": "### Projetos Desenvolvidos por Bruno Martins\n\n**Bruno desenvolveu diversos projetos, incluindo:**\n\n1. **Assistente Financeiro WhatsApp com IA** - Sistema de gerenciamento financeiro via WhatsApp\n2. **Robô Paris** - Automação bancária para extração de extratos\n3. **Sistema de Otimização de Rotas** - Solução para otimização logística\n4. **Automação FGTS Digital** - Sistema para download e organização de guias\n5. **DCTFWeb Automation** - Ferramenta para automação de declarações fiscais\n6. **Site Institucional Kodiak ERP** - Apresentação de sistema ERP com IA",
+
+        "habilidades": "### Habilidades Técnicas de Bruno Martins\n\n**Linguagens de Programação:**\n- Python\n- JavaScript/TypeScript\n- HTML/CSS\n- SQL\n\n**Frameworks e Bibliotecas:**\n- Frontend: React, Next.js, Tailwind CSS, GSAP\n- Backend: Node.js, Flask, Express\n- Automação: Selenium, PyAutoGUI, Pandas\n- IA: Integrações com OpenAI e Google Gemini\n\n**Bancos de Dados:**\n- SQL e NoSQL",
+
+        "contato": "Para entrar em contato com **Bruno Martins**, você pode utilizar o formulário na seção **Contato** do site ou através dos links de suas redes sociais disponíveis na página.",
+
+        "assistente whatsapp": "### Assistente Financeiro WhatsApp\n\nO **Assistente Financeiro WhatsApp** é um sistema que integra WhatsApp com IA para gerenciamento financeiro pessoal.\n\n**Funcionalidades:**\n- Registro de gastos e receitas\n- Consulta de saldo\n- Análise por categoria\n- Processamento de linguagem natural\n\n**Tecnologias utilizadas:**\n- Node.js\n- JavaScript\n- Google Gemini API\n- whatsapp-web.js",
+
+        "robo paris": "### Robô Paris - Automação Bancária\n\nO **Robô Paris** é uma solução de automação para extração e gerenciamento de extratos bancários de múltiplas empresas através do portal SS Parisi.\n\n**Tecnologias utilizadas:**\n- Python\n- Selenium\n- Pandas\n- WebDriver Manager\n\n**Principais funcionalidades:**\n- Extração automatizada de extratos\n- Processamento em lote\n- Organização de arquivos\n- Tratamento de erros",
+
+        "otimizacao rotas": "### Sistema de Otimização de Rotas\n\nO **Sistema de Otimização de Rotas** é uma solução web completa para otimização e gerenciamento de rotas de vendas e entregas.\n\n**Tecnologias utilizadas:**\n- Flask (Python)\n- SQLAlchemy\n- PostgreSQL\n- Algoritmos TSP e OSRM\n\n**Resultados:**\n- Redução de 20-30% em custos operacionais\n- Aumento de 25% em produtividade\n- ROI positivo em 3-6 meses",
+
+        "fgts digital": "### Automação FGTS Digital\n\nA **Automação FGTS Digital** é um sistema para download e organização de guias do FGTS Digital para múltiplos CNPJs.\n\n**Tecnologias utilizadas:**\n- Python\n- PyAutoGUI\n- Pandas\n- OpenPyXL\n\n**Resultados:**\n- Redução de 95% no tempo de processamento\n- Eliminação completa de erros humanos\n- Sistema de logs para rastreabilidade",
+
+        "dctfweb": "### DCTFWeb Automation\n\nO **DCTFWeb Automation** é uma ferramenta para automatizar o download de declarações DCTFWeb do site da Receita Federal.\n\n**Tecnologias utilizadas:**\n- Python\n- PyAutoGUI\n- Pandas\n- Pyperclip\n\n**Funcionalidades:**\n- Automação de login\n- Processamento em lote de múltiplos CNPJs\n- Download automático\n- Organização de arquivos",
+
+        "kodiak erp": "### Kodiak ERP - Site Institucional\n\nO **Kodiak ERP** é um site institucional moderno e interativo para apresentação de um sistema ERP para indústrias.\n\n**Tecnologias utilizadas:**\n- Next.js\n- React\n- TypeScript\n- Tailwind CSS\n- GSAP\n- OpenAI API\n\n**Funcionalidades:**\n- Apresentação de módulos\n- Assistente virtual com IA\n- Elementos interativos\n- Design responsivo",
+
+        "default": "## Olá! 👋\n\nSou o **Assistente Virtual de Bruno Martins**. Posso fornecer informações sobre Bruno, suas habilidades, projetos desenvolvidos e formas de contato.\n\nComo posso ajudar você hoje?"
+      };
+
+      let botResponse = prompts.default;
+
+      const userMessageLower = input.toLowerCase();
+
+      if (userMessageLower.includes("quem") && userMessageLower.includes("bruno")) {
+        botResponse = prompts["quem é bruno"];
+      } else if (userMessageLower.includes("projeto")) {
+        botResponse = prompts["projetos"];
+      } else if (userMessageLower.includes("habilidade") || userMessageLower.includes("skill") || userMessageLower.includes("conhecimento") || userMessageLower.includes("tecnologia")) {
+        botResponse = prompts["habilidades"];
+      } else if (userMessageLower.includes("contato") || userMessageLower.includes("email") || userMessageLower.includes("mensagem")) {
+        botResponse = prompts["contato"];
+      } else if (userMessageLower.includes("whatsapp") && (userMessageLower.includes("assistente") || userMessageLower.includes("financeiro"))) {
+        botResponse = prompts["assistente whatsapp"];
+      } else if (userMessageLower.includes("paris") || (userMessageLower.includes("robo") && userMessageLower.includes("banco"))) {
+        botResponse = prompts["robo paris"];
+      } else if (userMessageLower.includes("rota") || userMessageLower.includes("otimiza")) {
+        botResponse = prompts["otimizacao rotas"];
+      } else if (userMessageLower.includes("fgts")) {
+        botResponse = prompts["fgts digital"];
+      } else if (userMessageLower.includes("dctf")) {
+        botResponse = prompts["dctfweb"];
+      } else if (userMessageLower.includes("kodiak") || userMessageLower.includes("erp")) {
+        botResponse = prompts["kodiak erp"];
+      }
 
       // Add fallback message
       const fallbackMessage: Message = {
