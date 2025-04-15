@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     // Retornar a resposta
     res.status(response.status).json(data);
   } catch (error) {
-    console.error('Error proxying to OpenAI:', error);
+    console.error('Error proxying para OpenAI:', error);
 
     // Log detalhado do erro para debug
     console.error('Error details:', {
