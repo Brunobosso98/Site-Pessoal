@@ -4,7 +4,7 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
-  "headers": [
+  "rewrites": [
     {
       "source": "/api/(.*)",
       "headers": [
