@@ -38,8 +38,8 @@ export const sendMessageToOpenAI = async (message: string) => {
 
     // URL da API - em produção, usamos o endpoint serverless, em desenvolvimento, usamos o proxy do Vite
     const apiUrl = isProduction
-      ? '/api/openai'
-      : '/api/openai/v1/chat/completions';
+    ? '/api/openai?endpoint=/v1/chat/completions'
+    : '/api/openai/v1/chat/completions';
 
     // Cabeçalhos da requisição - em produção, não enviamos a chave da API, pois ela será usada pelo servidor
     const headers = {
