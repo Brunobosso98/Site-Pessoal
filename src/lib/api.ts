@@ -5,6 +5,7 @@
 import { config } from './config';
 import { systemPrompt } from './chatbot-prompt';
 import { ChatbotContext } from './chatbot-context';
+import { getFallbackResponse } from './fallback-responses';
 
 // Cria uma instância do contexto do chatbot
 const chatContext = new ChatbotContext(systemPrompt);
@@ -17,8 +18,14 @@ export const clearChatContext = (): void => {
 // Function to send a message to OpenAI API
 export const sendMessageToOpenAI = async (message: string) => {
   try {
-    // Verifica se a chave da API está definida
-    if (!config.openaiApiKey) {
+    // Determinar se estamos em produção ou desenvolvimento
+    const isProduction = typeof window !== 'undefined' &&
+      window.location.hostname !== 'localhost' &&
+      !window.location.hostname.includes('127.0.0.1');
+
+    // Em produção, não verificamos a chave da API no cliente
+    // pois ela será usada apenas no servidor
+    if (!isProduction && !config.openaiApiKey) {
       console.error('Chave da API OpenAI não definida. Verifique o arquivo .env');
       throw new Error('Chave da API OpenAI não definida');
     }
@@ -29,12 +36,9 @@ export const sendMessageToOpenAI = async (message: string) => {
     // Obtém todas as mensagens do contexto para enviar à API
     const messages = chatContext.getMessages();
 
-    // Determinar se estamos em produção ou desenvolvimento
-    const isProduction = window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1');
-
     // URL da API - em produção, usamos o endpoint serverless, em desenvolvimento, usamos o proxy do Vite
     const apiUrl = isProduction
-      ? '/api/openai?endpoint=/v1/chat/completions'
+      ? '/api/openai'
       : '/api/openai/v1/chat/completions';
 
     // Cabeçalhos da requisição - em produção, não enviamos a chave da API, pois ela será usada pelo servidor
@@ -58,9 +62,16 @@ export const sendMessageToOpenAI = async (message: string) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+      try {
+        const errorData = await response.json();
+        console.error('OpenAI API error:', errorData);
+        throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+      } catch (jsonError) {
+        // Se não conseguir parsear o JSON, tente obter o texto da resposta
+        const errorText = await response.text();
+        console.error('OpenAI API error (non-JSON):', errorText);
+        throw new Error(`OpenAI API error: ${response.status} - ${errorText.substring(0, 100)}...`);
+      }
     }
 
     const data = await response.json();
@@ -102,6 +113,14 @@ export const sendMessageToOpenAI = async (message: string) => {
     */
   } catch (error) {
     console.error('Error sending message to OpenAI:', error);
-    throw error;
+
+    // Se ocorrer um erro, usar a resposta de fallback
+    console.log('Using fallback response');
+    const fallbackResponse = getFallbackResponse(message);
+
+    // Adiciona a resposta de fallback ao contexto
+    chatContext.addAssistantMessage(fallbackResponse);
+
+    return fallbackResponse;
   }
 };
