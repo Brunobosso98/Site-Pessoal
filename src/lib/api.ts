@@ -17,12 +17,6 @@ export const clearChatContext = (): void => {
 // Function to send a message to OpenAI API
 export const sendMessageToOpenAI = async (message: string) => {
   try {
-    // Verifica se a chave da API está definida
-    if (!config.openaiApiKey) {
-      console.error('Chave da API OpenAI não definida. Verifique o arquivo .env');
-      throw new Error('Chave da API OpenAI não definida');
-    }
-
     // Adiciona a mensagem do usuário ao contexto
     chatContext.addUserMessage(message);
 
