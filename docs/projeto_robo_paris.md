@@ -1,7 +1,9 @@
 # Projeto Robô Paris
 
 ## Visão Geral
-O Robô Paris é uma solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi. O sistema automatiza o processo de login, navegação, extração de dados e organização de arquivos, permitindo a coleta eficiente de informações financeiras para fins contábeis.
+O Robô Paris é uma solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi. O sistema automatiza o processo de login, navegação, download, arquivamento dos extratos e organização de arquivos, otimizando o fluxo de trabalho contábil e garantindo eficiência na coleta de dados financeiros.
+
+Além das funcionalidades principais, o projeto conta com um sistema de geração de relatórios PDF detalhados, que apresenta apenas as empresas e bancos que tiveram erros durante o processamento, facilitando auditorias e o acompanhamento de exceções.
 
 ## Principais Funcionalidades
 
@@ -9,10 +11,11 @@ O Robô Paris é uma solução de automação desenvolvida para extrair e gerenc
 - **Processamento em Lote**: Processa várias empresas sequencialmente a partir de uma planilha Excel.
 - **Organização de Arquivos**: Organiza os extratos baixados em uma estrutura de diretórios por ano e mês.
 - **Tratamento de Erros**: Sistema robusto de tratamento de erros com registro detalhado e tentativas múltiplas.
+- **Geração de Relatórios**: Geração automática de relatórios PDF detalhados para auditoria.
 - **Modo Headless**: Suporte para execução em modo headless (sem interface gráfica), ideal para servidores.
 - **Logging Detalhado**: Sistema de logs abrangente para monitoramento e diagnóstico.
 
-## Tecnologias Utilizadas
+## Detalhes Técnicos
 
 ### Linguagem de Programação
 - **Python**: Linguagem principal do projeto, escolhida por sua simplicidade e amplo suporte a bibliotecas de automação.
@@ -43,6 +46,7 @@ O Robô Paris é uma solução de automação desenvolvida para extrair e gerenc
 5. **Extração de Dados**: Para cada banco, extrai os extratos do período especificado.
 6. **Organização de Arquivos**: Move os arquivos baixados para a estrutura de diretórios apropriada.
 7. **Registro de Erros**: Registra erros encontrados durante o processamento.
+8. **Relatório PDF**: Registro detalhado de erros e geração de relatório PDF
 
 ## Configuração e Uso
 
