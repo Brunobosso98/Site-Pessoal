@@ -247,11 +247,11 @@ const projectsData: Record<string, Project> = {
       execution: [
         "Configuração inicial e carregamento de parâmetros",
         "Acesso ao portal da Receita Federal",
-        "Login com certificado digital",
-        "Processamento de CNPJs a partir de arquivo Excel",
-        "Download de declarações DCTFWeb",
-        "Organização de arquivos por data e CNPJ",
-        "Geração de logs detalhados"
+        "Login automatizado com certificado digital",
+        "Processamento em lote dos CNPJs via Excel",
+        "Download automatizado das declarações DCTFWeb",
+        "Organização dos arquivos baixados por data, empresa e CNPJ",
+        "Geração de logs detalhados para acompanhamento"
       ]
     },
     githubUrl: "#",
