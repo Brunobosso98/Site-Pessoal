@@ -98,18 +98,19 @@ const projectsData: Record<string, Project> = {
     title: "Robô Paris - Automação Bancária",
     description: "Solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi.",
     fullDescription: [
-      "O Robô Paris é uma solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi. O sistema automatiza o processo de login, navegação, extração de dados e organização de arquivos, permitindo a coleta eficiente de informações financeiras para fins contábeis.",
-      "O sistema processa várias empresas sequencialmente a partir de uma planilha Excel, organizando os extratos baixados em uma estrutura de diretórios por ano e mês.",
+      "O Robô Paris é uma solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi. O sistema automatiza o processo de login, navegação, download, arquivamento dos extratos e organização de arquivos, otimizando o fluxo de trabalho contábil e garantindo eficiência na coleta de dados financeiros.",
+      "Além das funcionalidades principais, o projeto conta com um sistema de geração de relatórios PDF detalhados, que apresenta apenas as empresas e bancos que tiveram erros durante o processamento, facilitando auditorias e o acompanhamento de exceções.",
       "Foi implementado um sistema robusto de tratamento de erros com registro detalhado e tentativas múltiplas, além de suporte para execução em modo headless (sem interface gráfica), ideal para servidores."
     ],
     image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc",
     technologies: ["Python", "Selenium", "Pandas", "WebDriver Manager"],
     features: [
-      "Extração Automatizada de Extratos",
-      "Processamento em Lote",
+      "Extração Automatizada de Extratos", 
+      "Processamento em Lote", 
       "Organização de Arquivos",
-      "Tratamento de Erros",
-      "Modo Headless",
+      "Geração de Relatórios PDF", 
+      "Tratamento de Erros", 
+      "Modo Headless", 
       "Logging Detalhado"
     ],
     technicalDetails: {
@@ -128,7 +129,8 @@ const projectsData: Record<string, Project> = {
         "Identificação de Bancos: Para cada empresa, identifica bancos disponíveis",
         "Extração de Dados: Para cada banco, extrai os extratos",
         "Organização de Arquivos: Move arquivos para estrutura apropriada",
-        "Registro de Erros: Registra erros durante o processamento"
+        "Registro de Erros: Registra erros durante o processamento",
+        "Geração de Relatórios: Cria relatórios PDF com informações relevantes"
       ]
     },
     githubUrl: "#",
@@ -295,11 +297,11 @@ const projectsData: Record<string, Project> = {
       execution: [
         "Configuração inicial e carregamento de parâmetros",
         "Acesso ao portal da Receita Federal",
-        "Login com certificado digital",
-        "Processamento de CNPJs a partir de arquivo Excel",
-        "Download de declarações DCTFWeb",
-        "Organização de arquivos por data e CNPJ",
-        "Geração de logs detalhados"
+        "Login automatizado com certificado digital",
+        "Processamento em lote dos CNPJs via Excel",
+        "Download automatizado das declarações DCTFWeb",
+        "Organização dos arquivos baixados por data, empresa e CNPJ",
+        "Geração de logs detalhados para acompanhamento"
       ]
     },
     githubUrl: "#",
