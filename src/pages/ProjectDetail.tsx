@@ -44,6 +44,56 @@ type Project = {
 
 // Definição dos dados dos projetos
 const projectsData: Record<string, Project> = {
+  "game-day-nexus": {
+    title: "Game Day Nexus Platform",
+    description: "SaaS completo para gestão de clubes de futebol com arquitetura multi-tenant e sistema avançado de permissões.",
+    fullDescription: [
+      "O Game Day Nexus Platform é um SaaS (Software as a Service) completo para gestão de clubes de futebol, desenvolvido com tecnologias modernas e arquitetura escalável. A plataforma oferece uma solução abrangente para gerenciar todos os aspectos de um clube esportivo, desde o elenco e partidas até finanças, departamento médico e alojamentos.",
+      "Um dos principais desafios foi implementar uma arquitetura multi-tenant segura, onde múltiplos clubes podem utilizar a mesma plataforma com isolamento total de dados. Isso foi resolvido através de Row Level Security no Supabase, associação de club_id em todas as tabelas relevantes, sistema de contexto para gerenciar o clube ativo e permissões granulares baseadas em departamentos e funções.",
+      "O sistema de permissões foi desenvolvido para atender às necessidades específicas de clubes esportivos, com diferentes departamentos e níveis de acesso, incluindo permissões baseadas em departamentos, controle granular de acesso a funcionalidades, auditoria de ações para rastreabilidade e convite de usuários com atribuição automática de permissões."
+    ],
+    image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
+    technologies: ["React", "TypeScript", "Supabase", "TailwindCSS", "PostgreSQL", "Shadcn/UI", "React Query"],
+    features: [
+      "Gestão de Elenco",
+      "Gestão de Partidas",
+      "Departamento Médico",
+      "Sistema de Alojamentos",
+      "Gestão Financeira",
+      "Sistema de Permissões",
+      "Multi-clube e Multi-usuário"
+    ],
+    technicalDetails: {
+      frontend: "React com TypeScript, Vite, TailwindCSS, Shadcn/UI, React Router, React Query, Lucide React, Radix UI",
+      backend: "Supabase, PostgreSQL, Row Level Security (RLS), Autenticação e Autorização integradas",
+      characteristics: [
+        "Arquitetura Multi-tenant com isolamento total de dados",
+        "Sistema de permissões avançado baseado em departamentos e funções",
+        "Gestão de estado complexa com React Query e stores customizadas",
+        "UI/UX responsiva e personalizável com temas dinâmicos",
+        "Tipagem forte com TypeScript em toda a aplicação",
+        "Implementação de Row Level Security para segurança de dados"
+      ],
+      architecture: [
+        "Implementação de Row Level Security no Supabase",
+        "Associação de club_id em todas as tabelas relevantes",
+        "Sistema de contexto para gerenciar o clube ativo",
+        "Permissões granulares baseadas em departamentos e funções",
+        "Stores customizadas para dados específicos de domínio",
+        "Contextos React para dados globais (usuário, clube, tema)"
+      ],
+      results: [
+        "Centralização de Informações: Todos os dados do clube em uma única plataforma",
+        "Eficiência Operacional: Automação de processos administrativos e esportivos",
+        "Tomada de Decisão Baseada em Dados: Estatísticas e relatórios detalhados",
+        "Redução de Custos: Eliminação de sistemas fragmentados e processos manuais",
+        "Comunicação Melhorada: Integração entre departamentos técnico, médico e administrativo"
+      ]
+    },
+    githubUrl: "#",
+    liveUrl: "https://clubefut.vercel.app/",
+    videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
   "robo-paris": {
     title: "Robô Paris - Automação Bancária",
     description: "Solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi.",
@@ -55,11 +105,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc",
     technologies: ["Python", "Selenium", "Pandas", "WebDriver Manager"],
     features: [
-      "Extração Automatizada de Extratos", 
-      "Processamento em Lote", 
-      "Organização de Arquivos", 
-      "Tratamento de Erros", 
-      "Modo Headless", 
+      "Extração Automatizada de Extratos",
+      "Processamento em Lote",
+      "Organização de Arquivos",
+      "Tratamento de Erros",
+      "Modo Headless",
       "Logging Detalhado"
     ],
     technicalDetails: {
@@ -96,11 +146,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     technologies: ["Node.js", "JavaScript", "Google Gemini API", "whatsapp-web.js"],
     features: [
-      "Registro de Gastos", 
-      "Registro de Receitas", 
-      "Consulta de Saldo", 
-      "Análise por Categoria", 
-      "Processamento de Linguagem Natural", 
+      "Registro de Gastos",
+      "Registro de Receitas",
+      "Consulta de Saldo",
+      "Análise por Categoria",
+      "Processamento de Linguagem Natural",
       "Integração com WhatsApp"
     ],
     technicalDetails: {
@@ -141,11 +191,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
     technologies: ["Flask", "SQLAlchemy", "PostgreSQL", "Google OR-Tools", "Folium"],
     features: [
-      "Gestão Hierárquica", 
-      "Otimização Inteligente", 
-      "Monitoramento em Tempo Real", 
-      "Relatórios e Análises", 
-      "Interface Intuitiva", 
+      "Gestão Hierárquica",
+      "Otimização Inteligente",
+      "Monitoramento em Tempo Real",
+      "Relatórios e Análises",
+      "Interface Intuitiva",
       "Suporte para Múltiplas Filiais"
     ],
     technicalDetails: {
@@ -183,11 +233,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
     technologies: ["Python", "PyAutoGUI", "Pandas", "OpenPyXL"],
     features: [
-      "Automação End-to-End", 
-      "Processamento Multi-CNPJ", 
-      "Organização Inteligente de Arquivos", 
-      "Tratamento Robusto de Erros", 
-      "Logs Detalhados", 
+      "Automação End-to-End",
+      "Processamento Multi-CNPJ",
+      "Organização Inteligente de Arquivos",
+      "Tratamento Robusto de Erros",
+      "Logs Detalhados",
       "Contorno de Mecanismos Anti-Automação"
     ],
     technicalDetails: {
@@ -225,11 +275,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
     technologies: ["Python", "PyAutoGUI", "Pandas", "Pyperclip"],
     features: [
-      "Automação de Login", 
-      "Processamento em Lote", 
-      "Resolução de Captcha", 
-      "Download Automático", 
-      "Organização de Arquivos", 
+      "Automação de Login",
+      "Processamento em Lote",
+      "Resolução de Captcha",
+      "Download Automático",
+      "Organização de Arquivos",
       "Logging Detalhado"
     ],
     technicalDetails: {
@@ -267,11 +317,11 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
     technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "OpenAI"],
     features: [
-      "Assistente Virtual com IA", 
-      "Apresentação de Módulos", 
-      "Carrossel de Clientes", 
-      "Animações Interativas", 
-      "Design Responsivo", 
+      "Assistente Virtual com IA",
+      "Apresentação de Módulos",
+      "Carrossel de Clientes",
+      "Animações Interativas",
+      "Design Responsivo",
       "Modal de Demonstração"
     ],
     technicalDetails: {
@@ -304,7 +354,7 @@ const projectsData: Record<string, Project> = {
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const project = projectsData[projectId as keyof typeof projectsData];
-  
+
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -314,12 +364,12 @@ const ProjectDetail = () => {
   useEffect(() => {
     // Scroll to top when page loads
     window.scrollTo(0, 0);
-    
+
     if (!headerRef.current || !contentRef.current || !featuresRef.current || !technicalRef.current) return;
 
     // Animation timeline
     const tl = gsap.timeline();
-    
+
     tl.from(headerRef.current, {
       y: 30,
       opacity: 0,
@@ -394,7 +444,7 @@ const ProjectDetail = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       <main className="flex-1 pt-24 pb-16">
         <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
           <div className="mb-6">
@@ -403,14 +453,14 @@ const ProjectDetail = () => {
               <span>Voltar para Projetos</span>
             </Link>
           </div>
-          
+
           {/* Header Section */}
           <div ref={headerRef} className="mb-12">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">{project.title}</h1>
             <div className="flex flex-wrap gap-3 mb-6">
               {project.technologies.map((tech, index) => (
-                <span 
-                  key={index} 
+                <span
+                  key={index}
                   className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm"
                 >
                   {tech}
@@ -418,17 +468,17 @@ const ProjectDetail = () => {
               ))}
             </div>
             <div className="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden bg-foreground/5 mb-8">
-              <img 
-                src={project.image} 
-                alt={project.title} 
+              <img
+                src={project.image}
+                alt={project.title}
                 className="object-cover w-full h-full"
               />
             </div>
             <div className="flex gap-4">
               {project.githubUrl && (
-                <a 
+                <a
                   href={project.githubUrl}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-foreground/10 hover:bg-foreground/20 px-4 py-2 rounded-lg transition-colors"
                 >
@@ -437,9 +487,9 @@ const ProjectDetail = () => {
                 </a>
               )}
               {project.liveUrl && (
-                <a 
+                <a
                   href={project.liveUrl}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg transition-colors"
                 >
@@ -449,7 +499,7 @@ const ProjectDetail = () => {
               )}
             </div>
           </div>
-          
+
           {/* Project Details */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Main Content */}
@@ -460,7 +510,7 @@ const ProjectDetail = () => {
                   <p key={index} className="mb-4 text-foreground/80">{paragraph}</p>
                 ))}
               </div>
-              
+
               {/* Features Section */}
               <div className="mb-12">
                 <h2 className="text-2xl font-bold mb-6">Principais Funcionalidades</h2>
@@ -472,32 +522,32 @@ const ProjectDetail = () => {
                   ))}
                 </div>
               </div>
-              
+
               {/* Technical Details Section */}
               <div ref={technicalRef}>
                 <h2 className="text-2xl font-bold mb-6">Detalhes Técnicos</h2>
-                
+
                 {project.technicalDetails.language && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Linguagem Principal</h3>
                     <p className="text-foreground/80">{project.technicalDetails.language}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.backend && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Backend</h3>
                     <p className="text-foreground/80">{project.technicalDetails.backend}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.frontend && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Frontend</h3>
                     <p className="text-foreground/80">{project.technicalDetails.frontend}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.mainLibraries && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Principais Bibliotecas</h3>
@@ -508,7 +558,7 @@ const ProjectDetail = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.otherLibraries && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Outras Bibliotecas</h3>
@@ -519,35 +569,35 @@ const ProjectDetail = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.ai && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Inteligência Artificial</h3>
                     <p className="text-foreground/80">{project.technicalDetails.ai}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.whatsapp && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Integração WhatsApp</h3>
                     <p className="text-foreground/80">{project.technicalDetails.whatsapp}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.storage && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Armazenamento</h3>
                     <p className="text-foreground/80">{project.technicalDetails.storage}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.algorithms && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Algoritmos</h3>
                     <p className="text-foreground/80">{project.technicalDetails.algorithms}</p>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.architecture && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Arquitetura</h3>
@@ -558,7 +608,7 @@ const ProjectDetail = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.execution && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Fluxo de Execução</h3>
@@ -569,7 +619,7 @@ const ProjectDetail = () => {
                     </ol>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.workflow && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Fluxo de Trabalho</h3>
@@ -580,7 +630,7 @@ const ProjectDetail = () => {
                     </ol>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.characteristics && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Características Técnicas</h3>
@@ -591,7 +641,7 @@ const ProjectDetail = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {project.technicalDetails.results && (
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold mb-3">Resultados Típicos</h3>
@@ -604,13 +654,13 @@ const ProjectDetail = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="bg-foreground/5 hover:bg-foreground/7 transition-colors duration-300 rounded-xl p-6 sticky top-24">
                 <h3 className="text-xl font-bold mb-4">Resumo do Projeto</h3>
                 <p className="text-foreground/80 mb-6">{project.description}</p>
-                
+
                 <div className="mb-6">
                   <h4 className="font-semibold mb-2">Tecnologias</h4>
                   <div className="flex flex-wrap gap-2">
@@ -621,7 +671,7 @@ const ProjectDetail = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 <div className="mb-6">
                   <h4 className="font-semibold mb-2">Funcionalidades</h4>
                   <ul className="list-disc list-inside text-sm text-foreground/80">
@@ -631,12 +681,12 @@ const ProjectDetail = () => {
                     {project.features.length > 5 && <li>...</li>}
                   </ul>
                 </div>
-                
+
                 <div className="flex flex-col gap-3">
                   {project.githubUrl && (
-                    <a 
+                    <a
                       href={project.githubUrl}
-                      target="_blank" 
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 bg-foreground/10 hover:bg-foreground/20 px-4 py-2 rounded-lg transition-all duration-300 hover:-translate-y-1 w-full"
                     >
@@ -645,9 +695,9 @@ const ProjectDetail = () => {
                     </a>
                   )}
                   {project.liveUrl && (
-                    <a 
+                    <a
                       href={project.liveUrl}
-                      target="_blank" 
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg transition-all duration-300 hover:-translate-y-1 w-full"
                     >
@@ -659,7 +709,7 @@ const ProjectDetail = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Video Demo Section */}
           {project.videoDemo && (
             <div ref={demoRef} className="mt-16">
@@ -678,7 +728,7 @@ const ProjectDetail = () => {
           )}
         </div>
       </main>
-      
+
       <Footer />
     </div>
   );
