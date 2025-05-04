@@ -94,6 +94,56 @@ const projectsData: Record<string, Project> = {
     liveUrl: "https://clubefut.vercel.app/",
     videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
   },
+  "saas-sieg": {
+    title: "SaaS-SIEG: Sistema de Gerenciamento de Documentos Fiscais",
+    description: "Plataforma SaaS para automação de download e gerenciamento de documentos fiscais eletrônicos para escritórios contábeis.",
+    fullDescription: [
+      "O SaaS-SIEG é uma plataforma sofisticada de Software as a Service (SaaS) projetada para automatizar o download e gerenciamento de documentos fiscais eletrônicos (XMLs) do portal SIEG para escritórios de contabilidade e empresas no Brasil. O sistema simplifica o processo muitas vezes tedioso e demorado de recuperação, organização e processamento de documentos fiscais, permitindo que as empresas se concentrem em suas operações principais.",
+      "A plataforma oferece funcionalidades como downloads automatizados programados de documentos fiscais, suporte para múltiplos tipos de documentos (NFe, NFCe, CTe, MDFe, NFSe), gerenciamento multi-CNPJ, relatórios abrangentes, configuração avançada, segurança robusta e design responsivo.",
+      "O projeto demonstra significativa complexidade técnica em várias dimensões, incluindo integração perfeita com a API SIEG, manipulação de vários tipos de documentos XML com estruturas diferentes, armazenamento e recuperação eficientes de grandes arquivos XML, e implementação de segurança robusta com tratamento seguro de credenciais sensíveis."
+    ],
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85",
+    technologies: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Sequelize", "Tailwind CSS", "React Query"],
+    features: [
+      "Downloads Automatizados de XML",
+      "Gerenciamento Multi-CNPJ",
+      "Relatórios Abrangentes",
+      "Configuração Avançada",
+      "Segurança Robusta",
+      "Design Responsivo",
+      "Processamento Assíncrono"
+    ],
+    technicalDetails: {
+      frontend: "React, TypeScript, Vite, Tailwind CSS, Shadcn UI, React Router, React Query, Recharts",
+      backend: "Node.js, Express, TypeScript, PostgreSQL, Sequelize ORM, JWT, Bcrypt, Node Schedule, Axios, XML2JS",
+      characteristics: [
+        "Integração perfeita com a API SIEG para recuperação de documentos",
+        "Manipulação de vários tipos de documentos XML com estruturas diferentes",
+        "Tratamento de erros e mecanismos de retry para falhas de API",
+        "Armazenamento e recuperação eficientes de grandes arquivos XML",
+        "Design de banco de dados para desempenho ideal de consultas",
+        "Extração e indexação de metadados de documentos"
+      ],
+      architecture: [
+        "Frontend modular com componentes reutilizáveis",
+        "Backend RESTful com autenticação JWT",
+        "Processamento assíncrono para downloads em segundo plano",
+        "Sistema de agendamento para recuperação automatizada",
+        "Gerenciamento de estado com React Query",
+        "Tipagem forte com TypeScript em toda a aplicação"
+      ],
+      results: [
+        "Redução do tempo de recuperação manual de documentos em até 85%",
+        "Automação de tarefas repetitivas que anteriormente exigiam intervenção humana",
+        "Minimização de custos de mão de obra associados ao processamento manual",
+        "Eliminação do erro humano na recuperação e processamento de documentos",
+        "Garantia de conformidade com requisitos regulatórios fiscais"
+      ]
+    },
+    githubUrl: "#",
+    liveUrl: "#",
+    videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
   "robo-paris": {
     title: "Robô Paris - Automação Bancária",
     description: "Solução de automação desenvolvida para extrair e gerenciar extratos bancários de múltiplas empresas e bancos através do portal SS Parisi.",
@@ -105,12 +155,12 @@ const projectsData: Record<string, Project> = {
     image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc",
     technologies: ["Python", "Selenium", "Pandas", "WebDriver Manager"],
     features: [
-      "Extração Automatizada de Extratos", 
-      "Processamento em Lote", 
+      "Extração Automatizada de Extratos",
+      "Processamento em Lote",
       "Organização de Arquivos",
-      "Geração de Relatórios PDF", 
-      "Tratamento de Erros", 
-      "Modo Headless", 
+      "Geração de Relatórios PDF",
+      "Tratamento de Erros",
+      "Modo Headless",
       "Logging Detalhado"
     ],
     technicalDetails: {

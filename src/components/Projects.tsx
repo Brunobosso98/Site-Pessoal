@@ -164,6 +164,17 @@ const Projects = () => {
     },
     {
       id: 2,
+      title: "SaaS-SIEG",
+      description: "Plataforma SaaS para automação de download e gerenciamento de documentos fiscais eletrônicos para escritórios contábeis.",
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85",
+      category: 'web',
+      technologies: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL'],
+      githubUrl: "#",
+      liveUrl: "#",
+      detailUrl: "/project/saas-sieg"
+    },
+    {
+      id: 3,
       title: "Assistente Financeiro no WhatsApp",
       description: "Chatbot para gerenciamento financeiro integrado ao WhatsApp usando a API do Google Gemini.",
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
@@ -174,7 +185,7 @@ const Projects = () => {
       detailUrl: "/project/assistente-financeiro"
     },
     {
-      id: 3,
+      id: 4,
       title: "Robô Paris - Automação Bancária",
       description: "Sistema de automação para extração e gerenciamento de extratos bancários de múltiplos bancos.",
       image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc",
@@ -184,7 +195,7 @@ const Projects = () => {
       detailUrl: "/project/robo-paris"
     },
     {
-      id: 4,
+      id: 5,
       title: "DCTFWeb Automação",
       description: "Ferramenta para automatizar o download de declarações DCTFWeb do site da Receita Federal.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
@@ -194,7 +205,7 @@ const Projects = () => {
       detailUrl: "/project/dctfweb"
     },
     {
-      id: 5,
+      id: 6,
       title: "Sistema de Otimização de Rotas",
       description: "Sistema web para otimizar rotas de vendas e entregas com hierarquia de usuários.",
       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
@@ -205,7 +216,7 @@ const Projects = () => {
       detailUrl: "/project/sistema-rotas"
     },
     {
-      id: 6,
+      id: 7,
       title: "Kodiak ERP",
       description: "Site para showcase de um sistema ERP industrial com assistente virtual baseado em IA.",
       image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
@@ -216,7 +227,7 @@ const Projects = () => {
       detailUrl: "/project/kodiak-erp"
     },
     {
-      id: 7,
+      id: 8,
       title: "FGTS Digital - Automação",
       description: "Sistema end-to-end para download e organização de guias FGTS Digital para múltiplos CNPJs.",
       image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",

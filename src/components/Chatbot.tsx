@@ -202,11 +202,15 @@ const Chatbot = () => {
       const prompts = {
         "quem é bruno": "![Bruno Martins](/eu.jpeg)\n\n**Bruno Martins** é um desenvolvedor full-stack e especialista em automação com vasta experiência em desenvolvimento de sistemas web, automação de processos e criação de chatbots com IA. Ele combina conhecimentos técnicos avançados com uma compreensão profunda de processos de negócio.",
 
-        "projetos": "### Projetos Desenvolvidos por Bruno Martins\n\n**Bruno desenvolveu diversos projetos, incluindo:**\n\n1. **Assistente Financeiro WhatsApp com IA** - Sistema de gerenciamento financeiro via WhatsApp\n2. **Robô Paris** - Automação bancária para extração de extratos\n3. **Sistema de Otimização de Rotas** - Solução para otimização logística\n4. **Automação FGTS Digital** - Sistema para download e organização de guias\n5. **DCTFWeb Automation** - Ferramenta para automação de declarações fiscais\n6. **Site Institucional Kodiak ERP** - Apresentação de sistema ERP com IA",
+        "projetos": "### Projetos Desenvolvidos por Bruno Martins\n\n**Bruno desenvolveu diversos projetos, incluindo:**\n\n1. **Game Day Nexus Platform** - SaaS para gestão de clubes de futebol\n2. **SaaS-SIEG** - Sistema de gerenciamento de documentos fiscais\n3. **Assistente Financeiro WhatsApp com IA** - Sistema de gerenciamento financeiro via WhatsApp\n4. **Robô Paris** - Automação bancária para extração de extratos\n5. **Sistema de Otimização de Rotas** - Solução para otimização logística\n6. **Automação FGTS Digital** - Sistema para download e organização de guias\n7. **DCTFWeb Automation** - Ferramenta para automação de declarações fiscais\n8. **Site Institucional Kodiak ERP** - Apresentação de sistema ERP com IA",
 
         "habilidades": "### Habilidades Técnicas de Bruno Martins\n\n**Linguagens de Programação:**\n- Python\n- JavaScript/TypeScript\n- HTML/CSS\n- SQL\n\n**Frameworks e Bibliotecas:**\n- Frontend: React, Next.js, Tailwind CSS, GSAP\n- Backend: Node.js, Flask, Express\n- Automação: Selenium, PyAutoGUI, Pandas\n- IA: Integrações com OpenAI e Google Gemini\n\n**Bancos de Dados:**\n- SQL e NoSQL",
 
         "contato": "Para entrar em contato com **Bruno Martins**, você pode utilizar o formulário na seção **Contato** do site ou através dos links de suas redes sociais disponíveis na página.",
+
+        "game day nexus": "### Game Day Nexus Platform\n\nO **Game Day Nexus Platform** é um SaaS completo para gestão de clubes de futebol com arquitetura multi-tenant e sistema avançado de permissões.\n\n**Funcionalidades:**\n- Gestão de elenco\n- Gestão de partidas\n- Departamento médico\n- Sistema de alojamentos\n- Gestão financeira\n- Sistema de permissões\n\n**Tecnologias utilizadas:**\n- React\n- TypeScript\n- Supabase\n- TailwindCSS\n- PostgreSQL\n- Shadcn/UI\n- React Query",
+
+        "saas sieg": "### SaaS-SIEG: Sistema de Gerenciamento de Documentos Fiscais\n\nO **SaaS-SIEG** é uma plataforma SaaS para automação de download e gerenciamento de documentos fiscais eletrônicos para escritórios contábeis.\n\n**Funcionalidades:**\n- Downloads automatizados de XML\n- Gerenciamento multi-CNPJ\n- Relatórios abrangentes\n- Configuração avançada\n- Segurança robusta\n- Design responsivo\n\n**Tecnologias utilizadas:**\n- React\n- TypeScript\n- Node.js\n- Express\n- PostgreSQL\n- Sequelize\n- Tailwind CSS\n- React Query",
 
         "assistente whatsapp": "### Assistente Financeiro WhatsApp\n\nO **Assistente Financeiro WhatsApp** é um sistema que integra WhatsApp com IA para gerenciamento financeiro pessoal.\n\n**Funcionalidades:**\n- Registro de gastos e receitas\n- Consulta de saldo\n- Análise por categoria\n- Processamento de linguagem natural\n\n**Tecnologias utilizadas:**\n- Node.js\n- JavaScript\n- Google Gemini API\n- whatsapp-web.js",
 
@@ -229,12 +233,16 @@ const Chatbot = () => {
 
       if (userMessageLower.includes("quem") && userMessageLower.includes("bruno")) {
         botResponse = prompts["quem é bruno"];
-      } else if (userMessageLower.includes("projeto")) {
+      } else if (userMessageLower.includes("projeto") && !userMessageLower.includes("game") && !userMessageLower.includes("nexus") && !userMessageLower.includes("sieg") && !userMessageLower.includes("whatsapp") && !userMessageLower.includes("paris") && !userMessageLower.includes("rota") && !userMessageLower.includes("fgts") && !userMessageLower.includes("dctf") && !userMessageLower.includes("kodiak") && !userMessageLower.includes("erp")) {
         botResponse = prompts["projetos"];
       } else if (userMessageLower.includes("habilidade") || userMessageLower.includes("skill") || userMessageLower.includes("conhecimento") || userMessageLower.includes("tecnologia")) {
         botResponse = prompts["habilidades"];
       } else if (userMessageLower.includes("contato") || userMessageLower.includes("email") || userMessageLower.includes("mensagem")) {
         botResponse = prompts["contato"];
+      } else if ((userMessageLower.includes("game") || userMessageLower.includes("nexus") || userMessageLower.includes("futebol") || userMessageLower.includes("clube")) && !userMessageLower.includes("sieg")) {
+        botResponse = prompts["game day nexus"];
+      } else if (userMessageLower.includes("sieg") || userMessageLower.includes("xml") || userMessageLower.includes("fiscal") || (userMessageLower.includes("documento") && userMessageLower.includes("fiscal"))) {
+        botResponse = prompts["saas sieg"];
       } else if (userMessageLower.includes("whatsapp") && (userMessageLower.includes("assistente") || userMessageLower.includes("financeiro"))) {
         botResponse = prompts["assistente whatsapp"];
       } else if (userMessageLower.includes("paris") || (userMessageLower.includes("robo") && userMessageLower.includes("banco"))) {
