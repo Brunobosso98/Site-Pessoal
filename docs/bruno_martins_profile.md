@@ -8,17 +8,19 @@ Bruno Martins é um desenvolvedor full-stack e especialista em automação com v
 
 ### Linguagens de Programação
 
-- **Python**: Automação, processamento de dados, backend
+- **Python**: Automação, processamento de dados, backend, machine learning
 - **JavaScript/TypeScript**: Desenvolvimento web, aplicações frontend e backend
-- **HTML/CSS**: Desenvolvimento web, interfaces de usuário
-- **SQL**: Consultas e gerenciamento de bancos de dados
+- **HTML/CSS**: Desenvolvimento web, interfaces de usuário responsivas
+- **SQL**: Consultas avançadas, otimização e gerenciamento de bancos de dados relacionais
 
 ### Frameworks e Bibliotecas
 
-- **Frontend**: React, Next.js, Tailwind CSS, GSAP, Framer Motion
-- **Backend**: Node.js, Flask, Express
-- **Automação**: Selenium, PyAutoGUI, Pandas
-- **IA e NLP**: Integração com OpenAI API, Google Gemini API
+- **Frontend**: React, Next.js, Tailwind CSS, GSAP, Framer Motion, Chart.js
+- **Backend**: Flask, Node.js, Express, FastAPI
+- **Processamento de Dados**: Pandas, NumPy, Scikit-learn
+- **Automação**: Selenium, PyAutoGUI, Celery
+- **IA e Machine Learning**: Processamento de linguagem natural, classificação, aprendizado supervisionado
+- **Bancos de Dados**: PostgreSQL, Redis, SQLAlchemy ORM
 
 ### Ferramentas e Tecnologias
 
@@ -29,7 +31,31 @@ Bruno Martins é um desenvolvedor full-stack e especialista em automação com v
 
 ## Projetos Destacados
 
-### 1. Assistente Financeiro WhatsApp com IA
+### 1. Audittei Fiscal - Sistema de Auditoria Fiscal Inteligente
+
+![Audittei Fiscal Dashboard](/images/audittei-dashboard.jpg)
+*Dashboard interativo do Audittei Fiscal mostrando métricas de auditoria em tempo real*
+
+Sistema revolucionário de auditoria fiscal que combina automação avançada com inteligência artificial para transformar os processos de conformidade tributária.
+
+**Tecnologias**: Python, Flask, PostgreSQL, SQLAlchemy, Celery, Redis, React, Chart.js
+
+**Funcionalidades principais**:
+- Processamento inteligente de documentos fiscais (XML, SPED)
+- Sistema de cenários fiscais personalizáveis
+- Módulo avançado de matching de produtos com machine learning
+- Auditoria fiscal automatizada com identificação de inconsistências
+- Dashboard analítico em tempo real
+- Chatbot inteligente para suporte fiscal
+
+**Destaques**:
+- Redução de até 80% no tempo de auditoria fiscal
+- Precisão superior a 95% na identificação de inconsistências
+- Sistema de aprendizado contínuo que melhora com o uso
+- Arquitetura escalável para atender desde pequenas empresas até grandes corporações
+- Conformidade total com a legislação tributária brasileira
+
+### 2. Assistente Financeiro WhatsApp com IA
 
 Sistema que integra WhatsApp com IA para gerenciamento financeiro pessoal, permitindo registro e consulta de finanças via mensagens de texto.
 

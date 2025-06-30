@@ -153,6 +153,17 @@ const Projects = () => {
   const projects: Project[] = [
     {
       id: 1,
+      title: "Audittei Fiscal",
+      description: "Sistema completo de auditoria fiscal com IA que automatiza a análise de documentos fiscais, reduzindo em 80% o tempo de auditoria.",
+      image: "/images/audittei-dashboard.jpg",
+      category: 'ai',
+      technologies: ['Python', 'Flask', 'React', 'PostgreSQL', 'Machine Learning', 'Redis'],
+      githubUrl: "#",
+      liveUrl: "#",
+      detailUrl: "/project/audittei-fiscal"
+    },
+    {
+      id: 2,
       title: "Game Day Nexus Platform",
       description: "SaaS completo para gestão de clubes de futebol com arquitetura multi-tenant e sistema avançado de permissões.",
       image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
@@ -174,7 +185,7 @@ const Projects = () => {
       detailUrl: "/project/saas-sieg"
     },
     {
-      id: 3,
+      id: 4,
       title: "Assistente Financeiro no WhatsApp",
       description: "Chatbot para gerenciamento financeiro integrado ao WhatsApp usando a API do Google Gemini.",
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
@@ -185,7 +196,7 @@ const Projects = () => {
       detailUrl: "/project/assistente-financeiro"
     },
     {
-      id: 4,
+      id: 5,
       title: "Robô Paris - Automação Bancária",
       description: "Sistema de automação para extração e gerenciamento de extratos bancários de múltiplos bancos.",
       image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc",
@@ -195,7 +206,7 @@ const Projects = () => {
       detailUrl: "/project/robo-paris"
     },
     {
-      id: 5,
+      id: 6,
       title: "DCTFWeb Automação",
       description: "Ferramenta para automatizar o download de declarações DCTFWeb do site da Receita Federal.",
       image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",

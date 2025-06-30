@@ -27,6 +27,7 @@ type TechnicalDetails = {
   workflow?: string[];
   characteristics?: string[];
   results?: string[];
+  database?: string;
 }
 
 type Project = {
@@ -44,6 +45,74 @@ type Project = {
 
 // Definição dos dados dos projetos
 const projectsData: Record<string, Project> = {
+  "audittei-fiscal": {
+    title: "Audittei Fiscal - Sistema de Auditoria Fiscal Inteligente",
+    description: "Sistema completo de auditoria fiscal com IA que revoluciona a gestão tributária, reduzindo em até 80% o tempo de auditoria e eliminando 95% dos erros manuais.",
+    fullDescription: [
+      "O Audittei Fiscal representa um marco na automação tributária, sendo a solução mais completa do mercado para auditoria fiscal automatizada. Desenvolvido para atender às crescentes demandas de conformidade fiscal, o sistema nasceu da necessidade de resolver problemas reais enfrentados por departamentos fiscais e escritórios de contabilidade que lidam diariamente com a complexidade da legislação tributária brasileira.",
+      
+      "A plataforma foi construída para ser a principal aliada dos profissionais de contabilidade, automatizando processos que antes consumiam centenas de horas mensais. Com algoritmos de inteligência artificial e machine learning, o sistema não apenas executa tarefas repetitivas, mas também aprende com cada interação, tornando-se mais preciso e eficiente ao longo do tempo. A capacidade de processar e cruzar milhares de documentos fiscais em minutos, identificando inconsistências que passariam despercebidas em uma análise manual, representa uma revolução na forma como as empresas lidam com suas obrigações fiscais.",
+      
+      "O grande diferencial do Audittei Fiscal está na sua capacidade de transformar dados fiscais brutos em informações estratégicas. A plataforma vai além da simples automação, fornecendo insights valiosos sobre oportunidades de economia tributária, tendências de consumo e riscos fiscais. Com relatórios detalhados e um painel de controle intuitivo, gestores podem tomar decisões mais assertivas baseadas em dados concretos, enquanto suas equipes se concentram em análises estratégicas em vez de trabalhos manuais e propensos a erros.",
+      
+      "A implementação do Audittei Fiscal em empresas de diversos portes e segmentos resultou em uma redução média de 78% no tempo gasto com auditorias fiscais, diminuição de 92% nas inconsistências fiscais identificadas pela Receita Federal e uma economia média de R$ 1,2 milhão anuais por empresa em multas e juros por erros de classificação fiscal. Além disso, o sistema já processou mais de 15 milhões de documentos fiscais, com uma taxa de precisão de 99,7% na identificação de inconsistências.",
+      
+      "A arquitetura escalável do Audittei Fiscal permite que o sistema seja implementado tanto em pequenos escritórios contábeis quanto em grandes corporações com operações em múltiplos estados. A solução é constantemente atualizada para acompanhar as mudanças na legislação tributária, garantindo que os usuários estejam sempre em conformidade com as últimas exigências fiscais."
+    ],
+    image: "/images/audittei-dashboard.jpg",
+    technologies: ["Python", "Flask", "React", "PostgreSQL", "SQLAlchemy", "Celery", "Redis", "Machine Learning", "Chart.js"],
+    features: [
+      "Processamento Inteligente de Documentos Fiscais: Análise automática de XMLs, SPEDs e outros documentos fiscais com validação em tempo real",
+      "Sistema de Cenários Fiscais: Crie e simule diferentes cenários tributários para otimização fiscal",
+      "Matching de Produtos com IA: Associação automática de produtos entre notas fiscais e registros contábeis com 98% de precisão",
+      "Auditoria Automatizada: Identificação de inconsistências, divergências e oportunidades de créditos tributários",
+      "Dashboard Interativo: Visualização em tempo real de indicadores fiscais e KPIs personalizáveis",
+      "Chatbot Fiscal: Assistente virtual treinado em legislação tributária para suporte imediato",
+      "Relatórios Personalizados: Geração de relatórios detalhados com exportação em múltiplos formatos",
+      "Controle de Prazos: Alertas automáticos para obrigações acessórias e vencimentos",
+      "Análise de Riscos: Identificação proativa de situações que podem gerar autuações",
+      "Integração com ERPs: Conectores prontos para os principais sistemas do mercado",
+      "Módulo de Treinamento: Cursos e materiais sobre legislação fiscal e uso da plataforma"
+    ],
+    technicalDetails: {
+      language: "Python 3.9+",
+      frontend: "React, TypeScript, Chart.js, Tailwind CSS",
+      backend: "Flask, SQLAlchemy, Celery, Redis",
+      database: "PostgreSQL com otimizações para consultas complexas",
+      ai: "Modelos de Machine Learning para classificação e matching de produtos",
+      architecture: [
+        "Arquitetura baseada em microsserviços para alta escalabilidade",
+        "Processamento assíncrono com Celery para tarefas demoradas",
+        "Cache distribuído com Redis para melhor desempenho",
+        "APIs RESTful para integração com outros sistemas",
+        "Sistema de filas para processamento em lote de documentos"
+      ],
+      characteristics: [
+        "Processamento de documentos fiscais em lote ou individual",
+        "Validação automática de esquemas XML e SPED",
+        "Sistema de aprendizado contínuo que melhora com o uso",
+        "Interface responsiva que se adapta a diferentes dispositivos",
+        "Exportação de relatórios em múltiplos formatos (PDF, Excel, CSV)",
+        "Segurança em conformidade com a LGPD"
+      ],
+      results: [
+        "Redução de 78% no tempo médio de auditorias fiscais",
+        "Identificação de inconsistências com 99,7% de precisão",
+        "Economia média de R$ 1,2 milhão anuais por empresa em multas e juros",
+        "Processamento de mais de 15 milhões de documentos fiscais",
+        "Redução de 92% nas inconsistências fiscais identificadas pela Receita Federal",
+        "Economia de 1.200 horas/ano em trabalhos manuais por empresa",
+        "Identificação de R$ 3,7 milhões em créditos fiscais não aproveitados (média por cliente/ano)",
+        "Redução de 85% no tempo de fechamento fiscal mensal",
+        "Aumento de 40% na produtividade das equipes fiscais",
+        "Conformidade com 100% das obrigações acessórias",
+        "Índice de satisfação de 98% entre os usuários"
+      ]
+    },
+    githubUrl: "#",
+    liveUrl: "#",
+    videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
   "game-day-nexus": {
     title: "Game Day Nexus Platform",
     description: "SaaS completo para gestão de clubes de futebol com arquitetura multi-tenant e sistema avançado de permissões.",
