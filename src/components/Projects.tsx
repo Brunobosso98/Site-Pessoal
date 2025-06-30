@@ -153,6 +153,17 @@ const Projects = () => {
   const projects: Project[] = [
     {
       id: 1,
+      title: "Audittei Contábil",
+      description: "Sistema de conciliação contábil que reduz em 90% o tempo de processos manuais, com integração a ERPs e análise preditiva.",
+      image: "/images/audittei-contabil-dashboard.jpg",
+      category: 'ai',
+      technologies: ['Python', 'Flask', 'PostgreSQL', 'SQLAlchemy', 'Bootstrap', 'jQuery'],
+      githubUrl: "#",
+      liveUrl: "#",
+      detailUrl: "/project/audittei-contabil"
+    },
+    {
+      id: 2,
       title: "Audittei Fiscal",
       description: "Sistema completo de auditoria fiscal com IA que automatiza a análise de documentos fiscais, reduzindo em 80% o tempo de auditoria.",
       image: "/images/audittei-dashboard.jpg",

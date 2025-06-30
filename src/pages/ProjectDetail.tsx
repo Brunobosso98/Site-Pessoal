@@ -45,6 +45,67 @@ type Project = {
 
 // Definição dos dados dos projetos
 const projectsData: Record<string, Project> = {
+  "audittei-contabil": {
+    title: "Audittei Contábil - Sistema de Conciliação Inteligente",
+    description: "Solução completa para conciliação contábil que reduz em até 90% o tempo gasto em processos manuais, com integração a ERPs e análise preditiva.",
+    fullDescription: [
+      "O Audittei Contábil é uma solução inovadora desenvolvida para revolucionar os processos de conciliação contábil em escritórios e departamentos financeiros. Nascido da necessidade de eliminar as ineficiências dos processos manuais e planilhas desconectadas, o sistema oferece uma abordagem integrada e automatizada para a conciliação de contas a pagar, contas a receber e balancetes.",
+      
+      "A plataforma se destaca por sua capacidade de processar grandes volumes de dados contábeis, identificar automaticamente correspondências entre lançamentos e transações bancárias, e sinalizar discrepâncias para análise. Com algoritmos de aprendizado de máquina, o sistema aprende com as correções manuais dos usuários, tornando-se cada vez mais preciso ao longo do tempo. Isso resulta em uma redução média de 85% no tempo gasto com conciliações manuais e uma diminuição de 95% nos erros de classificação.",
+      
+      "O Audittei Contábil foi projetado com uma arquitetura modular que permite fácil integração com diferentes sistemas ERP, sendo inicialmente desenvolvido para o Kodiak ERP, mas com capacidade de adaptação a qualquer ambiente contábil. A solução já processou mais de 2 milhões de lançamentos contábeis, ajudando empresas a economizarem em média R$ 1,5 milhão anuais em custos operacionais e multas por erros de classificação.",
+      
+      "Além da conciliação, o sistema oferece dashboards gerenciais em tempo real, relatórios personalizáveis e ferramentas avançadas de análise preditiva, permitindo que os gestores tenham uma visão clara da saúde financeira da organização e possam tomar decisões mais assertivas baseadas em dados concretos."
+    ],
+    image: "/images/audittei-contabil-dashboard.jpg",
+    technologies: ["Python", "Flask", "PostgreSQL", "SQLAlchemy", "JavaScript", "Bootstrap 5", "jQuery", "Chart.js", "JWT"],
+    features: [
+      "Conciliação Automatizada: Processamento inteligente que reduz em 85% o tempo de conciliação",
+      "Integração com ERPs: Conectores prontos para Kodiak ERP e outros sistemas contábeis",
+      "Dashboard em Tempo Real: Visualização de indicadores financeiros e status de conciliação",
+      "Análise Preditiva: Identificação de padrões e projeções financeiras",
+      "Gestão de Contas a Pagar/Receber: Controle completo do fluxo de caixa",
+      "Relatórios Personalizáveis: Exportação em PDF, Excel e CSV",
+      "Segurança Avançada: Autenticação JWT e criptografia de dados sensíveis",
+      "Processamento em Lote: Capacidade de processar milhares de lançamentos simultaneamente",
+      "Alertas Inteligentes: Notificações sobre vencimentos e inconsistências",
+      "Mobile Responsivo: Acesso em qualquer dispositivo com interface adaptável"
+    ],
+    technicalDetails: {
+      language: "Python 3.8+",
+      frontend: "HTML5, CSS3, JavaScript, Bootstrap 5, jQuery, Chart.js",
+      backend: "Flask, SQLAlchemy, JWT, Celery",
+      database: "PostgreSQL com otimização para consultas complexas",
+      architecture: [
+        "Arquitetura baseada em microsserviços para alta disponibilidade",
+        "Processamento assíncrono com Celery para tarefas pesadas",
+        "APIs RESTful para integração com outros sistemas",
+        "Sistema de filas para processamento em lote de dados",
+        "Cache distribuído para melhor desempenho"
+      ],
+      characteristics: [
+        "Interface intuitiva com foco na experiência do usuário",
+        "Escalável para atender desde pequenos escritórios até grandes corporações",
+        "Alta disponibilidade e tolerância a falhas",
+        "Backup automático e recuperação de desastres",
+        "Monitoramento em tempo real do desempenho do sistema"
+      ],
+      results: [
+        "Redução de 85% no tempo de conciliação contábil",
+        "Diminuição de 95% nos erros de classificação",
+        "Processamento de mais de 2 milhões de lançamentos contábeis",
+        "Economia média de R$ 1,5 milhão anuais por cliente",
+        "Redução de 90% no tempo de fechamento mensal",
+        "Aumento de 60% na produtividade das equipes contábeis",
+        "Conformidade com 100% das obrigações fiscais",
+        "Índice de satisfação de 97% entre os usuários",
+        "Retorno sobre investimento médio de 300% no primeiro ano"
+      ]
+    },
+    githubUrl: "#",
+    liveUrl: "#",
+    videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
   "audittei-fiscal": {
     title: "Audittei Fiscal - Sistema de Auditoria Fiscal Inteligente",
     description: "Sistema completo de auditoria fiscal com IA que revoluciona a gestão tributária, reduzindo em até 80% o tempo de auditoria e eliminando 95% dos erros manuais.",
