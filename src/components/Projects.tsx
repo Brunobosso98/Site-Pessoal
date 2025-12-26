@@ -48,7 +48,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   return (
     <div
       ref={cardRef}
-      className="bg-foreground/5 rounded-xl overflow-hidden card-hover flex flex-col animate-on-scroll"
+      className="bg-foreground/5 rounded-xl overflow-hidden card-hover flex flex-col"
     >
       <div className="h-48 overflow-hidden">
         <img
@@ -265,7 +265,7 @@ const Projects = () => {
   );
 
   return (
-    <section ref={sectionRef} id="projects" className="py-20 relative">
+    <section ref={sectionRef} id="projects" data-skip-scroll-anim className="py-20 relative">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.08),transparent_50%)]"></div>
 
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">

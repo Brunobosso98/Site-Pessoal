@@ -29,8 +29,8 @@ const Index = () => {
     }
 
     // Configuração para desktop
-    // Animate sections as they come into view
-    const sections = document.querySelectorAll('section');
+    // Animate sections as they come into view, ignorando grupos com animações próprias
+    const sections = document.querySelectorAll('section:not([data-skip-scroll-anim])');
 
     sections.forEach(section => {
       const elements = section.querySelectorAll('.animate-on-scroll');

@@ -55,7 +55,7 @@ const SkillBar = ({ name, level, index }: { name: string; level: number; index: 
   }, [index, level, isMobile]);
 
   return (
-    <div ref={barRef} className="mb-4 animate-on-scroll">
+    <div ref={barRef} className="mb-4">
       <div className="flex justify-between mb-1">
         <span className="text-sm font-medium">{name}</span>
         <span className="text-sm font-medium text-foreground/60">{level}%</span>
@@ -103,7 +103,7 @@ const SkillCategory = ({ title, skills, category }: {
 
   return (
     <div>
-      <h3 ref={titleRef} className="text-xl font-bold mb-6 animate-on-scroll">{title}</h3>
+      <h3 ref={titleRef} className="text-xl font-bold mb-6">{title}</h3>
       {filteredSkills.map((skill, index) => (
         <SkillBar
           key={skill.name}
@@ -173,11 +173,11 @@ const Skills = () => {
   ];
 
   return (
-    <section ref={sectionRef} id="skills" className="py-20 relative">
+    <section ref={sectionRef} id="skills" data-skip-scroll-anim className="py-20 relative">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.08),transparent_50%)]"></div>
 
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-12 text-center animate-on-scroll">
+        <h2 ref={titleRef} className="text-3xl md:text-4xl font-bold mb-12 text-center">
           Minhas <span className="highlight-gradient">Habilidades</span>
         </h2>
 
