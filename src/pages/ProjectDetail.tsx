@@ -46,14 +46,14 @@ type Project = {
 // Definição dos dados dos projetos
 const projectsData: Record<string, Project> = {
   "audittei-contabil": {
-    title: "Audittei Contábil - Sistema de Conciliação Inteligente",
+    title: "Inttax Contábil - Sistema de Conciliação Inteligente",
     description: "Solução completa para conciliação contábil que reduz em até 90% o tempo gasto em processos manuais, com integração a ERPs e análise preditiva.",
     fullDescription: [
-      "O Audittei Contábil é uma solução inovadora desenvolvida para revolucionar os processos de conciliação contábil em escritórios e departamentos financeiros. Nascido da necessidade de eliminar as ineficiências dos processos manuais e planilhas desconectadas, o sistema oferece uma abordagem integrada e automatizada para a conciliação de contas a pagar, contas a receber e balancetes.",
+      "O Inttax Contábil é uma solução inovadora desenvolvida para revolucionar os processos de conciliação contábil em escritórios e departamentos financeiros. Nascido da necessidade de eliminar as ineficiências dos processos manuais e planilhas desconectadas, o sistema oferece uma abordagem integrada e automatizada para a conciliação de contas a pagar, contas a receber e balancetes.",
       
       "A plataforma se destaca por sua capacidade de processar grandes volumes de dados contábeis, identificar automaticamente correspondências entre lançamentos e transações bancárias, e sinalizar discrepâncias para análise. Com algoritmos de aprendizado de máquina, o sistema aprende com as correções manuais dos usuários, tornando-se cada vez mais preciso ao longo do tempo. Isso resulta em uma redução média de 85% no tempo gasto com conciliações manuais e uma diminuição de 95% nos erros de classificação.",
       
-      "O Audittei Contábil foi projetado com uma arquitetura modular que permite fácil integração com diferentes sistemas ERP, sendo inicialmente desenvolvido para o Kodiak ERP, mas com capacidade de adaptação a qualquer ambiente contábil. A solução já processou mais de 2 milhões de lançamentos contábeis, ajudando empresas a economizarem em média R$ 1,5 milhão anuais em custos operacionais e multas por erros de classificação.",
+      "O Inttax Contábil foi projetado com uma arquitetura modular que permite fácil integração com diferentes sistemas ERP, sendo inicialmente desenvolvido para o Kodiak ERP, mas com capacidade de adaptação a qualquer ambiente contábil. A solução já processou mais de 2 milhões de lançamentos contábeis, ajudando empresas a economizarem em média R$ 1,5 milhão anuais em custos operacionais e multas por erros de classificação.",
       
       "Além da conciliação, o sistema oferece dashboards gerenciais em tempo real, relatórios personalizáveis e ferramentas avançadas de análise preditiva, permitindo que os gestores tenham uma visão clara da saúde financeira da organização e possam tomar decisões mais assertivas baseadas em dados concretos."
     ],
@@ -107,18 +107,18 @@ const projectsData: Record<string, Project> = {
     videoDemo: "https://www.youtube.com/embed/dQw4w9WgXcQ"
   },
   "audittei-fiscal": {
-    title: "Audittei Fiscal - Sistema de Auditoria Fiscal Inteligente",
+    title: "Inttax Fiscal - Sistema de Auditoria Fiscal Inteligente",
     description: "Sistema completo de auditoria fiscal com IA que revoluciona a gestão tributária, reduzindo em até 80% o tempo de auditoria e eliminando 95% dos erros manuais.",
     fullDescription: [
-      "O Audittei Fiscal representa um marco na automação tributária, sendo a solução mais completa do mercado para auditoria fiscal automatizada. Desenvolvido para atender às crescentes demandas de conformidade fiscal, o sistema nasceu da necessidade de resolver problemas reais enfrentados por departamentos fiscais e escritórios de contabilidade que lidam diariamente com a complexidade da legislação tributária brasileira.",
+      "O Inttax Fiscal representa um marco na automação tributária, sendo a solução mais completa do mercado para auditoria fiscal automatizada. Desenvolvido para atender às crescentes demandas de conformidade fiscal, o sistema nasceu da necessidade de resolver problemas reais enfrentados por departamentos fiscais e escritórios de contabilidade que lidam diariamente com a complexidade da legislação tributária brasileira.",
       
       "A plataforma foi construída para ser a principal aliada dos profissionais de contabilidade, automatizando processos que antes consumiam centenas de horas mensais. Com algoritmos de inteligência artificial e machine learning, o sistema não apenas executa tarefas repetitivas, mas também aprende com cada interação, tornando-se mais preciso e eficiente ao longo do tempo. A capacidade de processar e cruzar milhares de documentos fiscais em minutos, identificando inconsistências que passariam despercebidas em uma análise manual, representa uma revolução na forma como as empresas lidam com suas obrigações fiscais.",
       
-      "O grande diferencial do Audittei Fiscal está na sua capacidade de transformar dados fiscais brutos em informações estratégicas. A plataforma vai além da simples automação, fornecendo insights valiosos sobre oportunidades de economia tributária, tendências de consumo e riscos fiscais. Com relatórios detalhados e um painel de controle intuitivo, gestores podem tomar decisões mais assertivas baseadas em dados concretos, enquanto suas equipes se concentram em análises estratégicas em vez de trabalhos manuais e propensos a erros.",
+      "O grande diferencial do Inttax Fiscal está na sua capacidade de transformar dados fiscais brutos em informações estratégicas. A plataforma vai além da simples automação, fornecendo insights valiosos sobre oportunidades de economia tributária, tendências de consumo e riscos fiscais. Com relatórios detalhados e um painel de controle intuitivo, gestores podem tomar decisões mais assertivas baseadas em dados concretos, enquanto suas equipes se concentram em análises estratégicas em vez de trabalhos manuais e propensos a erros.",
       
-      "A implementação do Audittei Fiscal em empresas de diversos portes e segmentos resultou em uma redução média de 78% no tempo gasto com auditorias fiscais, diminuição de 92% nas inconsistências fiscais identificadas pela Receita Federal e uma economia média de R$ 1,2 milhão anuais por empresa em multas e juros por erros de classificação fiscal. Além disso, o sistema já processou mais de 15 milhões de documentos fiscais, com uma taxa de precisão de 99,7% na identificação de inconsistências.",
+      "A implementação do Inttax Fiscal em empresas de diversos portes e segmentos resultou em uma redução média de 78% no tempo gasto com auditorias fiscais, diminuição de 92% nas inconsistências fiscais identificadas pela Receita Federal e uma economia média de R$ 1,2 milhão anuais por empresa em multas e juros por erros de classificação fiscal. Além disso, o sistema já processou mais de 15 milhões de documentos fiscais, com uma taxa de precisão de 99,7% na identificação de inconsistências.",
       
-      "A arquitetura escalável do Audittei Fiscal permite que o sistema seja implementado tanto em pequenos escritórios contábeis quanto em grandes corporações com operações em múltiplos estados. A solução é constantemente atualizada para acompanhar as mudanças na legislação tributária, garantindo que os usuários estejam sempre em conformidade com as últimas exigências fiscais."
+      "A arquitetura escalável do Inttax Fiscal permite que o sistema seja implementado tanto em pequenos escritórios contábeis quanto em grandes corporações com operações em múltiplos estados. A solução é constantemente atualizada para acompanhar as mudanças na legislação tributária, garantindo que os usuários estejam sempre em conformidade com as últimas exigências fiscais."
     ],
     image: "/images/audittei-dashboard.jpg",
     technologies: ["Python", "Flask", "React", "PostgreSQL", "SQLAlchemy", "Celery", "Redis", "Machine Learning", "Chart.js"],

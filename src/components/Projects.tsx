@@ -153,7 +153,7 @@ const Projects = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Audittei Contábil",
+      title: "Inttax Contábil",
       description: "Sistema de conciliação contábil que reduz em 90% o tempo de processos manuais, com integração a ERPs e análise preditiva.",
       image: "/images/audittei-contabil-dashboard.jpg",
       category: 'ai',
@@ -164,7 +164,7 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "Audittei Fiscal",
+      title: "Inttax Fiscal",
       description: "Sistema completo de auditoria fiscal com IA que automatiza a análise de documentos fiscais, reduzindo em 80% o tempo de auditoria.",
       image: "/images/audittei-dashboard.jpg",
       category: 'ai',

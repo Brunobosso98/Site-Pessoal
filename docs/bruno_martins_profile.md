@@ -31,9 +31,9 @@ Bruno Martins é um desenvolvedor full-stack e especialista em automação com v
 
 ## Projetos Destacados
 
-### 1. Audittei Fiscal - Sistema de Auditoria Fiscal Inteligente
+### 1. Inttax Fiscal - Sistema de Auditoria Fiscal Inteligente
 
-![Audittei Fiscal Dashboard](/images/audittei-dashboard.jpg)
+![Inttax Fiscal Dashboard](/images/audittei-dashboard.jpg)
 *Dashboard interativo do Audittei Fiscal mostrando métricas de auditoria em tempo real*
 
 Sistema revolucionário de auditoria fiscal que combina automação avançada com inteligência artificial para transformar os processos de conformidade tributária.

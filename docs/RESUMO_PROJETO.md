@@ -1,7 +1,7 @@
-# Audittei Fiscal - Sistema Completo de Auditoria Fiscal
+# Inttax Fiscal - Sistema Completo de Auditoria Fiscal
 
 ## Visão Geral
-O Audittei Fiscal é um sistema abrangente de auditoria fiscal desenvolvido para otimizar e automatizar o processo de análise de documentos fiscais. A plataforma oferece recursos avançados para importação, processamento e validação de documentos fiscais, além de ferramentas poderosas para auditoria e conformidade fiscal.
+O Inttax Fiscal é um sistema abrangente de auditoria fiscal desenvolvido para otimizar e automatizar o processo de análise de documentos fiscais. A plataforma oferece recursos avançados para importação, processamento e validação de documentos fiscais, além de ferramentas poderosas para auditoria e conformidade fiscal.
 
 ## Principais Funcionalidades
 
@@ -168,7 +168,7 @@ O Audittei Fiscal é um sistema abrangente de auditoria fiscal desenvolvido para
 - Expansão para outros países da América Latina
 
 ## Conclusão
-O Audittei Fiscal representa um avanço significativo na automação de processos fiscais, combinando tecnologia de ponta com conhecimento tributário especializado. A solução foi projetada para crescer e se adaptar às mudanças na legislação, garantindo conformidade contínua e eficiência operacional para nossos clientes. Com recursos avançados de inteligência artificial e uma arquitetura escalável, o sistema está preparado para atender às necessidades de empresas de todos os portes, desde pequenos escritórios até grandes corporações.
+O Inttax Fiscal representa um avanço significativo na automação de processos fiscais, combinando tecnologia de ponta com conhecimento tributário especializado. A solução foi projetada para crescer e se adaptar às mudanças na legislação, garantindo conformidade contínua e eficiência operacional para nossos clientes. Com recursos avançados de inteligência artificial e uma arquitetura escalável, o sistema está preparado para atender às necessidades de empresas de todos os portes, desde pequenos escritórios até grandes corporações.
 - Maior precisão na identificação de inconsistências
 - Padronização dos processos de auditoria
 - Melhor aproveitamento da equipe em atividades de maior valor
@@ -340,4 +340,4 @@ O Audittei Fiscal representa um avanço significativo na automação de processo
    - Relatórios de desempenho do sistema
 
 ## Conclusão
-O Audittei Fiscal representa um avanço significativo na automação de processos fiscais, combinando tecnologia de ponta com conhecimento tributário especializado. A solução foi projetada para crescer e se adaptar às mudanças na legislação, garantindo conformidade contínua e eficiência operacional para nossos clientes.
+O Inttax Fiscal representa um avanço significativo na automação de processos fiscais, combinando tecnologia de ponta com conhecimento tributário especializado. A solução foi projetada para crescer e se adaptar às mudanças na legislação, garantindo conformidade contínua e eficiência operacional para nossos clientes.
