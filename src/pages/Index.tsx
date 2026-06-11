@@ -17,25 +17,20 @@ const Index = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Para dispositivos móveis, mostrar o conteúdo diretamente sem animação ao scroll
     if (isMobile) {
       document.querySelectorAll('.animate-on-scroll').forEach(element => {
         gsap.set(element, { opacity: 1, y: 0 });
       });
 
-      // Limpe todas as animações ScrollTrigger existentes em dispositivos móveis
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       return;
     }
 
-    // Configuração para desktop
-    // Animate sections as they come into view, ignorando grupos com animações próprias
     const sections = document.querySelectorAll('section:not([data-skip-scroll-anim])');
 
     sections.forEach(section => {
       const elements = section.querySelectorAll('.animate-on-scroll');
 
-      // Se não há elementos para animar, não crie o ScrollTrigger
       if (elements.length === 0) return;
 
       gsap.fromTo(
@@ -52,35 +47,15 @@ const Index = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 80%", // Mudança para iniciar animação mais cedo
-            toggleActions: "play none none none" // Alterado para não reverter
+            start: "top 80%",
+            toggleActions: "play none none none"
           }
         }
       );
     });
 
-    // Add parallax effect to section backgrounds (apenas no desktop)
-    if (!isMobile) {
-      sections.forEach(section => {
-        const bg = section.querySelector('.section-bg');
-        if (bg) {
-          gsap.to(bg, {
-            y: () => section.offsetHeight * 0.2,
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true
-            }
-          });
-        }
-      });
-    }
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    const anchors = document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
+    const handleAnchorClick = function (this: HTMLAnchorElement, e: MouseEvent) {
         e.preventDefault();
         const href = this.getAttribute('href');
         if (!href) return;
@@ -92,23 +67,24 @@ const Index = () => {
           top: (target as HTMLElement).offsetTop - 100,
           behavior: 'smooth'
         });
-      });
-    });
+    };
+
+    anchors.forEach(anchor => anchor.addEventListener('click', handleAnchorClick));
 
     return () => {
-      // Clean up any ScrollTrigger instances to prevent memory leaks
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      anchors.forEach(anchor => anchor.removeEventListener('click', handleAnchorClick));
     };
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-background text-foreground">
       <AnimatedBackground />
       <Navbar />
       <Hero />
-      <About />
       <Projects />
       <Skills />
+      <About />
       <Contact />
       <Footer />
     </div>

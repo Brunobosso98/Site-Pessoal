@@ -1,98 +1,96 @@
+import { useEffect, useState } from 'react';
+import { Menu, MessageCircle, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import WhatsAppModal from './WhatsAppModal';
 
-import { useState, useEffect } from 'react';
-import { Menu, X, Download } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+const navItems = [
+  { name: 'Início', href: '#home' },
+  { name: 'Projetos', href: '#projects' },
+  { name: 'Capacidades', href: '#skills' },
+  { name: 'Perfil', href: '#about' },
+  { name: 'Contato', href: '#contact' },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-    
+    const handleScroll = () => setScrolled(window.scrollY > 12);
+
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Início', href: '#home' },
-    { name: 'Sobre', href: '#about' },
-    { name: 'Projetos', href: '#projects' },
-    { name: 'Habilidades', href: '#skills' },
-    { name: 'Contato', href: '#contact' },
-  ];
-
   return (
-    <header 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-background/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+    <header
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? 'border-b border-white/10 bg-[#05080a]/90 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl'
+          : 'bg-transparent'
       }`}
     >
-      <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <nav className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center">
-            <a href="#home" className="text-xl md:text-2xl font-display font-bold highlight-gradient">
-              Bruno Martins
-            </a>
-          </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="flex h-16 items-center justify-between md:h-20">
+          <a href="#home" className="group flex items-center gap-3" aria-label="Voltar ao início">
+            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-cyan-200/25 bg-cyan-200/10 font-display text-sm font-bold text-cyan-50 shadow-[0_0_24px_rgba(0,229,255,0.13)]">
+              BM
+            </span>
+            <span className="hidden text-sm font-semibold text-white sm:inline">Bruno Martins</span>
+          </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden items-center gap-7 md:flex">
             {navItems.map((item) => (
-              <a 
-                key={item.name} 
+              <a
+                key={item.name}
                 href={item.href}
-                className="nav-item font-medium"
+                className="nav-item text-sm font-medium text-slate-300 hover:text-cyan-100"
               >
                 {item.name}
               </a>
             ))}
-            <Button className="btn-gradient rounded-full flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              <span>Download CV</span>
-            </Button>
           </div>
 
-          {/* Mobile Navigation Toggle */}
-          <div className="flex md:hidden">
-            <button 
-              onClick={toggleMenu}
-              className="text-foreground hover:text-accent"
-              aria-label="Toggle Menu"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+          <div className="hidden md:block">
+            <WhatsAppModal>
+              <Button className="h-10 rounded-md bg-rose-400 px-4 text-sm font-bold text-slate-950 hover:bg-rose-300">
+                <MessageCircle className="mr-2 h-4 w-4" />
+                Falar comigo
+              </Button>
+            </WhatsAppModal>
           </div>
+
+          <button
+            onClick={() => setIsOpen((value) => !value)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-slate-100 md:hidden"
+            aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </nav>
 
-        {/* Mobile Navigation Menu */}
         {isOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-sm animate-fade-in">
-            <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+          <div className="md:hidden">
+            <div className="mb-4 rounded-lg border border-white/10 bg-[#071014]/95 p-3 shadow-2xl backdrop-blur-xl">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block py-2 px-3 rounded-md text-base font-medium hover:bg-accent/10 hover:text-accent"
-                  onClick={toggleMenu}
+                  className="block rounded-md px-3 py-3 text-sm font-medium text-slate-200 hover:bg-cyan-200/10 hover:text-cyan-100"
+                  onClick={() => setIsOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
-              <Button className="w-full btn-gradient rounded-full mt-4 flex items-center justify-center gap-2">
-                <Download className="w-4 h-4" />
-                <span>Download CV</span>
-              </Button>
+              <WhatsAppModal>
+                <Button className="mt-3 h-11 w-full rounded-md bg-rose-400 text-sm font-bold text-slate-950 hover:bg-rose-300">
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Falar comigo
+                </Button>
+              </WhatsAppModal>
             </div>
           </div>
         )}

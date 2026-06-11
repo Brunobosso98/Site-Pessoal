@@ -1,5 +1,6 @@
 
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -65,11 +66,12 @@ export default {
 				},
         // Custom colors for the portfolio
         portfolio: {
-          blue: '#1E293B',
-          purple: '#7E69AB',
-          accent: '#8B5CF6',
-          light: '#F8FAFC',
-          dark: '#0F172A',
+          graphite: '#05080A',
+          panel: '#071014',
+          cyan: '#00E5FF',
+          signal: '#BEFF00',
+          coral: '#FF4D5E',
+          white: '#F2FBFF',
         }
 			},
 			borderRadius: {
@@ -117,11 +119,11 @@ export default {
         'pulse-light': 'pulse-light 2s ease-in-out infinite'
 			},
       fontFamily: {
-        'sans': ['Inter', 'sans-serif'],
-        'display': ['Poppins', 'sans-serif'],
-        'code': ['Fira Code', 'monospace']
+        'sans': ['Manrope', 'sans-serif'],
+        'display': ['Space Grotesk', 'sans-serif'],
+        'code': ['JetBrains Mono', 'monospace']
       }
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate],
 } satisfies Config;

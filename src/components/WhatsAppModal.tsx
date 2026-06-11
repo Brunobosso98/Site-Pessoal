@@ -22,7 +22,7 @@ const WhatsAppModal = ({ children }: WhatsAppModalProps) => {
     const phoneNumber = '5519987111198';
 
     // Default message
-    const defaultMessage = encodeURIComponent('Olá, gostaria de saber mais sobre seus serviços e solicitar um orçamento.');
+    const defaultMessage = encodeURIComponent('Olá, Bruno. Vi seu portfólio e quero conversar sobre um projeto de sistema, automação ou IA aplicada.');
 
     // Create the WhatsApp URL
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${defaultMessage}`;
@@ -39,25 +39,25 @@ const WhatsAppModal = ({ children }: WhatsAppModalProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] border-accent/20">
+      <DialogContent className="border-cyan-200/20 bg-[#071014] text-slate-100 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
-            <FaWhatsapp className="h-5 w-5 text-green-500" />
-            <span>Contato via WhatsApp</span>
+            <FaWhatsapp className="h-5 w-5 text-lime-300" />
+            <span>Conversar sobre um projeto</span>
           </DialogTitle>
         </DialogHeader>
 
         <div className="py-4">
-          <p className="text-center mb-4">
-            Clique no botão abaixo para iniciar uma conversa no WhatsApp e solicitar um orçamento ou tirar dúvidas sobre os serviços.
+          <p className="mb-5 text-center leading-7 text-slate-300">
+            Abra uma conversa com contexto do processo, objetivo e urgência. Isso já ajuda a transformar a ideia em escopo.
           </p>
 
           <div className="flex justify-center">
             <img
               src="/eu.jpeg"
               alt="Bruno Martins"
-              className="w-24 h-24 rounded-full object-cover border-2 border-accent/20"
-              style={{ objectPosition: '20% 0%' }} // Ajustado para focar mais na parte superior (rosto)
+              className="h-24 w-24 rounded-lg border border-cyan-200/20 object-cover"
+              style={{ objectPosition: '20% 0%' }}
             />
           </div>
         </div>
@@ -65,7 +65,7 @@ const WhatsAppModal = ({ children }: WhatsAppModalProps) => {
         <DialogFooter>
           <Button
             onClick={handleWhatsAppRedirect}
-            className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 w-full flex items-center justify-center gap-2"
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-lime-300 px-6 font-bold text-slate-950 hover:bg-lime-200"
           >
             <FaWhatsapp className="h-5 w-5" />
             Falar no WhatsApp

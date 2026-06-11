@@ -1,32 +1,27 @@
-
 import { ArrowUp } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
   return (
-    <footer className="py-8 border-t border-foreground/10">
-      <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="mb-4 md:mb-0">
-            <p className="text-foreground/60 text-sm">
-              &copy; {new Date().getFullYear()} Bruno Martins. Todos os direitos reservados.
-            </p>
-          </div>
-          
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-2 text-foreground/60 hover:text-accent transition-colors text-sm"
-          >
-            <span>Voltar ao topo</span>
-            <ArrowUp className="w-4 h-4" />
-          </button>
-        </div>
+    <footer className="border-t border-white/10 py-8">
+      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 sm:px-6 md:flex-row lg:px-8">
+        <p className="text-sm text-slate-500">
+          &copy; {new Date().getFullYear()} Bruno Martins. Sistemas, automação e IA aplicada.
+        </p>
+
+        <button
+          onClick={scrollToTop}
+          className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.035] px-3 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-200/40 hover:text-cyan-100"
+        >
+          Voltar ao topo
+          <ArrowUp className="h-4 w-4" />
+        </button>
       </div>
     </footer>
   );
