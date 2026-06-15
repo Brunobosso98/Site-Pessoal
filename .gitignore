@@ -6,16 +6,26 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env
+.agents
+.claude
+.cursor
+.gemini
+.impeccable
+.kiro
+projeto-antigo
 
 node_modules
 dist
 dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
 *.local
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
 
 # Editor directories and files
 .vscode/*
