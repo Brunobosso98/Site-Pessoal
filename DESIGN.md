@@ -262,3 +262,19 @@ This is the opposite of the SaaS-cream landing page, where depth comes from laye
 - **Don't** allow text to overflow its container. Headline words + large clamp + narrow grids cause overflow on tablet/mobile. Test every heading at every breakpoint.
 - **Don't** add the SaaS hero-metric template (big number + small label + supporting stats + gradient accent) anywhere outside the existing process / project cards, where the metrics are real numbers tied to specific work.
 - **Don't** ship identical card grids with icon + heading + text repeated. The capability grid varies row layouts at the lg breakpoint; the project grid is 2-col with metrics, not a row of equal cards.
+
+## Portfolio refinement — September 2026
+
+The opening now leads with Bruno's name, a concise professional proposition and two clear paths: selected projects and LinkedIn. Projects precede the biography. Four alternating project stories use conceptual architecture artwork, existing outcomes and direct links to the corresponding case studies. Artwork is explicitly labelled as a representation, not a product screenshot.
+
+Motion has three levels: a brief masked title entrance; a lazy-loaded Three.js assembly with pointer response and scroll parallax; and restrained project diagrams, link feedback and reading progress. WebGL rendering stops outside the viewport and in hidden tabs, limits pixel ratio to 1.6 and disposes GPU resources on unmount. CSS diagram loops pause offscreen. A global pause control and the system reduced-motion preference disable animations and parallax; the content remains readable before hydration and a static graphic replaces unavailable WebGL.
+
+Navigation uses a mobile disclosure with Escape handling, visible keyboard focus and 44px controls. Section targets clear the fixed header. Contact copy addresses clients, teams and recruiters. The obsolete quarterly availability label is removed.
+
+The existing fonts and signal palette are retained. Home project stories replace the previous repeated cards. New headings use sentence case, short captions and less glow; sections use different compositions. These decisions supersede the repeated eyebrow and uniform card conventions above.
+
+## Featured work and demonstrations — September 2026 revision
+
+The home selection is INTTAX Fiscal, INTTAX Reforma Tributária, Robô Paris and Game Day Nexus. SaaS-SIEG remains in the detailed project collection. The Reforma Tributária case is based on the owner's supplied project summary: a platform for accounting and tax offices to deliver consulting, supported by comparable scenarios, calculation evidence and the Argos assistant. No financial return, AI accuracy, latency or production pgvector claim is invented for this case.
+
+Each featured project has a four-stage interactive demonstration with semantic step buttons, local playback controls and a global motion preference. Audit documents converge into the processing engine and produce an evidence report. Reforma moves from the fiscal base to scenarios, impacts and consulting. Banking shows collection and organization by company. Nexus shows scoped access, permissions and isolated clubs. Figures are illustrative, without client records. Both timers and repeating effects stop offscreen and when the document is hidden; reduced-motion mode retains manual stage navigation.

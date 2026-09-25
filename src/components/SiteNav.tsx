@@ -1,72 +1,134 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Menu, X, Pause, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll } from "motion/react";
 import { Logomark } from "@/components/Logomark";
+import { useMotionExperience } from "@/hooks/use-motion-experience";
 
-type NavLink = { label: string; to: string; hash?: string; isRoute?: boolean };
-
-const HOME_LINKS: NavLink[] = [
-  { label: "Sobre", to: "/", hash: "#sobre" },
-  { label: "Capacidades", to: "/", hash: "#capacidades" },
-  { label: "Projetos", to: "/", hash: "#projetos" },
-  { label: "Processo", to: "/", hash: "#processo" },
-];
-
-const PAGE_LINKS: NavLink[] = [
-  { label: "Home", to: "/", isRoute: true },
+const homeLinks = [
+  { label: "Projetos", href: "/#projetos" },
+  { label: "Sobre", href: "/#sobre" },
+  { label: "Expertise", href: "/#capacidades" },
+  { label: "Processo", href: "/#processo" },
 ];
 
 export function SiteNav({ mode = "home" }: { mode?: "home" | "projetos" }) {
-  const links = mode === "home" ? HOME_LINKS : PAGE_LINKS;
-
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const { paused, staticMotion, toggle } = useMotionExperience();
+  const { scrollYProgress } = useScroll();
+  const links =
+    mode === "home"
+      ? homeLinks
+      : [
+          { label: "Início", href: "/" },
+          { label: "Projetos", href: "#cases" },
+          { label: "Contato", href: "#contato" },
+        ];
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-20% 0px -55% 0px" },
+    );
+    document.querySelectorAll("main section[id]").forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [mode]);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const media = window.matchMedia("(min-width: 768px)");
+    const resize = () => {
+      if (media.matches) setOpen(false);
+    };
+    document.addEventListener("keydown", close);
+    media.addEventListener("change", resize);
+    return () => {
+      document.removeEventListener("keydown", close);
+      media.removeEventListener("change", resize);
+    };
+  }, [open]);
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link
-          to="/"
-          className="flex items-center gap-2.5 font-display text-sm font-semibold text-foreground"
-          aria-label="Bruno Martins — voltar ao início"
-        >
-          <Logomark className="h-8 w-8" />
-          <span>
-            bruno<span className="text-cyan">.martins</span>
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex" aria-label="Principal">
-          {links.map((l) => {
-            if (l.isRoute) {
-              return (
-                <Link
-                  key={l.label}
-                  to={l.to}
-                  className="transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
-                >
-                  {l.label}
-                </Link>
-              );
-            }
-            return (
+    <>
+      <a className="skip-link" href="#conteudo">
+        Pular para o conteúdo
+      </a>
+      <header className="site-nav">
+        <div className="nav-inner">
+          <Link to="/" className="brand-link" aria-label="Bruno Martins — voltar ao início">
+            <Logomark className="h-8 w-8" />
+            <span>
+              bruno<span className="text-cyan">.martins</span>
+            </span>
+          </Link>
+          <nav className="desktop-nav" aria-label="Principal">
+            {links.map((link) => (
               <a
-                key={l.label}
-                href={`${l.to}${l.hash ?? ""}`}
-                className="transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+                key={link.label}
+                href={link.href}
+                aria-current={active && link.href.endsWith(`#${active}`) ? "location" : undefined}
               >
-                {l.label}
+                {link.label}
               </a>
-            );
-          })}
+            ))}
+          </nav>
+          <div className="nav-actions">
+            <button
+              type="button"
+              className="motion-toggle"
+              onClick={toggle}
+              aria-pressed={paused}
+              aria-label={paused ? "Retomar animações" : "Pausar animações"}
+              title={paused ? "Retomar animações" : "Pausar animações"}
+            >
+              {paused ? <Play size={15} /> : <Pause size={15} />}
+            </button>
+            <a href="#contato" className="nav-contact">
+              Vamos conversar <ArrowUpRight size={16} />
+            </a>
+            <button
+              ref={toggleRef}
+              type="button"
+              className="menu-toggle"
+              aria-label={open ? "Fechar menu" : "Abrir menu"}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+        <nav id="mobile-nav" className="mobile-nav" hidden={!open} aria-label="Navegação móvel">
+          {links.map((link) => (
+            <a key={link.label} href={link.href} onClick={() => setOpen(false)}>
+              {link.label}
+              <ArrowUpRight size={20} />
+            </a>
+          ))}
+          {mode === "home" && (
+            <a href="#contato" onClick={() => setOpen(false)}>
+              Vamos conversar
+              <ArrowUpRight size={20} />
+            </a>
+          )}
         </nav>
-
-        <a
-          href="mailto:brugala@gmail.com?subject=Contato%20via%20portf%C3%B3lio"
-          className="group inline-flex min-h-[44px] items-center gap-2 rounded-md bg-[var(--coral)] px-5 py-3 text-sm font-medium text-[var(--graphite)] shadow-[var(--shadow-glow-coral)] transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-        >
-          Conversar
-          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-        </a>
-      </div>
-    </header>
+        <motion.div
+          aria-hidden="true"
+          className="reading-progress"
+          style={{ scaleX: staticMotion ? 0 : scrollYProgress }}
+        />
+      </header>
+    </>
   );
 }
-
 export default SiteNav;

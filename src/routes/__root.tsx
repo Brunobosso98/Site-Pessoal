@@ -10,6 +10,7 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { MotionExperience } from "@/components/MotionExperience";
 
 function NotFoundComponent() {
   return (
@@ -132,7 +133,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <MotionExperience>
+        <Outlet />
+      </MotionExperience>
     </QueryClientProvider>
   );
 }

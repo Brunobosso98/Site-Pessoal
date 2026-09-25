@@ -6,8 +6,7 @@ export function SiteFooter() {
           © {new Date().getFullYear()} Bruno Martins · Full-stack & Automação
         </div>
         <div className="font-mono uppercase tracking-widest">
-          Construído em sala de controle ·{" "}
-          <span className="text-cyan">Itapira SP / Remoto</span>
+          <span className="text-cyan">Itapira, SP</span> · Projetos e times remotos
         </div>
       </div>
     </footer>

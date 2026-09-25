@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, MotionConfig, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import {
   ArrowUpRight,
   Bot,
-  Boxes,
   Cpu,
   Database,
   Github,
@@ -19,6 +18,10 @@ import { HeroScene } from "@/components/HeroScene";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SectionHeader } from "@/components/SectionHeader";
+import { KineticTitle, MagneticLink } from "@/components/MotionExperience";
+import { useMotionExperience } from "@/hooks/use-motion-experience";
+import { ProjectArtwork } from "@/components/ProjectArtwork";
+import { featuredProjects } from "@/lib/portfolio";
 import portrait from "@/assets/bruno-portrait.jpg";
 
 export const Route = createFileRoute("/")({
@@ -42,87 +45,36 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const projects = [
-  {
-    tag: "AI · FISCAL",
-    title: "Inttax Fiscal — auditoria com ML",
-    summary:
-      "Plataforma que audita XMLs, SPEDs e cruzamentos entre documentos fiscais com matching de produtos por aprendizado de máquina. Reduziu 80% do tempo de revisão manual e eliminou 95% dos erros de classificação.",
-    metrics: [
-      { k: "−80%", v: "tempo de auditoria" },
-      { k: "99,7%", v: "precisão matching" },
-    ],
-    stack: ["Python", "Flask", "React", "PostgreSQL", "ML"],
-    icon: Bot,
-  },
-  {
-    tag: "AUTOMAÇÃO",
-    title: "Robô Paris — extratos bancários",
-    summary:
-      "Robô Selenium em modo headless que puxa extratos de múltiplos bancos e empresas via portal SS Parisi. Substituiu 14 horas/semana de coleta manual por um job noturno com relatório de exceções em PDF.",
-    metrics: [
-      { k: "14h/sem", v: "recuperadas" },
-      { k: "0", v: "divergências/mês" },
-    ],
-    stack: ["Python", "Selenium", "Pandas", "WebDriver"],
-    icon: Workflow,
-  },
-  {
-    tag: "FULL-STACK",
-    title: "Game Day Nexus — multi-tenant",
-    summary:
-      "Plataforma SaaS para gestão de clubes de futebol com Row Level Security no Supabase, RBAC por departamento e isolamento total por tenant. Operação multi-clube em produção ao vivo.",
-    metrics: [
-      { k: "99,95%", v: "uptime (12 meses)" },
-      { k: "RLS", v: "isolamento por tenant" },
-    ],
-    stack: ["React", "TypeScript", "Supabase", "PostgreSQL", "RLS"],
-    icon: Boxes,
-  },
-  {
-    tag: "INTEGRAÇÃO",
-    title: "SaaS-SIEG — XMLs fiscais multi-CNPJ",
-    summary:
-      "Sistema de download e gerenciamento automatizado de documentos fiscais eletrônicos (NFe, NFCe, CTe, MDFe, NFSe) para escritórios contábeis. Multi-CNPJ, agendamento automático, retry exponencial e auditoria.",
-    metrics: [
-      { k: "−85%", v: "tempo de recuperação" },
-      { k: "5 tipos", v: "NFe · NFCe · CTe · MDFe" },
-    ],
-    stack: ["React", "Node.js", "Express", "PostgreSQL"],
-    icon: Network,
-  },
-];
-
 const capabilities = [
   {
     icon: Cpu,
     title: "Sistemas full-stack",
-    body: "Apps web sólidos do schema ao deploy, com performance, observabilidade e código que outro dev consegue ler.",
+    body: "Produtos web do modelo de dados à experiência final. Arquitetura, interface, APIs e entrega em produção.",
   },
   {
     icon: Workflow,
     title: "Automação operacional",
-    body: "Python + Selenium + PyAutoGUI em modo headless. Roda em servidor, sem intervenção, com logs, retries e relatório de exceções.",
+    body: "Rotinas que deixam de depender de cliques: coleta, processamento e entrega, com logs, retentativas e revisão de exceções.",
   },
   {
     icon: Network,
     title: "Integrações & APIs",
-    body: "CRMs, gateways, ERPs e ferramentas internas conversando por eventos — com retries, dead-letter e auditoria.",
+    body: "ERPs, APIs e ferramentas internas conectados com validação, retentativas e rastreabilidade de ponta a ponta.",
   },
   {
     icon: Bot,
     title: "Assistentes com IA",
-    body: "Agentes que consultam dados internos e executam ações reais — não chatbots decorativos.",
+    body: "Assistentes conectados a ferramentas e fontes autorizadas. RAG, evidências, escopo de acesso e limites de custo fazem parte da arquitetura.",
   },
   {
     icon: Database,
     title: "Fiscal & contábil",
-    body: "XML, SPED, NFe, NFCe, CTe, MDFe, NFSe. Conciliação, fechamento mensal, regras tributárias, integração com ERP. É onde a maioria erra por não entender o domínio.",
+    body: "Ingestão XML e SPED, cruzamento de documentos e análises fiscais. Conhecimento de domínio para traduzir regras complexas em software utilizável.",
   },
   {
     icon: Zap,
-    title: "Entrega comercial",
-    body: "Foco em prazo, escopo claro e métrica de resultado: tempo poupado, risco reduzido, sistema entregue.",
+    title: "Engenharia orientada ao negócio",
+    body: "Escopo claro, entregas frequentes e resultados que a operação consegue reconhecer: tempo recuperado, informações confiáveis e novos serviços.",
   },
 ];
 
@@ -143,126 +95,81 @@ const stack = [
 
 function Index() {
   return (
-    <MotionConfig reducedMotion="user">
-      <main className="min-h-dvh bg-background text-foreground">
+    <>
+      <main id="conteudo" className="min-h-dvh bg-background text-foreground">
         <SiteNav mode="home" />
         <Hero />
         <Marquee />
+        <Projects />
         <About />
         <Capabilities />
-        <Projects />
         <Process />
         <Contact />
         <SiteFooter />
       </main>
-    </MotionConfig>
+    </>
   );
 }
 
 function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { staticMotion } = useMotionExperience();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 12]);
   return (
-    <section id="top" className="relative overflow-hidden pt-32 pb-24 noise">
-      <div className="absolute inset-0 grid-bg [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
-      <div className="absolute -left-40 top-20 h-[500px] w-[500px] rounded-full bg-[var(--cyan)]/10 blur-[120px]" />
-      <div className="absolute -right-40 top-40 h-[400px] w-[400px] rounded-full bg-[var(--lime)]/8 blur-[120px]" />
-
-      <div className="relative mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-[1.05fr_1fr] lg:items-center">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-steel/60 px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground"
-          >
-            <span className="h-1.5 w-1.5 animate-[pulse-dot_1.6s_ease-in-out_infinite] rounded-full bg-[var(--lime)]" />
-            Disponível · Q2 2026
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-            className="mt-6 font-display text-5xl font-semibold leading-[1.02] tracking-tight md:text-6xl lg:text-7xl"
-          >
-            Sistemas, integrações
-            <br />e <span className="font-serif-display text-cyan text-glow-cyan">automações</span> que
-            <br />
-            <span className="relative inline-block">
-              entregam resultado.
-              <span className="absolute -bottom-2 left-0 h-[3px] w-full bg-[var(--lime)]" />
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground"
-          >
-            Sou Bruno Martins, desenvolvedor full-stack e especialista em automação.
-            Construo software que reduz trabalho manual, conecta sistemas e coloca IA
-            para fazer coisa útil — não slide bonito.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-wrap items-center gap-3"
-          >
-            <a
-              href="#projetos"
-              className="inline-flex items-center gap-2 rounded-md bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]"
-            >
-              Ver projetos
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
-            <a
-              href="#contato"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-steel/60 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-[var(--cyan)] hover:text-cyan"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Conversar sobre um projeto
-            </a>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-10 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-muted-foreground"
-          >
-            <span className="font-display text-base text-foreground">Seis anos</span>
-            <span aria-hidden="true">·</span>
-            <span>8 sistemas em produção</span>
-            <span aria-hidden="true">·</span>
-            <span>1000h+ automatizadas</span>
-          </motion.p>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-[var(--slate-deep)]/80 p-4 shadow-[var(--shadow-card)]">
-            <div className="relative z-10 flex items-center justify-between border-b border-border/60 px-2 pb-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-              <span className="flex items-center gap-2">
-                <span className="h-2 w-2 animate-[pulse-dot_1.6s_ease-in-out_infinite] rounded-full bg-[var(--lime)]" />
-                entrega.live
-              </span>
-              <span>4 estágios · briefing → operação</span>
-            </div>
-            <div className="relative aspect-[16/11]">
-              <HeroScene />
-            </div>
-            <div className="relative z-10 flex items-center justify-between border-t border-border/60 px-2 pt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <span className="text-cyan">in · briefing</span>
-              <span className="text-coral">out · operação</span>
-            </div>
+    <section id="top" ref={ref} className="portfolio-hero">
+      <div className="hero-wash" aria-hidden="true" />
+      <div className="hero-layout">
+        <div className="hero-copy">
+          <div className="hero-intro">
+            <span className="signal-dot" /> Bruno Martins{" "}
+            <span className="hero-role">Full-stack & automação</span>
           </div>
+          <KineticTitle>
+            <span className="title-line">
+              <span>Complexidade,</span>
+            </span>
+            <span className="title-line">
+              <span>transformada</span>
+            </span>
+            <span className="title-line">
+              <span>
+                em <em>resultado.</em>
+              </span>
+            </span>
+          </KineticTitle>
+          <p className="hero-description">
+            Conecto sistemas, automatizo operações e construo produtos com IA. Da primeira conversa
+            ao software em produção.
+          </p>
+          <div className="hero-actions">
+            <MagneticLink href="#projetos" className="button-primary">
+              Explorar projetos <ArrowUpRight size={18} />
+            </MagneticLink>
+            <MagneticLink
+              href="https://www.linkedin.com/in/bruno-bosso-martins-9a1723270/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-text"
+            >
+              Meu LinkedIn <ArrowUpRight size={16} />
+            </MagneticLink>
+          </div>
+          <p className="hero-availability">
+            <span /> Aberto a projetos e oportunidades profissionais
+          </p>
+        </div>
+        <motion.div className="hero-object" style={staticMotion ? undefined : { y, rotate }}>
+          <HeroScene />
         </motion.div>
+      </div>
+      <div className="hero-baseline">
+        <span>6+ anos construindo soluções reais</span>
+        <span>Full-stack · Automação · IA aplicada</span>
+        <a href="#projetos">
+          Conheça meu trabalho <span aria-hidden="true">↓</span>
+        </a>
       </div>
     </section>
   );
@@ -271,7 +178,10 @@ function Hero() {
 function Marquee() {
   const items = [...stack, ...stack];
   return (
-    <div aria-hidden="true" className="relative border-y border-border bg-[var(--slate-deep)]/60 py-5">
+    <div
+      aria-hidden="true"
+      className="relative border-y border-border bg-[var(--slate-deep)]/60 py-5"
+    >
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
       <div className="flex overflow-hidden">
@@ -296,75 +206,29 @@ function Marquee() {
 
 function Capabilities() {
   return (
-    <section id="capacidades" className="mx-auto max-w-7xl px-6 py-28">
-      <SectionHeader
-        eyebrow="Capacidades"
-        title={
-          <>
-            O que entrego, <span className="font-serif-display text-cyan text-glow-cyan">na prática.</span>
-          </>
-        }
-        desc="Cada bloco abaixo é trabalho que já está rodando em produção em algum lugar. Sem genérico."
-      />
-      <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
-        {capabilities.map((c, i) => {
-          const isLead = i === 0;
-          const isClosing = i === capabilities.length - 1;
-          const span = isLead
-            ? "md:col-span-2 lg:col-span-2"
-            : isClosing
-            ? "md:col-span-2 lg:col-span-3"
-            : "";
-
-          if (isClosing) {
-            return (
-              <motion.div
-                key={c.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="group relative col-span-full flex flex-col gap-3 bg-steel p-8 transition-colors hover:bg-[var(--slate-deep)] md:col-span-2 lg:col-span-3"
-              >
-                <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-lime">
-                  <span className="h-px w-6 bg-[var(--lime)]" />
-                  promessa de entrega
-                </div>
-                <h3 className="font-display text-2xl font-semibold leading-tight">
-                  {c.title}
-                </h3>
-                <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-                  {c.body}
-                </p>
-                <div className="mt-1 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-foreground">
-                  <span>resultado mensurável</span>
-                  <span className="text-lime">→</span>
-                </div>
-              </motion.div>
-            );
-          }
-
-          return (
-            <motion.div
-              key={c.title}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className={`group relative bg-card p-8 transition-colors hover:bg-steel ${span}`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="grid h-10 w-10 place-items-center rounded-md border border-border bg-[var(--slate-deep)] text-cyan transition-colors group-hover:border-[var(--cyan)]">
-                  <c.icon className="h-5 w-5" />
-                </span>
-                <h3 className="font-display text-lg font-semibold">{c.title}</h3>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {c.body}
-              </p>
-            </motion.div>
-          );
-        })}
+    <section id="capacidades" className="expertise-section">
+      <div className="expertise-intro">
+        <p className="section-caption">Como posso contribuir</p>
+        <h2>
+          Visão de produto.
+          <br />
+          <span className="text-cyan">Profundidade técnica.</span>
+        </h2>
+        <p>
+          Do banco de dados à experiência de quem usa. Construção de ponta a ponta, com atenção ao
+          que a operação precisa.
+        </p>
+      </div>
+      <div className="expertise-list">
+        {capabilities.map((capability) => (
+          <div className="expertise-row" key={capability.title}>
+            <capability.icon size={22} />
+            <div>
+              <h3>{capability.title}</h3>
+              <p>{capability.body}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -372,80 +236,64 @@ function Capabilities() {
 
 function Projects() {
   return (
-    <section id="projetos" className="relative border-y border-border bg-[var(--slate-deep)]/40 py-28">
-      <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader
-          eyebrow="Projetos · Selecionados"
-          title={
-            <>
-              Provas, não <span className="font-serif-display text-lime text-glow-lime">promessas.</span>
-            </>
-          }
-        />
-
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
-          {projects.map((p, i) => (
-            <motion.article
-              key={p.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.55, delay: i * 0.06 }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-[var(--shadow-card)] transition-all hover:border-[var(--cyan)]/40 hover:shadow-[var(--shadow-glow-cyan)]"
-            >
-              <div className="absolute right-6 top-6 opacity-30 transition-opacity group-hover:opacity-100">
-                <p.icon className="h-10 w-10 text-cyan" />
-              </div>
-
-              <div className="font-mono text-[11px] uppercase tracking-widest text-cyan">{p.tag}</div>
-              <h3 className="mt-3 max-w-md font-display text-2xl font-semibold leading-tight">
-                {p.title}
+    <section id="projetos" className="selected-work">
+      <div className="work-heading">
+        <div>
+          <p className="section-caption">Trabalho selecionado</p>
+          <h2>
+            Problemas reais.
+            <br />
+            <span className="text-cyan">Software à altura.</span>
+          </h2>
+        </div>
+        <p>
+          Sistemas em operação. Processos que ganharam escala. Produtos que abrem novas frentes de
+          negócio.
+        </p>
+      </div>
+      <div className="project-stories">
+        {featuredProjects.map((project) => (
+          <article key={project.title} className="project-story">
+            <div className="project-visual-link">
+              <ProjectArtwork kind={project.kind} />
+            </div>
+            <div className="project-story-copy">
+              <span className="project-category">{project.tag}</span>
+              <h3>
+                <Link to="/projetos" hash={"projeto-" + project.slug}>
+                  {project.title}
+                </Link>
               </h3>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                {p.summary}
-              </p>
-
-              <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border pt-5">
-                {p.metrics.map((m) => (
-                  <div key={m.v}>
-                    <div className="font-display text-2xl font-semibold text-lime">{m.k}</div>
-                    <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                      {m.v}
-                    </div>
+              <p className="project-headline">{project.headline}</p>
+              <p>{project.summary}</p>
+              <dl className="project-results">
+                {project.metrics.map((metric) => (
+                  <div key={metric.v}>
+                    <dt>{metric.k}</dt>
+                    <dd>{metric.v}</dd>
                   </div>
                 ))}
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-1.5">
-                {p.stack.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded border border-border bg-[var(--slate-deep)] px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 flex justify-center"
-        >
-          <Link
-            to="/projetos"
-            className="group inline-flex items-center gap-2 rounded-md border border-border bg-steel/60 px-6 py-3.5 text-sm font-medium text-foreground transition-colors hover:border-[var(--cyan)] hover:text-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          >
-            Ver todos os projetos · dossiê completo
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
-        </motion.div>
+              </dl>
+              <p className="project-contribution">
+                <span>Minha atuação</span>
+                {project.contribution}
+              </p>
+              <div className="project-technologies">{project.stack.join(" / ")}</div>
+              <Link
+                className="case-link"
+                to="/projetos"
+                hash={"projeto-" + project.slug}
+                aria-label={"Explorar estudo de caso: " + project.title}
+              >
+                Explorar o case <ArrowUpRight size={17} />
+              </Link>
+            </div>
+          </article>
+        ))}
       </div>
+      <Link to="/projetos" className="all-projects-link">
+        Todos os projetos e decisões de arquitetura <ArrowUpRight size={20} />
+      </Link>
     </section>
   );
 }
@@ -460,7 +308,7 @@ function Process() {
     {
       n: "02",
       title: "Proposta enxuta",
-      body: "Escopo, prazo e métrica de resultado em uma página. Sem proposta de 30 slides.",
+      body: "Escopo, prioridades e critérios de sucesso alinhados antes da implementação.",
     },
     {
       n: "03",
@@ -484,11 +332,11 @@ function Process() {
           </>
         }
       />
-      <ol className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+      <ol className="process-steps mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (
           <motion.li
             key={s.n}
-            initial={{ opacity: 0, y: 10 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.07 }}
@@ -506,21 +354,24 @@ function Process() {
 
 function Contact() {
   return (
-    <section id="contato" className="relative overflow-hidden border-t border-border bg-[var(--slate-deep)] py-28 noise">
+    <section
+      id="contato"
+      className="relative overflow-hidden border-t border-border bg-[var(--slate-deep)] py-28 noise"
+    >
       <div className="absolute inset-0 grid-bg opacity-50 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
       <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--coral)]/10 blur-[120px]" />
 
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-coral">
           <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral)]" />
-          Contato é onde a conversa começa
+          Projetos, parcerias e novas oportunidades
         </div>
         <h2 className="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-          Tem um processo travado ou um sistema para
-          <span className="font-serif-display text-coral"> construir</span>?
+          Vamos construir <span className="font-serif-display text-coral">o próximo passo</span>?
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Resposta em até 24h, em português direto. Sem proposta enrolada, sem reunião só para marcar reunião.
+          Tem um projeto em mente ou uma oportunidade no seu time? Me conte o que você está
+          construindo. Respondo em até 24h.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -571,6 +422,7 @@ function Contact() {
 }
 
 function About() {
+  const { staticMotion } = useMotionExperience();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -599,25 +451,25 @@ function About() {
       <div className="relative mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         {/* Portrait */}
         <motion.div
-          initial={{ opacity: 0, x: -24 }}
+          initial={false}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-md"
         >
           <motion.div
-            style={{ y: tagY }}
+            style={staticMotion ? undefined : { y: tagY }}
             className="absolute -left-4 -top-4 z-20 rounded-md border border-border bg-[var(--slate-deep)]/90 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-cyan"
           >
             <span className="mr-2 inline-block h-1.5 w-1.5 animate-[pulse-dot_1.6s_ease-in-out_infinite] rounded-full bg-[var(--lime)]" />
-            online · operando
+            Bruno Martins · Itapira, SP
           </motion.div>
 
           <motion.div
-            style={{ y: tagY }}
+            style={staticMotion ? undefined : { y: tagY }}
             className="absolute -right-3 bottom-10 z-20 max-w-[180px] rounded-md border border-border bg-[var(--slate-deep)]/90 p-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground shadow-[var(--shadow-card)]"
           >
-            <div className="text-coral">latency</div>
+            <div className="text-coral">Vamos conversar</div>
             <div className="mt-1 font-display text-base text-foreground normal-case tracking-tight">
               &lt; 24h resposta
             </div>
@@ -632,12 +484,12 @@ function About() {
               width={1024}
               height={1024}
               loading="lazy"
-              style={{ y: imgY, scale: imgScale }}
+              style={staticMotion ? undefined : { y: imgY, scale: imgScale }}
               className="h-full w-full object-cover grayscale-[15%]"
             />
             <div className="absolute bottom-3 left-3 right-3 z-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <span>bruno_martins.jpg</span>
-              <span className="text-lime">● rec</span>
+              <span>Engenharia com visão de negócio</span>
+              <span className="text-lime">Brasil / remoto</span>
             </div>
           </div>
         </motion.div>
@@ -645,7 +497,7 @@ function About() {
         {/* Copy */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
@@ -656,45 +508,40 @@ function About() {
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, delay: 0.05 }}
             className="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl"
           >
             Engenheiro de{" "}
-            <span className="font-serif-display text-cyan text-glow-cyan">
-              software
-            </span>{" "}
-            com cabeça de{" "}
-            <span className="text-lime">operação.</span>
+            <span className="font-serif-display text-cyan text-glow-cyan">software</span> com cabeça
+            de <span className="text-lime">operação.</span>
           </motion.h2>
 
           <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted-foreground">
             {[
               <>
-                Há mais de <span className="text-foreground">seis anos</span> construindo
-                sistemas para empresas que precisam{" "}
-                <span className="font-serif-display text-foreground">parar de remendar planilha</span>{" "}
-                em rotinas fiscais, contábeis, financeiras e operacionais — e começar a
-                operar com software de verdade.
+                Há mais de <span className="text-foreground">seis anos</span> construindo sistemas
+                para rotinas fiscais, contábeis e financeiras. Transformo processos complexos em
+                produtos que as pessoas conseguem usar, entender e incorporar ao trabalho.
               </>,
               <>
                 Minha especialidade é a interseção entre{" "}
-                <span className="text-cyan">full-stack, automação e IA aplicada</span>: auditei
-                XMLs com ML, fiz robô Selenium rodar em servidor, integrei WhatsApp com Gemini
-                e construí um ERP multi-tenant com RLS no Supabase.
+                <span className="text-cyan">full-stack, automação e IA aplicada</span>: da ingestão
+                de documentos e auditoria com ML ao Argos, um assistente que explica análises
+                fiscais com evidências e fontes.
               </>,
               <>
                 Trabalho{" "}
                 <span className="font-serif-display text-foreground">direto com quem decide.</span>{" "}
-                Sem camadas de gerência, sem proposta enrolada, sem demo bonito que não vira
-                produção.
+                Colaboro com times e lideranças para transformar necessidades de negócio em software
+                confiável, documentado e pronto para evoluir.
               </>,
             ].map((p, i) => (
               <motion.p
                 key={i}
-                initial={{ opacity: 0, y: 14 }}
+                initial={false}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
@@ -705,7 +552,7 @@ function About() {
           </div>
 
           <motion.dl
-            initial={{ opacity: 0 }}
+            initial={false}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: 0.35 }}
@@ -713,9 +560,7 @@ function About() {
           >
             {facts.map((f) => (
               <div key={f.v} className="bg-card p-4">
-                <dt className="font-display text-base font-semibold text-foreground">
-                  {f.k}
-                </dt>
+                <dt className="font-display text-base font-semibold text-foreground">{f.k}</dt>
                 <dd className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                   {f.v}
                 </dd>

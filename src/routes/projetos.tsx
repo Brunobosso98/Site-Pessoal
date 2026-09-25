@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, MotionConfig } from "motion/react";
+import { motion } from "motion/react";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ProjectArtwork, type ProjectKind } from "@/components/ProjectArtwork";
 import { SectionHeader } from "@/components/SectionHeader";
 
 export const Route = createFileRoute("/projetos")({
@@ -23,13 +24,13 @@ export const Route = createFileRoute("/projetos")({
       {
         name: "description",
         content:
-          "4 case studies completos: Inttax Fiscal (auditoria com ML), Robô Paris (extratos bancários), Game Day Nexus (multi-tenant) e SaaS-SIEG (XMLs fiscais). Métricas, decisões e stack de cada um.",
+          "Auditoria fiscal, Reforma Tributária com Argos, automação financeira e plataformas multi-tenant. Conheça os problemas, a engenharia e os resultados de cada projeto.",
       },
       { property: "og:title", content: "Projetos — Bruno Martins" },
       {
         property: "og:description",
         content:
-          "Case studies de sistemas em produção: auditoria fiscal com ML, automação bancária, SaaS multi-tenant e hub de XMLs. Métrica, decisão e stack por projeto.",
+          "Software em operação: auditoria e Reforma Tributária no ecossistema INTTAX, IA com evidências, automação financeira e gestão multi-tenant.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -54,12 +55,7 @@ type Project = {
   metrics: Metric[];
   stack: string[];
   decision: Decision;
-  /** mini diagram kind — drives the right-column visual */
-  visual:
-    | { kind: "flow"; from: string[]; core: string[]; to: string[] }
-    | { kind: "stack-rows" }
-    | { kind: "tenants-grid" }
-    | { kind: "timeline" };
+  visual: ProjectKind | "stack-rows";
 };
 
 const projects: Project[] = [
@@ -72,7 +68,7 @@ const projects: Project[] = [
     client: "Operação fiscal contábil · B2B",
     tag: "AI · FISCAL",
     icon: Bot,
-    title: "Inttax Fiscal — auditoria com ML",
+    title: "INTTAX Fiscal — auditoria com ML",
     problem:
       "Departamento fiscal auditando manualmente XMLs, SPEDs e cruzamentos entre documentos — alto volume, erros de classificação recorrentes, créditos tributários deixados na mesa.",
     approach: [
@@ -90,16 +86,41 @@ const projects: Project[] = [
       label: "Decisão · ML sobre regras hard-coded",
       body: "Regras fixas travam em exceção nova toda semana. Modelo aprende com correções, vira mais preciso que a regra — e a equipe para de revisar o que o sistema já resolveu.",
     },
-    visual: {
-      kind: "flow",
-      from: ["XML · NFe", "SPED · ECD", "Notas manuais"],
-      core: ["ML matching", "Postgres + Redis", "Chatbot fiscal"],
-      to: ["Crédito identificado", "Alerta de inconsistência", "Dashboard fiscal"],
+    visual: "audit",
+  },
+  {
+    slug: "inttax-reforma",
+    number: "02",
+    year: "2026 → presente",
+    role: "full-stack · domínio fiscal · IA aplicada",
+    status: "produção",
+    client: "Escritórios contábeis e tributários · consultoria B2B",
+    tag: "SOFTWARE + CONSULTORIA",
+    icon: Bot,
+    title: "INTTAX Reforma Tributária — análise que vira consultoria",
+    problem:
+      "Para orientar clientes durante a transição tributária, escritórios precisam reunir documentos, comparar cenários e explicar efeitos em custo, crédito, margem e preço. Informações dispersas e cálculos sem rastreabilidade limitam a capacidade de transformar esse trabalho em um serviço de consultoria recorrente.",
+    approach: [
+      "Uma plataforma integrada ao Portal INTTAX importa NF-e, NFC-e, NFS-e, CT-e e SPED, normaliza e cruza documentos e constrói uma base fiscal por empresa. Um worker processa importações demoradas sem bloquear a experiência de uso, com isolamento por escritório e permissões por empresa.",
+      "Sobre essa base, o motor fiscal calcula cenários de IBS/CBS, diagnósticos, DRE fiscal e comparativos do Simples Nacional. Clientes, fornecedores, produtos e serviços entram nas análises de custo, crédito, margem e preço. Relatórios versionados e memórias de cálculo sustentam a consultoria prestada pelo escritório.",
+      "O Argos conecta linguagem natural a ferramentas de leitura autorizadas. Primeiro obtém evidências do motor fiscal; depois recupera metodologia em um corpus versionado com busca híbrida. A explicação cita fontes e respeita cenário, regra e versão. Valores e fórmulas vêm do servidor, com limites de escopo, custo e acesso.",
+    ],
+    metrics: [
+      { k: "IBS / CBS", v: "simulações de impacto", trend: "flat" },
+      { k: "SWAS", v: "software como base da consultoria", trend: "flat" },
+      { k: "Argos", v: "análise assistida com fontes", trend: "flat" },
+      { k: "Por item", v: "memória e evidência de cálculo", trend: "flat" },
+    ],
+    stack: ["React", "TypeScript", "Fastify", "Drizzle", "PostgreSQL", "RAG híbrido", "Docker"],
+    decision: {
+      label: "Decisão de arquitetura · cálculo separado da explicação",
+      body: "O motor fiscal calcula; o Argos explica com base em evidências e metodologia versionada. O modelo não inventa valores nem decide o regime tributário. O escritório mantém o julgamento profissional, com uma trilha verificável por trás de cada análise.",
     },
+    visual: "reform",
   },
   {
     slug: "robo-paris",
-    number: "02",
+    number: "03",
     year: "2024",
     role: "automação · dados",
     status: "ativo",
@@ -124,11 +145,11 @@ const projects: Project[] = [
       label: "Trade-off · headless sobre UI local",
       body: "Rodar com navegador visível exige alguém olhando. Headless + servidor + relatório de exceções = o job roda à noite e o financeiro só olha o que falhou.",
     },
-    visual: { kind: "timeline" },
+    visual: "banking",
   },
   {
     slug: "game-day-nexus",
-    number: "03",
+    number: "04",
     year: "2023 → presente",
     role: "full-stack · produto",
     status: "ativo",
@@ -153,11 +174,11 @@ const projects: Project[] = [
       label: "Decisão · RLS sobre lógica de aplicação",
       body: "Segurança no banco, não no app. Se um dev esquecer um filtro, o RLS ainda barra — proteção por design, não por convenção.",
     },
-    visual: { kind: "tenants-grid" },
+    visual: "nexus",
   },
   {
     slug: "saas-sieg",
-    number: "04",
+    number: "05",
     year: "2024",
     role: "full-stack · integrações",
     status: "produção",
@@ -180,25 +201,25 @@ const projects: Project[] = [
     stack: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "Sequelize"],
     decision: {
       label: "Trade-off · polling + retry sobre webhook",
-      body: "SIEG não expõe webhook. Em vez de simular um, faço polling com backoff exponencial e dead-letter — previsível, auditável, sem gambiarra de proxy reverso.",
+      body: "A integração usa consultas periódicas com retentativas e fila de exceção. O desenho prioriza previsibilidade, rastreabilidade e recuperação de falhas.",
     },
-    visual: { kind: "stack-rows" },
+    visual: "stack-rows",
   },
 ];
 
 const totals = [
-  { k: "8", v: "sistemas em produção" },
+  { k: "9", v: "projetos no portfólio" },
   { k: "1000h+", v: "automatizadas" },
-  { k: "4", v: "case studies em destaque" },
+  { k: "5", v: "estudos de caso em destaque" },
   { k: "PT/EN", v: "atendimento e código" },
 ];
 
 const stackAggregate = [
-  { group: "Linguagem & runtime", items: ["TypeScript", "Node.js", "Python", "Flask"] },
+  { group: "Linguagem & runtime", items: ["TypeScript", "Node.js", "Python"] },
   { group: "Frontend", items: ["React", "TanStack Router", "TailwindCSS"] },
-  { group: "Backend & dados", items: ["PostgreSQL", "Supabase", "Redis", "Celery"] },
+  { group: "Backend & dados", items: ["PostgreSQL", "Fastify", "Drizzle", "Supabase", "Redis"] },
   { group: "Infra & edge", items: ["Cloudflare Workers", "Docker", "OpenTelemetry"] },
-  { group: "IA & automação", items: ["OpenAI", "Gemini", "Selenium", "PyAutoGUI", "Webhooks"] },
+  { group: "IA & automação", items: ["RAG híbrido", "OpenAI", "Gemini", "Selenium", "PyAutoGUI"] },
 ];
 
 type MoreProject = {
@@ -241,8 +262,8 @@ const moreProjects: MoreProject[] = [
 
 function Projetos() {
   return (
-    <MotionConfig reducedMotion="user">
-      <main className="min-h-dvh bg-background text-foreground">
+    <>
+      <main id="conteudo" className="case-page min-h-dvh bg-background text-foreground">
         <SiteNav mode="projetos" />
         <PageHero />
         <CaseStudies />
@@ -251,7 +272,7 @@ function Projetos() {
         <Contact />
         <SiteFooter />
       </main>
-    </MotionConfig>
+    </>
   );
 }
 
@@ -264,40 +285,38 @@ function PageHero() {
 
       <div className="relative mx-auto max-w-7xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-cyan"
         >
           <span className="h-px w-8 bg-[var(--cyan)]" />
-          case_studies/01–04 · selected_work
+          Portfólio de engenharia
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 14 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
           className="mt-6 max-w-4xl text-[clamp(2.25rem,5.5vw,4.5rem)] font-display font-semibold leading-[1.02] tracking-tight text-balance"
         >
-          Cada projeto abaixo é um{" "}
-          <span className="font-serif-display text-cyan text-glow-cyan">sistema em produção</span>
-          ,<br />
-          não um mock nem um pitch deck.
+          Engenharia aplicada.
+          <br />
+          <span className="font-serif-display text-cyan">Impacto em operação.</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground"
         >
-          4 case studies que resumem o que eu construo: IA aplicada, automação de processo,
-          full-stack com escala e integrações com prazo curto. Cada um com problema real,
-          abordagem, métrica e a decisão não-óbvia que fez o sistema funcionar.
+          Conheça o contexto, a solução construída e as decisões por trás de cada entrega. Da
+          automação operacional à inteligência fiscal aplicada ao negócio.
         </motion.p>
 
         <motion.dl
-          initial={{ opacity: 0, y: 10 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4"
@@ -313,16 +332,16 @@ function PageHero() {
         </motion.dl>
 
         <motion.nav
-          initial={{ opacity: 0, y: 10 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-12"
           aria-label="Índice de case studies"
         >
           <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            // jump to
+            Explore os estudos de caso
           </div>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
             {projects.map((p) => (
               <li key={p.slug}>
                 <a
@@ -348,7 +367,7 @@ function PageHero() {
 
 function CaseStudies() {
   return (
-    <div className="border-b border-border">
+    <div id="cases" className="border-b border-border">
       {projects.map((p, i) => (
         <CaseStudy key={p.slug} project={p} index={i} />
       ))}
@@ -367,18 +386,18 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
         {/* LEFT — meta + text */}
         <div className={isOdd ? "lg:order-2" : ""}>
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-cyan"
           >
             <span className="h-px w-8 bg-[var(--cyan)]" />
-            case_studies/{project.number} · {project.tag}
+            {project.tag}
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5, delay: 0.05 }}
@@ -394,8 +413,8 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
                   project.status === "ativo"
                     ? "bg-[var(--lime)] animate-[pulse-dot_1.6s_ease-in-out_infinite]"
                     : project.status === "produção"
-                    ? "bg-[var(--cyan)]"
-                    : "bg-muted-foreground"
+                      ? "bg-[var(--cyan)]"
+                      : "bg-muted-foreground"
                 }`}
               />
               {project.status}
@@ -405,7 +424,7 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 14 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -415,7 +434,7 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
           </motion.h2>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, delay: 0.15 }}
@@ -424,13 +443,11 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
             <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               // o problema
             </div>
-            <p className="mt-3 text-lg leading-relaxed text-muted-foreground">
-              {project.problem}
-            </p>
+            <p className="mt-3 text-lg leading-relaxed text-muted-foreground">{project.problem}</p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, delay: 0.2 }}
@@ -448,7 +465,7 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
 
           {/* Stack tags */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={false}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.25 }}
@@ -480,7 +497,7 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
 function CaseMetrics({ project }: { project: Project }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: 0.1 }}
@@ -488,10 +505,10 @@ function CaseMetrics({ project }: { project: Project }) {
     >
       <div className="flex items-center justify-between">
         <div className="font-mono text-[10px] uppercase tracking-widest text-cyan">
-          // resultado · métrica batendo
+          Resultado e capacidades
         </div>
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          live
+          projeto
         </div>
       </div>
 
@@ -505,9 +522,7 @@ function CaseMetrics({ project }: { project: Project }) {
               {m.trend && m.trend !== "flat" && (
                 <span
                   aria-hidden="true"
-                  className={`font-mono text-xs ${
-                    m.trend === "up" ? "text-lime" : "text-coral"
-                  }`}
+                  className={`font-mono text-xs ${m.trend === "up" ? "text-lime" : "text-coral"}`}
                 >
                   {m.trend === "up" ? "↑" : "↓"}
                 </span>
@@ -524,150 +539,10 @@ function CaseMetrics({ project }: { project: Project }) {
 }
 
 function CaseVisual({ project }: { project: Project }) {
-  if (project.visual.kind === "flow") return <FlowVisual visual={project.visual} />;
-  if (project.visual.kind === "timeline") return <TimelineVisual />;
-  if (project.visual.kind === "tenants-grid") return <TenantsGridVisual />;
-  return <StackRowsVisual />;
-}
-
-function FlowVisual({
-  visual,
-}: {
-  visual: Extract<Project["visual"], { kind: "flow" }>;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay: 0.15 }}
-      className="rounded-2xl border border-border bg-[var(--slate-deep)] p-6 shadow-[var(--shadow-card)]"
-    >
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        <span>// fluxo de mensagens · por turno</span>
-        <span className="text-cyan">async</span>
-      </div>
-      <div className="mt-6 grid grid-cols-3 gap-3 text-center">
-        <div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-cyan">in</div>
-          <ul className="mt-3 space-y-2">
-            {visual.from.map((s) => (
-              <li
-                key={s}
-                className="rounded border border-border bg-card px-2 py-2 font-mono text-[10px] uppercase tracking-widest text-foreground/90"
-              >
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-lime">core</div>
-          <ul className="mt-3 space-y-2">
-            {visual.core.map((s) => (
-              <li
-                key={s}
-                className="rounded border border-[var(--lime)]/30 bg-steel px-2 py-2 font-mono text-[10px] uppercase tracking-widest text-lime"
-              >
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <div className="font-mono text-[10px] uppercase tracking-widest text-coral">out</div>
-          <ul className="mt-3 space-y-2">
-            {visual.to.map((s) => (
-              <li
-                key={s}
-                className="rounded border border-border bg-card px-2 py-2 font-mono text-[10px] uppercase tracking-widest text-foreground/90"
-              >
-                {s}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function TimelineVisual() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay: 0.15 }}
-      className="rounded-2xl border border-border bg-[var(--slate-deep)] p-6 shadow-[var(--shadow-card)]"
-    >
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        <span>// job diário · conciliação</span>
-        <span className="text-cyan">cron 02:00</span>
-      </div>
-      <ol className="mt-6 space-y-3">
-        {[
-          { t: "02:00", s: "open_banking.fetch", d: "extrato · últimos 24h" },
-          { t: "02:04", s: "erp.export", d: "lançamentos · janela do dia" },
-          { t: "02:08", s: "match.fuzzy", d: "descrição + valor + janela" },
-          { t: "02:11", s: "exceptions.review", d: "fila para humano (se houver)" },
-          { t: "02:14", s: "sheet.sync", d: "planilha de controle · auditoria" },
-        ].map((row, i) => (
-          <li
-            key={row.t}
-            className="grid grid-cols-[60px_1fr_auto] items-center gap-3 rounded border border-border bg-card px-3 py-2"
-          >
-            <span className="font-mono text-[10px] text-cyan">{row.t}</span>
-            <span className="font-mono text-[11px] uppercase tracking-widest text-foreground/90">
-              {row.s}
-            </span>
-            <span className="font-mono text-[10px] text-muted-foreground">{row.d}</span>
-            <span className="col-span-3 mt-1.5 h-px bg-border" aria-hidden="true" />
-          </li>
-        ))}
-      </ol>
-    </motion.div>
-  );
-}
-
-function TenantsGridVisual() {
-  const cells = Array.from({ length: 40 });
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay: 0.15 }}
-      className="rounded-2xl border border-border bg-[var(--slate-deep)] p-6 shadow-[var(--shadow-card)]"
-    >
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        <span>// tenants · isolamento por linha</span>
-        <span className="text-lime">40 ativos</span>
-      </div>
-      <div className="mt-5 grid grid-cols-10 gap-1">
-        {cells.map((_, i) => {
-          const active = i < 40;
-          return (
-            <div
-              key={i}
-              className={`aspect-square rounded-sm ${
-                active ? "bg-[var(--cyan)]/80" : "bg-border"
-              }`}
-              style={
-                active
-                  ? { opacity: 0.4 + (i % 5) * 0.12 }
-                  : undefined
-              }
-              aria-hidden="true"
-            />
-          );
-        })}
-      </div>
-      <div className="mt-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        <span>1 célula = 1 tenant</span>
-        <span className="text-cyan">RLS · tenant_id em toda query</span>
-      </div>
-    </motion.div>
+  return project.visual === "stack-rows" ? (
+    <StackRowsVisual />
+  ) : (
+    <ProjectArtwork kind={project.visual} />
   );
 }
 
@@ -681,7 +556,7 @@ function StackRowsVisual() {
   ];
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: 0.15 }}
@@ -720,7 +595,7 @@ function StackRowsVisual() {
 function CaseDecision({ project }: { project: Project }) {
   return (
     <motion.aside
-      initial={{ opacity: 0, y: 12 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: 0.2 }}
@@ -730,9 +605,7 @@ function CaseDecision({ project }: { project: Project }) {
       <div className="font-mono text-[10px] uppercase tracking-widest text-coral">
         {project.decision.label}
       </div>
-      <p className="mt-3 text-base leading-relaxed text-foreground/90">
-        {project.decision.body}
-      </p>
+      <p className="mt-3 text-base leading-relaxed text-foreground/90">{project.decision.body}</p>
     </motion.aside>
   );
 }
@@ -746,11 +619,11 @@ function Aggregate() {
           eyebrow="Cross-section"
           title={
             <>
-              O que esses 4 projetos têm em{" "}
+              O que esses projetos têm em{" "}
               <span className="font-serif-display text-cyan text-glow-cyan">comum.</span>
             </>
           }
-          desc="Stack se repete, padrões de decisão se repetem, e o modo de operar — diagnóstico curto, build em ciclos, métrica batendo — também."
+          desc="Contextos diferentes, princípios consistentes: arquitetura explícita, operação observável e decisões que consideram o negócio."
         />
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
@@ -778,29 +651,24 @@ function Aggregate() {
             {
               k: "01",
               t: "Observabilidade desde o dia 1",
-              b: "Todo sistema entra com logs estruturados, traces e métrica de negócio — não só de infra. Se não dá pra medir, não está pronto.",
+              b: "Logs e indicadores ajudam a entender a saúde do sistema e seu efeito na operação. A observabilidade acompanha o produto desde o início.",
             },
             {
               k: "02",
-              t: "Decisões registradas, não confiadas",
+              t: "Decisões que ficam documentadas",
               b: "Por que essa stack, por que essa fila, por que esse tradeoff: tudo documentado antes de subir. O próximo dev (ou eu daqui a 6 meses) agradece.",
             },
             {
               k: "03",
-              t: "Falha visível, não falha silenciosa",
-              b: "Dead-letter queue, alerta de divergência, retry exponencial. Quando algo quebra, alguém sabe em minutos — não em semanas.",
+              t: "Falhas com caminho de recuperação",
+              b: "Retentativas, filas de exceção e alertas tornam falhas visíveis e recuperáveis, com contexto para quem vai resolver.",
             },
           ].map((p) => (
-            <div
-              key={p.k}
-              className="rounded-2xl border border-border bg-card p-6"
-            >
+            <div key={p.k} className="rounded-2xl border border-border bg-card p-6">
               <div className="font-mono text-[10px] uppercase tracking-widest text-cyan">
                 padrão · {p.k}
               </div>
-              <h3 className="mt-3 font-display text-lg font-semibold leading-tight">
-                {p.t}
-              </h3>
+              <h3 className="mt-3 font-display text-lg font-semibold leading-tight">{p.t}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.b}</p>
             </div>
           ))}
@@ -822,7 +690,7 @@ function MoreProjects() {
               <span className="font-serif-display text-cyan text-glow-cyan">produção.</span>
             </>
           }
-          desc="4 entregas a mais, fora os 4 case studies expandidos acima. Mesmo padrão: problema real, métrica batendo, decisão documentada."
+          desc="Outras soluções para operações contábeis, financeiras e comerciais."
         />
 
         <ul className="mt-12 grid gap-4 md:grid-cols-2">
@@ -839,12 +707,8 @@ function MoreProjects() {
                   produção
                 </div>
               </div>
-              <h3 className="mt-3 font-display text-xl font-semibold leading-tight">
-                {p.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {p.blurb}
-              </p>
+              <h3 className="mt-3 font-display text-xl font-semibold leading-tight">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.blurb}</p>
               <div className="mt-5 flex flex-wrap gap-1.5">
                 {p.stack.map((s) => (
                   <span
@@ -875,14 +739,15 @@ function Contact() {
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-coral">
           <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral)]" />
-          Próximo case study pode ser o seu
+          Vamos conversar sobre o próximo desafio
         </div>
         <h2 className="mt-6 font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-          Tem um processo travado ou um sistema para{" "}
-          <span className="font-serif-display text-coral">construir</span>?
+          Um produto para construir ou um time para{" "}
+          <span className="font-serif-display text-coral">fortalecer</span>?
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Resposta em até 24h, em português direto. Sem proposta enrolada, sem reunião só para marcar reunião.
+          Tem um projeto em mente ou uma oportunidade no seu time? Me conte o que você está
+          construindo. Respondo em até 24h.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

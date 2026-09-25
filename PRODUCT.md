@@ -60,3 +60,11 @@ The Instrument Serif italic accent is in the same font family that floods the ed
 - **Touch targets ≥ 44×44px** on mobile for the nav, CTAs, and footer social icons.
 - **The 3D hero scene and the automation map are `aria-hidden`** (already true). Decorative imagery, decorative type glow, decorative grid backgrounds carry no information for assistive tech.
 - **Language:** `<html lang="pt-BR">` on the live shell (currently `en` — flag and fix). Page copy is PT-BR; technical terms stay in English only when the term of art is English.
+
+## Current portfolio direction — September 2026
+
+The home page leads with INTTAX Fiscal and INTTAX Reforma Tributária, followed by Robô Paris and Game Day Nexus. SaaS-SIEG stays in the full collection. INTTAX Reforma Tributária is an operating software-plus-consulting product: accounting and tax offices can offer analyses of reform scenarios, costs, credit, margin and pricing to their clients. It is a commercial product, not a speculative concept.
+
+Explain Argos as an evidence-based analytical assistant: fiscal services calculate and provide evidence; the assistant retrieves applicable, versioned methodology and explains it with sources. Do not imply autonomous tax decisions or publish unmeasured retrieval accuracy, latency, financial-return figures, or claims that pgvector is enabled in production.
+
+Project motion demonstrates the work: documents enter, systems process, outputs become usable. Visitors can select each stage or pause playback. Illustrations use synthetic conceptual records only. New copy should welcome both potential clients and hiring teams, describing Bruno's contribution and the business problem in clear Portuguese. Qualitative capabilities replace invented numeric results when measured outcomes are unavailable.

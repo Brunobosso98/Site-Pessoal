@@ -11,10 +11,7 @@ export function SectionHeader({
 }) {
   return (
     <div className="max-w-3xl">
-      <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-cyan">
-        <span className="h-px w-8 bg-[var(--cyan)]" />
-        {eyebrow}
-      </div>
+      <p className="section-caption">{eyebrow}</p>
       <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight md:text-5xl">
         {title}
       </h2>
