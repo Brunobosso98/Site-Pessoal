@@ -1,25 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import {
-  ArrowUpRight,
-  Bot,
-  Cpu,
-  Database,
-  Github,
-  Linkedin,
-  Mail,
-  MessageSquare,
-  Network,
-  Workflow,
-  Zap,
-} from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail, MessageSquare } from "lucide-react";
 import { HeroScene } from "@/components/HeroScene";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SectionHeader } from "@/components/SectionHeader";
 import { KineticTitle, MagneticLink } from "@/components/MotionExperience";
 import { useMotionExperience } from "@/hooks/use-motion-experience";
+import { Capabilities } from "@/components/Capabilities";
 import { ProjectArtwork } from "@/components/ProjectArtwork";
 import { featuredProjects } from "@/lib/portfolio";
 import portrait from "@/assets/bruno-portrait.jpg";
@@ -44,39 +33,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-
-const capabilities = [
-  {
-    icon: Cpu,
-    title: "Sistemas full-stack",
-    body: "Produtos web do modelo de dados à experiência final. Arquitetura, interface, APIs e entrega em produção.",
-  },
-  {
-    icon: Workflow,
-    title: "Automação operacional",
-    body: "Rotinas que deixam de depender de cliques: coleta, processamento e entrega, com logs, retentativas e revisão de exceções.",
-  },
-  {
-    icon: Network,
-    title: "Integrações & APIs",
-    body: "ERPs, APIs e ferramentas internas conectados com validação, retentativas e rastreabilidade de ponta a ponta.",
-  },
-  {
-    icon: Bot,
-    title: "Assistentes com IA",
-    body: "Assistentes conectados a ferramentas e fontes autorizadas. RAG, evidências, escopo de acesso e limites de custo fazem parte da arquitetura.",
-  },
-  {
-    icon: Database,
-    title: "Fiscal & contábil",
-    body: "Ingestão XML e SPED, cruzamento de documentos e análises fiscais. Conhecimento de domínio para traduzir regras complexas em software utilizável.",
-  },
-  {
-    icon: Zap,
-    title: "Engenharia orientada ao negócio",
-    body: "Escopo claro, entregas frequentes e resultados que a operação consegue reconhecer: tempo recuperado, informações confiáveis e novos serviços.",
-  },
-];
 
 const stack = [
   "TypeScript",
@@ -204,36 +160,6 @@ function Marquee() {
   );
 }
 
-function Capabilities() {
-  return (
-    <section id="capacidades" className="expertise-section">
-      <div className="expertise-intro">
-        <p className="section-caption">Como posso contribuir</p>
-        <h2>
-          Visão de produto.
-          <br />
-          <span className="text-cyan">Profundidade técnica.</span>
-        </h2>
-        <p>
-          Do banco de dados à experiência de quem usa. Construção de ponta a ponta, com atenção ao
-          que a operação precisa.
-        </p>
-      </div>
-      <div className="expertise-list">
-        {capabilities.map((capability) => (
-          <div className="expertise-row" key={capability.title}>
-            <capability.icon size={22} />
-            <div>
-              <h3>{capability.title}</h3>
-              <p>{capability.body}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function Projects() {
   return (
     <section id="projetos" className="selected-work">
@@ -312,7 +238,7 @@ function Process() {
     },
     {
       n: "03",
-      title: "Build em ciclos curtos",
+      title: "Entregas em ciclos curtos",
       body: "Entregas semanais funcionando, com acesso a ambiente de teste desde o dia 1.",
     },
     {

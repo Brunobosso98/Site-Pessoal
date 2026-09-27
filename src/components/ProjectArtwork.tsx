@@ -1,70 +1,100 @@
-import { useEffect, useId, useRef, useState } from "react";
-import { motion } from "motion/react";
-import { Pause, Play, RotateCcw } from "lucide-react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
+import {
+  ArrowUpRight,
+  Check,
+  FileText,
+  Fingerprint,
+  FolderOpen,
+  LockKeyhole,
+  Pause,
+  Play,
+  RotateCcw,
+  ShieldCheck,
+} from "lucide-react";
 import { useMotionExperience } from "@/hooks/use-motion-experience";
 
-export type ProjectKind = "audit" | "reform" | "banking" | "nexus";
+export type ProjectKind = "audit" | "reform" | "banking" | "nexus" | "integration";
 const stories = {
   audit: {
-    name: "INTTAX / Auditoria fiscal",
-    steps: ["Documentos", "Cruzamento", "Auditoria", "Relatório"],
+    name: "INTTAX Fiscal",
+    label: "Inteligência documental",
+    steps: ["Receber", "Cruzar", "Verificar", "Evidenciar"],
     captions: [
-      "XMLs e SPEDs entram no mesmo fluxo.",
-      "O INTTAX cruza documentos e identifica produtos.",
-      "Inconsistências são sinalizadas para revisão.",
-      "A auditoria vira relatório com evidências.",
+      "Documentos diferentes. Uma base para auditar.",
+      "Notas e escrituração se encontram no mesmo contexto.",
+      "Divergências em destaque, prontas para revisão humana.",
+      "Cada conclusão pode ser rastreada até sua origem.",
     ],
   },
   reform: {
-    name: "INTTAX / Reforma Tributária",
-    steps: ["Base fiscal", "Cenários", "Impactos", "Consultoria"],
+    name: "INTTAX Reforma",
+    label: "Explorador de cenários",
+    steps: ["Base", "Crédito", "Margem", "Cenário"],
     captions: [
-      "Documentos e dados da empresa formam a base.",
-      "O motor fiscal calcula cenários comparáveis.",
-      "Custo, crédito e margem ganham contexto.",
-      "O escritório transforma análise em consultoria.",
+      "Uma base fiscal para comparar caminhos.",
+      "Créditos entram na leitura do cenário.",
+      "Custo e margem analisados em conjunto.",
+      "Arraste o controle e explore a composição ilustrativa.",
     ],
   },
   banking: {
-    name: "Robô Paris / Operação financeira",
-    steps: ["Empresas", "Coleta", "Organização", "Entrega"],
+    name: "Robô Paris",
+    label: "Mesa de operação",
+    steps: ["Agenda", "Execução", "Revisão", "Entrega"],
     captions: [
-      "Uma rotina atende múltiplas empresas e bancos.",
-      "O robô acessa o portal e coleta os extratos.",
-      "Cada arquivo encontra sua empresa e período.",
-      "Extratos organizados. Exceções para revisão.",
+      "A rotina começa na agenda, sem depender de cliques.",
+      "Coletas independentes, coordenadas em uma execução.",
+      "Arquivos organizados; exceções separadas para revisão.",
+      "Selecione uma empresa para explorar sua entrega.",
     ],
   },
   nexus: {
-    name: "Game Day Nexus / Gestão de clubes",
-    steps: ["Acesso", "Permissões", "Operação", "Isolamento"],
+    name: "Game Day Nexus",
+    label: "Gestão de clubes",
+    steps: ["Clube", "Elenco", "Equipe", "Acesso"],
     captions: [
-      "O usuário entra no contexto do seu clube.",
-      "A função determina o acesso a cada departamento.",
-      "Médico, técnico e financeiro trabalham conectados.",
-      "Cada clube opera com seus próprios dados.",
+      "O clube é o centro da operação.",
+      "O elenco conecta a rotina dos departamentos.",
+      "Cada equipe enxerga o que precisa para trabalhar.",
+      "Explore os departamentos. O contexto do clube é preservado.",
     ],
   },
-} satisfies Record<ProjectKind, { name: string; steps: string[]; captions: string[] }>;
+  integration: {
+    name: "SaaS-SIEG",
+    label: "Rede de integrações",
+    steps: ["Conectar", "Validar", "Sincronizar", "Rastrear"],
+    captions: [
+      "Sistemas distintos conectados por contratos claros.",
+      "Cada integração tem seu próprio adaptador.",
+      "Eventos coordenados, com retentativas e rastreabilidade.",
+      "Selecione uma conexão para explorar a arquitetura.",
+    ],
+  },
+};
 const ease = [0.16, 1, 0.3, 1] as const;
+type SceneProps = { phase: number; duration: number; choose: (value: number) => void };
 
-/** A controllable process demonstration. All documents and diagrams are illustrative. */
+/** Each scene has its own interaction; all records and chart geometry are illustrative. */
 export function ProjectArtwork({ kind }: { kind: ProjectKind }) {
   const ref = useRef<HTMLElement>(null);
-  const id = useId();
   const { staticMotion } = useMotionExperience();
   const [visible, setVisible] = useState(false);
   const [foreground, setForeground] = useState(true);
   const [playing, setPlaying] = useState(true);
-  const [phase, setPhase] = useState(3);
+  const [phase, setPhase] = useState(0);
+  const [replay, setReplay] = useState(0);
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const rotateX = useSpring(rx, { stiffness: 95, damping: 25 });
+  const rotateY = useSpring(ry, { stiffness: 95, damping: 25 });
   const running = visible && foreground && playing && !staticMotion;
   const story = stories[kind];
   useEffect(() => {
-    if (!ref.current) return;
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
-      threshold: 0.25,
+      threshold: 0.2,
     });
-    observer.observe(ref.current);
+    if (ref.current) observer.observe(ref.current);
     const visibility = () => setForeground(!document.hidden);
     visibility();
     document.addEventListener("visibilitychange", visibility);
@@ -75,669 +105,598 @@ export function ProjectArtwork({ kind }: { kind: ProjectKind }) {
   }, []);
   useEffect(() => {
     if (!running) return;
-    const timer = window.setTimeout(() => setPhase((value) => (value + 1) % 4), 3000);
+    const timer = window.setTimeout(() => setPhase((value) => (value + 1) % 4), 4200);
     return () => window.clearTimeout(timer);
   }, [running, phase]);
-  const duration = staticMotion ? 0 : 0.85;
+  const choose = (value: number) => {
+    rx.set(0);
+    ry.set(0);
+    setPlaying(false);
+    setPhase(value);
+  };
+  const props = { phase, duration: staticMotion || !visible || !foreground ? 0 : 0.85, choose };
   return (
     <figure
       ref={ref}
-      className={"project-demo demo-" + kind}
+      className={`project-demo experience demo-${kind}`}
       data-running={running}
       data-phase={phase}
-      aria-label={"Demonstração: " + story.name}
+      aria-label={`Demonstração: ${story.name}`}
+      onPointerMove={(event) => {
+        if (staticMotion || !playing || event.pointerType !== "mouse") return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        rx.set((0.5 - (event.clientY - bounds.top) / bounds.height) * 5);
+        ry.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 7);
+      }}
+      onPointerLeave={() => {
+        rx.set(0);
+        ry.set(0);
+      }}
     >
-      <div className="demo-topline">
+      <div className="experience-topline">
         <span>
           <i />
           {story.name}
         </span>
-        <span className="demo-notation">Visão do sistema</span>
+        <span>{story.label}</span>
       </div>
-      <div className="demo-stage">
-        <svg viewBox="0 0 760 430" fill="none" aria-hidden="true" className="demo-svg">
-          <defs>
-            <pattern id={id + "grid"} width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r=".7" fill="currentColor" opacity=".15" />
-            </pattern>
-            <linearGradient id={id + "line"}>
-              <stop stopColor="currentColor" stopOpacity="0" />
-              <stop offset=".5" stopColor="currentColor" />
-              <stop offset="1" stopColor="currentColor" stopOpacity=".15" />
-            </linearGradient>
-          </defs>
-          <rect width="760" height="430" fill={"url(#" + id + "grid)"} />
-          {kind === "audit" ? (
-            <Audit phase={phase} running={running} duration={duration} />
-          ) : kind === "reform" ? (
-            <Reform phase={phase} running={running} duration={duration} />
-          ) : kind === "banking" ? (
-            <Banking phase={phase} running={running} duration={duration} />
-          ) : (
-            <Nexus phase={phase} running={running} duration={duration} />
-          )}
-        </svg>
-      </div>
-      <figcaption className="demo-caption" aria-live={playing ? "off" : "polite"}>
-        <span className="demo-phase-number">0{phase + 1}</span>
-        <span>{story.captions[phase]}</span>
+      <motion.div
+        key={replay}
+        className="experience-scene"
+        style={staticMotion ? undefined : { rotateX, rotateY, transformPerspective: 1000 }}
+      >
+        {kind === "audit" ? (
+          <Audit {...props} />
+        ) : kind === "reform" ? (
+          <Reform {...props} />
+        ) : kind === "banking" ? (
+          <Banking {...props} />
+        ) : kind === "nexus" ? (
+          <Nexus {...props} />
+        ) : (
+          <Integration {...props} />
+        )}
+      </motion.div>
+      <figcaption className="experience-caption" aria-live={playing ? "off" : "polite"}>
+        <span>{String(phase + 1).padStart(2, "0")}</span>
+        {story.captions[phase]}
       </figcaption>
-      <div className="demo-controls">
-        <div className="demo-steps" aria-label={"Etapas de " + story.name}>
+      <div className="experience-controls">
+        <div className="experience-steps" aria-label={`Etapas de ${story.name}`}>
           {story.steps.map((step, index) => (
             <button
               type="button"
               key={step}
               aria-pressed={phase === index}
-              onClick={() => {
-                setPlaying(false);
-                setPhase(index);
-              }}
+              onClick={() => choose(index)}
             >
-              <span className="demo-step-rail">
-                {phase === index && (
-                  <motion.i
-                    key={phase + String(running)}
-                    initial={false}
-                    animate={{ scaleX: running ? [0, 1] : 1 }}
-                    transition={{ duration: running ? 3 : 0, ease: "linear" }}
-                  />
-                )}
+              <span className="experience-rail">
+                {phase === index && <i key={`${phase}-${running}`} />}
               </span>
-              <span>{step}</span>
+              {step}
             </button>
           ))}
         </div>
         <button
           type="button"
-          className="demo-play"
+          className="experience-play"
           disabled={staticMotion}
-          aria-label={(playing ? "Pausar" : "Reproduzir") + " demonstração: " + story.name}
-          onClick={() => setPlaying(!playing)}
+          aria-label={`${playing ? "Pausar" : "Reproduzir"} demonstração: ${story.name}`}
+          onClick={() => {
+            rx.set(0);
+            ry.set(0);
+            setPlaying(!playing);
+          }}
         >
-          {playing ? <Pause size={14} /> : <Play size={14} />}
+          {playing && !staticMotion ? <Pause size={15} /> : <Play size={15} />}
         </button>
         <button
           type="button"
-          className="demo-replay"
-          aria-label={"Reiniciar demonstração: " + story.name}
+          className="experience-replay"
+          aria-label={`Reiniciar demonstração: ${story.name}`}
           onClick={() => {
             setPhase(0);
             setPlaying(true);
+            setReplay((value) => value + 1);
           }}
         >
-          <RotateCcw size={14} />
+          <RotateCcw size={15} />
         </button>
       </div>
-      <span className="demo-disclaimer">Demonstração ilustrativa · sem dados de clientes</span>
+      <span className="experience-note">Experiência interativa · dados ilustrativos</span>
     </figure>
   );
 }
 
-type SceneProps = { phase: number; running: boolean; duration: number };
-function Label({
-  x,
-  y,
-  children,
-  className = "",
-  anchor = "start",
-}: {
-  x: number;
-  y: number;
-  children: React.ReactNode;
-  className?: string;
-  anchor?: "start" | "middle" | "end";
-}) {
+function Audit({ phase, duration, choose }: SceneProps) {
   return (
-    <text x={x} y={y} textAnchor={anchor} className={"diagram-label " + className}>
-      {children}
-    </text>
-  );
-}
-function Check({ x, y, active = true }: { x: number; y: number; active?: boolean }) {
-  const { staticMotion } = useMotionExperience();
-  return (
-    <g transform={"translate(" + x + " " + y + ")"} opacity={active ? 1 : 0.22}>
-      <circle r="10" fill="currentColor" opacity=".15" />
-      <motion.path
-        d="m-4 0 3 3 5-6"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={false}
-        animate={{ pathLength: active ? 1 : 0 }}
-        transition={{ duration: staticMotion ? 0 : 0.55, ease }}
-      />
-    </g>
-  );
-}
-function Packet({
-  points,
-  running,
-  delay = 0,
-}: {
-  points: [number, number][];
-  running: boolean;
-  delay?: number;
-}) {
-  return (
-    <motion.circle
-      r="3.5"
-      fill="currentColor"
-      initial={false}
-      animate={
-        running
-          ? { cx: points.map((p) => p[0]), cy: points.map((p) => p[1]), opacity: [0, 1, 1, 0] }
-          : { cx: points[0][0], cy: points[0][1], opacity: 0 }
-      }
-      transition={
-        running ? { duration: 2, delay, repeat: Infinity, ease: "linear" } : { duration: 0 }
-      }
-    />
-  );
-}
-function Engine({
-  x = 380,
-  y = 212,
-  name,
-  subtitle,
-  active,
-  running,
-}: {
-  x?: number;
-  y?: number;
-  name: string;
-  subtitle: string;
-  active: boolean;
-  running: boolean;
-}) {
-  return (
-    <g transform={"translate(" + x + " " + y + ")"}>
-      <circle r="106" stroke="currentColor" strokeOpacity=".08" />
-      <circle
-        r="94"
-        stroke="currentColor"
-        strokeOpacity=".18"
-        strokeDasharray="2 9"
-        className={running ? "engine-dial" : ""}
-      />
-      <rect
-        x="-77"
-        y="-70"
-        width="154"
-        height="154"
-        rx="18"
-        fill="currentColor"
-        opacity=".025"
-        transform="rotate(-8)"
-      />
-      <rect x="-74" y="-74" width="148" height="148" rx="15" className="diagram-panel" />
-      <rect
-        x="-63"
-        y="-63"
-        width="126"
-        height="126"
-        rx="9"
-        stroke="currentColor"
-        strokeOpacity={active ? 0.65 : 0.2}
-      />
-      {[-42, -21, 0, 21, 42].map((n) => (
-        <g key={n} stroke="currentColor" strokeOpacity=".3">
-          <path d={"M-84 " + n + "h10M74 " + n + "h10M" + n + " -84v10M" + n + " 74v10"} />
-        </g>
-      ))}
-      <path
-        d="m-17-23 9 9 17-19"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        opacity={active ? 1 : 0.5}
-      />
-      <Label x={0} y={17} anchor="middle" className="engine-name">
-        {name}
-      </Label>
-      <Label x={0} y={43} anchor="middle" className="micro-label">
-        {subtitle}
-      </Label>
-      {active && (
-        <rect
-          x="-62"
-          y="-61"
-          width="124"
-          height="2"
-          fill="currentColor"
-          opacity=".6"
-          className={running ? "engine-scan" : ""}
-        />
-      )}
-    </g>
-  );
-}
-function FiscalDocument({
-  x,
-  y,
-  label,
-  moving,
-  duration,
-}: {
-  x: number;
-  y: number;
-  label: string;
-  moving: boolean;
-  duration: number;
-}) {
-  return (
-    <g transform={"translate(" + x + " " + y + ")"}>
-      <motion.g
-        initial={false}
-        animate={{
-          x: moving ? 331 - x : 0,
-          y: moving ? 148 - y : 0,
-          scale: moving ? 0.2 : 1,
-          opacity: moving ? 0 : 1,
-          rotate: moving ? 12 : -4,
-        }}
-        transition={{ duration: duration * 1.5, delay: duration ? (y > 200 ? 0.32 : 0) : 0, ease }}
-      >
-        <path
-          d="M0 7a7 7 0 0 1 7-7h69l22 22v100a7 7 0 0 1-7 7H7a7 7 0 0 1-7-7Z"
-          className="diagram-panel"
-        />
-        <path d="M76 0v22h22" stroke="currentColor" strokeOpacity=".5" />
-        <Label x={14} y={49} className="document-label">
-          {label}
-        </Label>
-        <path
-          d="M14 67h59M14 80h44M14 93h53M14 106h32"
-          stroke="currentColor"
-          strokeOpacity=".25"
-          strokeWidth="2"
-        />
-      </motion.g>
-    </g>
-  );
-}
-function Audit({ phase, running, duration }: SceneProps) {
-  return (
-    <>
-      <Label x={36} y={40} className="diagram-heading">
-        Documentos fiscais
-      </Label>
-      <Label x={546} y={40} className="diagram-heading">
-        Auditoria rastreável
-      </Label>
-      <path
-        d="M155 140H202Q228 140 247 175L282 212M155 302H203Q230 302 247 260L282 212M464 212H539"
-        className="diagram-route"
-      />
-      <Packet
-        points={[
-          [155, 140],
-          [206, 140],
-          [250, 181],
-          [290, 212],
-        ]}
-        running={running && phase < 2}
-      />
-      <Packet
-        points={[
-          [155, 302],
-          [206, 302],
-          [250, 250],
-          [290, 212],
-        ]}
-        running={running && phase < 2}
-        delay={0.6}
-      />
-      <FiscalDocument
-        x={46}
-        y={75}
-        label="XML"
-        moving={phase === 1 || phase === 2}
-        duration={duration}
-      />
-      <FiscalDocument
-        x={65}
-        y={247}
-        label="SPED"
-        moving={phase === 1 || phase === 2}
-        duration={duration}
-      />
-      <Engine
-        name="INTTAX"
-        subtitle={
-          phase === 1 ? "matching / ML" : phase === 2 ? "auditoria fiscal" : "motor de auditoria"
-        }
-        active={phase === 1 || phase === 2}
-        running={running}
-      />
-      <Packet
-        points={[
-          [464, 212],
-          [490, 212],
-          [515, 212],
-          [540, 212],
-        ]}
-        running={running && phase >= 2}
-      />
-      <g transform="translate(540 76)">
-        <motion.g
-          initial={false}
-          animate={{ y: phase === 3 ? 0 : 12, opacity: phase >= 2 ? 1 : 0.32 }}
-          transition={{ duration, ease }}
-        >
-          <rect width="185" height="280" rx="10" className="diagram-report" />
-          <path d="M20 46h145" stroke="currentColor" strokeOpacity=".2" />
-          <Label x={20} y={29} className="report-title">
-            Relatório fiscal
-          </Label>
-          <Label x={20} y={77} className="micro-label">
-            EVIDÊNCIAS
-          </Label>
-          {["Documentos", "Cruzamentos", "Inconsistências", "Créditos"].map((label, n) => (
-            <g key={label}>
-              <Check x={26} y={106 + n * 32} active={phase === 3 || (phase === 2 && n < 2)} />
-              <Label x={44} y={111 + n * 32} className="report-row">
-                {label}
-              </Label>
-            </g>
-          ))}
-          <rect
-            x="17"
-            y="235"
-            width="151"
-            height="28"
-            rx="4"
-            fill="currentColor"
-            opacity={phase === 3 ? 0.18 : 0.05}
-          />
-          <Label x={92} y={254} anchor="middle" className="report-status">
-            {phase === 3 ? "Pronto para revisão" : "Em processamento"}
-          </Label>
-        </motion.g>
-      </g>
-      <Label x={380} y={376} anchor="middle" className="micro-label">
-        ENTRADA → CRUZAMENTO → EVIDÊNCIA
-      </Label>
-    </>
-  );
-}
-function Reform({ phase, running, duration }: SceneProps) {
-  return (
-    <>
-      <Label x={34} y={40} className="diagram-heading">
-        Base da empresa
-      </Label>
-      <Label x={501} y={40} className="diagram-heading">
-        Decisão com contexto
-      </Label>
-      <path
-        d="M145 173H211Q240 173 251 195L282 212M145 282H215Q241 282 258 250L282 212M464 212H490"
-        className="diagram-route"
-      />
-      <FiscalDocument x={39} y={103} label="XML" moving={phase === 1} duration={duration} />
-      <g transform="translate(52 270)">
-        <rect width="107" height="49" rx="6" className="diagram-panel" />
-        <Label x={53} y={31} anchor="middle" className="document-label">
-          SPED
-        </Label>
-      </g>
-      <Packet
-        points={[
-          [145, 173],
-          [213, 173],
-          [252, 193],
-          [290, 212],
-        ]}
-        running={running && phase < 2}
-      />
-      <Engine
-        name="INTTAX"
-        subtitle="IBS / CBS"
-        active={phase === 1 || phase === 2}
-        running={running}
-      />
-      <g transform="translate(497 77)">
-        <rect width="230" height="230" rx="10" className="diagram-report" />
-        <Label x={18} y={29} className="report-title">
-          Comparar cenários
-        </Label>
-        <path d="M18 45h194" stroke="currentColor" strokeOpacity=".18" />
-        {["Custo", "Crédito", "Margem"].map((label, n) => (
-          <g key={label} transform={"translate(18 " + (63 + n * 51) + ")"}>
-            <Label x={0} y={13} className="report-row">
-              {label}
-            </Label>
-            <rect x="75" y="0" width="105" height="8" rx="3" fill="currentColor" opacity=".13" />
-            <motion.rect
-              x="75"
-              y="14"
-              height="8"
-              rx="3"
-              fill="currentColor"
+    <div className="audit-scene">
+      <div className="scene-heading">
+        <span>
+          Entre o dado
+          <br />
+          <strong>e a evidência.</strong>
+        </span>
+        <Fingerprint size={32} strokeWidth={1} />
+      </div>
+      <div className="audit-workbench">
+        <div className="audit-files" aria-hidden="true">
+          {["SPED", "NF-e", "XML"].map((label, index) => (
+            <motion.div
+              key={label}
+              className="audit-file"
               initial={false}
               animate={{
-                width: phase >= 2 ? [87, 68, 96][n] : 15,
-                opacity: phase >= 2 ? 0.85 : 0.25,
+                x: phase > 0 ? index * 9 : index * 17,
+                y: phase > 0 ? -index * 12 : -index * 15,
+                rotate: phase > 0 ? index * -3 : index * -8,
               }}
-              transition={{ duration, delay: duration ? n * 0.1 : 0, ease }}
-            />
-          </g>
-        ))}
-        <Label x={18} y={215} className="micro-label">
-          Cenários ilustrativos, sem valores
-        </Label>
-      </g>
-      <motion.g
-        initial={false}
-        animate={{ opacity: phase === 3 ? 1 : 0.3, y: phase === 3 ? 0 : 9 }}
-        transition={{ duration, ease }}
-      >
-        <rect x="497" y="325" width="230" height="64" rx="9" className="diagram-panel" />
-        <Check x={520} y={348} />
-        <Label x={540} y={352} className="report-title">
-          Relatório consultivo
-        </Label>
-        <Label x={515} y={375} className="micro-label">
-          Argos · explicações com fontes
-        </Label>
-      </motion.g>
-      <Packet
-        points={[
-          [464, 212],
-          [474, 212],
-          [485, 212],
-          [495, 212],
-        ]}
-        running={running && phase >= 2}
-      />
-      <Label x={340} y={375} anchor="middle" className="micro-label">
-        MOTOR CALCULA. ARGOS EXPLICA.
-      </Label>
-    </>
-  );
-}
-function Banking({ phase, running, duration }: SceneProps) {
-  return (
-    <>
-      <Label x={34} y={40} className="diagram-heading">
-        Múltiplas empresas
-      </Label>
-      <Label x={531} y={40} className="diagram-heading">
-        Rotina entregue
-      </Label>
-      {["Empresa A", "Empresa B", "Empresa C"].map((label, n) => (
-        <g key={label} transform={"translate(35 " + (93 + n * 87) + ")"}>
-          <rect width="154" height="60" rx="8" className="diagram-panel" />
-          <path
-            d="m17 25 12-9 12 9M21 29v14m8-14v14m8-14v14M16 45h27"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <Label x={56} y={35} className="report-row">
-            {label}
-          </Label>
-        </g>
-      ))}
-      <path
-        d="M190 122H230Q250 122 262 153L285 212M190 209H285M190 297H230Q250 297 262 265L285 212M464 212H528"
-        className="diagram-route"
-      />
-      {[122, 209, 297].map((y, n) => (
-        <Packet
-          key={y}
-          points={[
-            [190, y],
-            [230, y],
-            [260, (y + 212) / 2],
-            [289, 212],
-          ]}
-          running={running && phase === 1}
-          delay={n * 0.3}
-        />
-      ))}
-      <Engine
-        name="PARIS"
-        subtitle={phase === 1 ? "coletando extratos" : "automação / Python"}
-        active={phase === 1 || phase === 2}
-        running={running}
-      />
-      <Packet
-        points={[
-          [464, 212],
-          [485, 212],
-          [508, 212],
-          [528, 212],
-        ]}
-        running={running && phase >= 2}
-      />
-      <g transform="translate(532 100)">
-        <rect width="195" height="242" rx="10" className="diagram-report" />
-        <Label x={17} y={30} className="report-title">
-          Extratos organizados
-        </Label>
-        <path d="M17 46h160" stroke="currentColor" strokeOpacity=".2" />
-        {["empresa / período", "extratos bancários", "relatório de exceções"].map((label, n) => (
-          <motion.g
-            key={label}
-            initial={false}
-            animate={{ opacity: phase >= 2 ? 1 : 0.25, x: phase >= 2 ? 0 : 10 }}
-            transition={{ duration, delay: duration ? n * 0.15 : 0, ease }}
-          >
-            <path
-              d={"M18 " + (66 + n * 45) + "h13l5 6h16v20H18z"}
-              stroke="currentColor"
-              strokeOpacity=".6"
-            />
-            <Label x={61} y={84 + n * 45} className="micro-label">
-              {label}
-            </Label>
-          </motion.g>
-        ))}
-        <Check x={27} y={218} active={phase === 3} />
-        <Label x={45} y={223} className="report-row">
-          {phase === 3 ? "Pronto para a equipe" : "Organização por empresa"}
-        </Label>
-      </g>
-      <Label x={380} y={379} anchor="middle" className="micro-label">
-        COLETA AUTOMÁTICA. EXCEÇÕES VISÍVEIS.
-      </Label>
-    </>
-  );
-}
-function Nexus({ phase, running, duration }: SceneProps) {
-  return (
-    <>
-      <Label x={34} y={40} className="diagram-heading">
-        Um produto. Vários clubes.
-      </Label>
-      <Label x={721} y={40} anchor="end" className="diagram-heading">
-        Dados isolados por RLS
-      </Label>
-      <path d="M380 100V139M380 290V315M176 190H286M474 190H584" className="diagram-route" />
-      <g transform="translate(274 60)">
-        <rect width="212" height="44" rx="22" className="diagram-panel" />
-        <circle cx="23" cy="22" r="5" fill="currentColor" />
-        <Label x={42} y={28} className="report-row">
-          Usuário / clube ativo
-        </Label>
-      </g>
-      <Engine
-        y={216}
-        name="NEXUS"
-        subtitle="permissões / RBAC"
-        active={phase === 1 || phase === 2}
-        running={running}
-      />
-      {[
-        { x: 30, label: "Clube A", active: true },
-        { x: 579, label: "Clube B", active: false },
-      ].map((club) => (
-        <g key={club.label} transform={"translate(" + club.x + " 129)"}>
-          <rect
-            width="151"
-            height="187"
-            rx="12"
-            className="diagram-report"
-            strokeDasharray={club.active ? undefined : "5 5"}
-          />
-          <Label x={75} y={32} anchor="middle" className="report-title">
-            {club.label}
-          </Label>
-          {["Técnico", "Médico", "Financeiro"].map((label, n) => (
-            <g key={label}>
-              <motion.rect
-                x="13"
-                y={53 + n * 39}
-                width="125"
-                height="29"
-                rx="5"
-                fill="currentColor"
-                initial={false}
-                animate={{ opacity: club.active && phase >= 2 ? 0.15 : 0.035 }}
-                transition={{ duration, delay: duration ? n * 0.12 : 0 }}
-              />
-              <Label x={25} y={73 + n * 39} className="report-row">
-                {label}
-              </Label>
-            </g>
+              transition={{ duration, ease }}
+            >
+              <FileText size={21} strokeWidth={1.2} />
+              <span>{label}</span>
+              <i />
+              <i />
+              <i />
+              <small>documento de origem</small>
+            </motion.div>
           ))}
-        </g>
-      ))}
-      <Packet
-        points={[
-          [380, 104],
-          [380, 115],
-          [380, 129],
-          [380, 142],
-        ]}
-        running={running && phase === 1}
-      />
-      <Packet
-        points={[
-          [286, 190],
-          [250, 190],
-          [210, 190],
-          [182, 190],
-        ]}
-        running={running && phase >= 2}
-      />
-      <motion.g
-        initial={false}
-        animate={{ opacity: phase === 3 ? 1 : 0.3, y: phase === 3 ? 0 : 8 }}
-        transition={{ duration, ease }}
-      >
-        <rect x="249" y="336" width="262" height="48" rx="24" className="diagram-panel" />
-        <path
-          d="M270 355v-4a6 6 0 0 1 12 0v4m-14 0h16v13h-16z"
-          stroke="currentColor"
-          strokeWidth="1.5"
+        </div>
+        <div className="audit-bridge" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <span>matching</span>
+        </div>
+        <div className="audit-ledger">
+          <div className="ledger-heading">
+            <span>Revisão documental</span>
+            <ShieldCheck size={16} />
+          </div>
+          {["Identificação", "Escrituração", "Crédito fiscal"].map((row, index) => (
+            <motion.div
+              key={row}
+              className="ledger-row"
+              initial={false}
+              animate={{
+                opacity: phase > index || phase === 3 ? 1 : 0.8,
+                x: phase > index ? 0 : 5,
+              }}
+              transition={{ duration, ease, delay: duration ? index * 0.08 : 0 }}
+            >
+              <span>{row}</span>
+              {phase >= 2 && index === 1 ? (
+                <span className="review-dot">Revisar</span>
+              ) : (
+                <Check size={14} />
+              )}
+            </motion.div>
+          ))}
+          <div className="audit-evidence">
+            <i />
+            <span>
+              {phase === 3 ? "Origem vinculada ao relatório" : "Rastreabilidade documental"}
+            </span>
+          </div>
+          <div className="audit-scan" aria-hidden="true" />
+        </div>
+      </div>
+      <button className="scene-action" type="button" onClick={() => choose(phase === 3 ? 0 : 3)}>
+        {phase === 3 ? "Rever documentos" : "Revelar evidências"}
+        <ArrowUpRight size={15} />
+      </button>
+    </div>
+  );
+}
+
+function Reform({ phase, duration, choose }: SceneProps) {
+  const [customScenario, setScenario] = useState<number | null>(null);
+  const scenario = customScenario ?? [25, 65, 90, 45][phase];
+  const id = useId();
+  const level = scenario / 100;
+  const curve = `M 0 165 C 65 165 72 ${158 - level * 20} 130 ${153 - level * 35} S 218 ${150 - level * 75} 272 ${135 - level * 95} S 370 ${125 - level * 115} 450 ${105 - level * 90}`;
+  return (
+    <div className="reform-scene">
+      <div className="scene-heading">
+        <span>
+          Um cenário muda.
+          <br />
+          <strong>A visão acompanha.</strong>
+        </span>
+        <span className="scenario-badge">IBS / CBS</span>
+      </div>
+      <div className="scenario-legend">
+        <span>
+          <i />
+          Cenário explorado
+        </span>
+        <span>
+          <i />
+          Referência
+        </span>
+      </div>
+      <div className="scenario-chart" aria-hidden="true">
+        <svg viewBox="0 0 450 200" preserveAspectRatio="none" fill="none">
+          <defs>
+            <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+              <stop stopColor="currentColor" stopOpacity=".24" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {[40, 85, 130, 175].map((y) => (
+            <path key={y} d={`M0 ${y}H450`} stroke="currentColor" strokeOpacity=".1" />
+          ))}
+          <path
+            d="M0 165C85 160 115 141 180 145S300 98 450 90"
+            stroke="currentColor"
+            strokeOpacity=".35"
+            strokeDasharray="5 6"
+          />
+          <motion.path
+            initial={false}
+            animate={{ d: `${curve} L450 200H0Z` }}
+            transition={{ duration: duration * 0.45, ease }}
+            fill={`url(#${id})`}
+          />
+          <motion.path
+            initial={false}
+            animate={{ d: curve }}
+            transition={{ duration: duration * 0.45, ease }}
+            stroke="currentColor"
+            strokeWidth="2.5"
+          />
+          <motion.circle
+            initial={false}
+            animate={{ cx: 449, cy: 105 - level * 90 }}
+            transition={{ duration: duration * 0.45, ease }}
+            r="5"
+            fill="currentColor"
+          />
+          <path
+            className="chart-tracer"
+            d={curve}
+            stroke="currentColor"
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeDasharray="1 560"
+          />
+        </svg>
+        <span className="chart-axis">Base fiscal</span>
+        <span className="chart-axis">Composição do cenário</span>
+      </div>
+      <div className="scenario-factors">
+        {["Custo", "Crédito", "Margem"].map((label, index) => (
+          <button
+            type="button"
+            key={label}
+            aria-pressed={phase === index + 1}
+            onClick={() => {
+              setScenario([25, 65, 90][index]);
+              choose(index + 1);
+            }}
+          >
+            <span>{label}</span>
+            <span className="factor-track">
+              <motion.i
+                initial={false}
+                animate={{
+                  scaleX: [0.75 - level * 0.25, 0.2 + level * 0.7, 0.35 + level * 0.55][index],
+                }}
+                transition={{ duration: duration * 0.5, ease }}
+              />
+            </span>
+          </button>
+        ))}
+      </div>
+      <label className="scenario-slider">
+        <span>
+          Explore o cenário <span>Arraste para comparar ↔</span>
+        </span>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={scenario}
+          aria-label="Composição ilustrativa do cenário tributário"
+          aria-valuetext={`Posição ${scenario} de 100, composição ilustrativa`}
+          onChange={(event) => {
+            setScenario(Number(event.target.value));
+            choose(3);
+          }}
         />
-        <Label x={295} y={365} className="report-row">
-          Acesso limitado ao seu clube
-        </Label>
-      </motion.g>
-    </>
+      </label>
+    </div>
+  );
+}
+
+function Banking({ phase, duration, choose }: SceneProps) {
+  const [customCompany, setCompany] = useState<number | null>(null);
+  const company = customCompany ?? Math.min(phase, 2);
+  return (
+    <div className="banking-scene">
+      <div className="scene-heading">
+        <span>
+          A operação continua.
+          <br />
+          <strong>Sem o trabalho repetitivo.</strong>
+        </span>
+        <span className="desk-clock">
+          06:00<small>rotina agendada</small>
+        </span>
+      </div>
+      <div className="bank-desk">
+        <div className="bank-schedule">
+          <span className="desk-label">Fila de execução</span>
+          {["Empresa A", "Empresa B", "Empresa C"].map((label, index) => (
+            <button
+              type="button"
+              key={label}
+              aria-pressed={company === index}
+              onClick={() => {
+                setCompany(index);
+                choose(3);
+              }}
+            >
+              <span className="company-monogram">{label.slice(-1)}</span>
+              <span>
+                {label}
+                <small>{phase > index ? "Coleta concluída" : "Rotina programada"}</small>
+              </span>
+              {company === index ? <ArrowUpRight size={14} /> : <span className="queue-dot" />}
+            </button>
+          ))}
+        </div>
+        <div className="bank-delivery">
+          <div className="folder-sculpture" aria-hidden="true">
+            <div className="folder-back" />
+            {[0, 1, 2].map((index) => (
+              <motion.div
+                key={index}
+                className="bank-paper"
+                initial={false}
+                animate={{
+                  y: phase >= 2 ? -12 - index * 13 : -40 - index * 13,
+                  rotate: (index - 1) * (phase >= 2 ? 5 : 12),
+                  x: (index - 1) * (phase >= 2 ? 9 : 16),
+                }}
+                transition={{ duration, ease, delay: duration ? index * 0.1 : 0 }}
+              >
+                <span>{["OFX", "PDF", "CSV"][index]}</span>
+                <i />
+                <i />
+              </motion.div>
+            ))}
+            <div className="folder-front">
+              <FolderOpen size={24} strokeWidth={1} />
+              <span>EMPRESA {String.fromCharCode(65 + company)}</span>
+            </div>
+          </div>
+          <span className="delivery-label">Extratos por período</span>
+          <span className="delivery-status">
+            <Check size={12} />
+            {phase >= 2 ? "Disponíveis para análise" : "Coleta e organização"}
+          </span>
+        </div>
+      </div>
+      <div className="desk-footer">
+        <span>
+          <i />
+          {phase === 2 ? "Exceções separadas para revisão" : "Execução independente por empresa"}
+        </span>
+        <LockKeyhole size={13} />
+      </div>
+    </div>
+  );
+}
+
+const departments = ["Técnico", "Médico", "Financeiro"];
+const formations = [
+  [
+    [50, 82],
+    [20, 63],
+    [42, 62],
+    [63, 62],
+    [81, 63],
+    [31, 43],
+    [53, 44],
+    [73, 43],
+    [22, 22],
+    [50, 17],
+    [78, 22],
+  ],
+  [
+    [50, 80],
+    [22, 62],
+    [43, 59],
+    [65, 59],
+    [80, 62],
+    [28, 39],
+    [52, 40],
+    [75, 39],
+    [29, 20],
+    [53, 16],
+    [76, 20],
+  ],
+  [
+    [50, 82],
+    [18, 61],
+    [39, 65],
+    [62, 65],
+    [82, 61],
+    [35, 43],
+    [64, 43],
+    [20, 25],
+    [50, 30],
+    [80, 25],
+    [50, 12],
+  ],
+];
+function Nexus({ phase, duration, choose }: SceneProps) {
+  const [customDepartment, setDepartment] = useState<number | null>(null);
+  const department = customDepartment ?? [0, 0, 1, 2][phase];
+  const [club, setClub] = useState(0);
+  const positions = formations[department];
+  return (
+    <div className="nexus-scene">
+      <div className="scene-heading">
+        <span>
+          Um clube inteiro.
+          <br />
+          <strong>Na mesma jogada.</strong>
+        </span>
+        <button
+          type="button"
+          className="club-switch"
+          aria-label="Alternar clube demonstrativo"
+          onClick={() => {
+            setClub((value) => 1 - value);
+            choose(3);
+          }}
+        >
+          Clube {club ? "B" : "A"}
+          <span>⇄</span>
+        </button>
+      </div>
+      <div className="club-world">
+        <div className="pitch-perspective" aria-hidden="true">
+          <div className="football-pitch">
+            <div className="pitch-half" />
+            <div className="pitch-circle" />
+            <div className="pitch-box pitch-box-top" />
+            <div className="pitch-box pitch-box-bottom" />
+            {positions.map(([x, y], index) => (
+              <motion.span
+                key={index}
+                className={`player-node ${department === 1 && index === 8 ? "player-review" : ""}`}
+                initial={false}
+                animate={{
+                  left: `${club ? 100 - x : x}%`,
+                  top: `${y}%`,
+                  scale: phase === 1 && index % 3 === 0 ? 1.22 : 1,
+                }}
+                transition={{ duration, ease, delay: duration ? index * 0.02 : 0 }}
+              >
+                {String(index + 1).padStart(2, "0")}
+              </motion.span>
+            ))}
+            <div className="pitch-sweep" />
+          </div>
+        </div>
+        <div className="club-context">
+          <span className="club-context-icon">
+            {department === 0 ? "↗" : department === 1 ? "+" : "$"}
+          </span>
+          <strong>{["Visão do elenco", "Saúde do atleta", "Gestão financeira"][department]}</strong>
+          <span>
+            {
+              ["Treinos e escalação", "Acompanhamento da equipe", "Rotina do departamento"][
+                department
+              ]
+            }
+          </span>
+          <small>
+            <LockKeyhole size={11} />
+            Clube {club ? "B" : "A"} · acesso por função
+          </small>
+        </div>
+      </div>
+      <div className="department-switch" aria-label="Departamento do clube">
+        {departments.map((label, index) => (
+          <button
+            key={label}
+            type="button"
+            aria-pressed={department === index}
+            onClick={() => {
+              setDepartment(index);
+              choose(2);
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Integration({ phase, duration, choose }: SceneProps) {
+  const [selected, setSelected] = useState(0);
+  const labels = ["ERP", "API", "Fiscal", "CRM", "Eventos", "Arquivos"];
+  return (
+    <div className="integration-scene">
+      <div className="scene-heading">
+        <span>
+          Sistemas diferentes.
+          <br />
+          <strong>Uma operação conectada.</strong>
+        </span>
+        <ShieldCheck size={28} strokeWidth={1} />
+      </div>
+      <div className="integration-orbit">
+        <svg viewBox="0 0 460 240" fill="none" aria-hidden="true">
+          {labels.map((_, index) => {
+            const angle = (index * Math.PI) / 3;
+            const x = 230 + Math.cos(angle) * 168;
+            const y = 120 + Math.sin(angle) * 90;
+            return (
+              <g key={index}>
+                <path
+                  d={`M230 120Q${x} 120 ${x} ${y}`}
+                  stroke="currentColor"
+                  strokeOpacity={selected === index ? 0.8 : 0.15}
+                />
+                <path
+                  className="integration-packet"
+                  style={{ animationDelay: `${index * -0.6}s` }}
+                  d={`M230 120Q${x} 120 ${x} ${y}`}
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeDasharray="4 240"
+                />
+              </g>
+            );
+          })}
+        </svg>
+        <motion.div
+          className="integration-core"
+          initial={false}
+          animate={{ rotate: phase * 90 }}
+          transition={{ duration, ease }}
+        >
+          <i />
+          <i />
+          <i />
+          <i />
+        </motion.div>
+        <span className="integration-core-label">SIEG</span>
+        {labels.map((label, index) => (
+          <button
+            key={label}
+            type="button"
+            className="integration-node"
+            style={
+              {
+                "--node-x": `${50 + Math.cos((index * Math.PI) / 3) * 36.5}%`,
+                "--node-y": `${50 + Math.sin((index * Math.PI) / 3) * 37.5}%`,
+              } as CSSProperties
+            }
+            aria-pressed={selected === index}
+            onClick={() => {
+              setSelected(index);
+              choose(3);
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      <div className="desk-footer">
+        <span>
+          <i />
+          {labels[selected]} · contrato validado · eventos rastreáveis
+        </span>
+        <Check size={14} />
+      </div>
+    </div>
   );
 }

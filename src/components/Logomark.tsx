@@ -20,12 +20,7 @@ export function Logomark(props: SVGProps<SVGSVGElement>) {
       aria-hidden="true"
       {...props}
     >
-      <g
-        stroke="var(--border)"
-        strokeWidth="1.5"
-        strokeLinecap="square"
-        fill="none"
-      >
+      <g stroke="var(--border)" strokeWidth="1.5" strokeLinecap="square" fill="none">
         <path d="M 2 8 L 2 2 L 8 2" />
         <path d="M 16 2 L 22 2 L 22 8" />
         <path d="M 2 16 L 2 22 L 8 22" />
@@ -43,10 +38,7 @@ export function Logomark(props: SVGProps<SVGSVGElement>) {
         opacity="0.55"
       />
 
-      <g
-        fill="var(--cyan)"
-        style={{ filter: "drop-shadow(0 0 1.5px var(--cyan))" }}
-      >
+      <g fill="var(--cyan)" style={{ filter: "drop-shadow(0 0 1.5px var(--cyan))" }}>
         <circle cx="8" cy="12" r="3" />
         <circle cx="16" cy="12" r="3" />
       </g>

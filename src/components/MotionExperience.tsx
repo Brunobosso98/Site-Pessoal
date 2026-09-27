@@ -1,9 +1,29 @@
-import { useEffect, useRef, useState, type ReactNode, type AnchorHTMLAttributes } from "react";
-import { MotionConfig, useReducedMotion } from "motion/react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+  type AnchorHTMLAttributes,
+} from "react";
+import { MotionConfig } from "motion/react";
 import { MotionContext, useMotionExperience } from "@/hooks/use-motion-experience";
 
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+function subscribeReducedMotion(onChange: () => void) {
+  const media = window.matchMedia(reducedMotionQuery);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+const getReducedMotion = () => window.matchMedia(reducedMotionQuery).matches;
+const getServerReducedMotion = () => false;
+
 export function MotionExperience({ children }: { children: ReactNode }) {
-  const reduced = useReducedMotion();
+  const reduced = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotion,
+    getServerReducedMotion,
+  );
   const [paused, setPaused] = useState(false);
   useEffect(() => {
     try {
@@ -24,7 +44,7 @@ export function MotionExperience({ children }: { children: ReactNode }) {
   const staticMotion = !!reduced || paused;
   return (
     <MotionContext.Provider value={{ staticMotion, paused, toggle }}>
-      <MotionConfig reducedMotion={staticMotion ? "always" : "user"}>
+      <MotionConfig reducedMotion={staticMotion ? "always" : "never"}>
         <div data-motion={staticMotion ? "static" : "full"}>{children}</div>
       </MotionConfig>
     </MotionContext.Provider>

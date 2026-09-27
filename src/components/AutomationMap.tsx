@@ -100,7 +100,9 @@ export function AutomationMap() {
             r="3.5"
             fill={colorFor(n.kind)}
             style={{
-              animation: reduce ? undefined : `pulse-dot ${2 + (i % 4) * 0.3}s ease-in-out infinite`,
+              animation: reduce
+                ? undefined
+                : `pulse-dot ${2 + (i % 4) * 0.3}s ease-in-out infinite`,
               transformOrigin: `${n.x}px ${n.y}px`,
             }}
           />

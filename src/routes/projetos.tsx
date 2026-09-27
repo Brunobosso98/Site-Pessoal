@@ -55,7 +55,7 @@ type Project = {
   metrics: Metric[];
   stack: string[];
   decision: Decision;
-  visual: ProjectKind | "stack-rows";
+  visual: ProjectKind;
 };
 
 const projects: Project[] = [
@@ -203,7 +203,7 @@ const projects: Project[] = [
       label: "Trade-off · polling + retry sobre webhook",
       body: "A integração usa consultas periódicas com retentativas e fila de exceção. O desenho prioriza previsibilidade, rastreabilidade e recuperação de falhas.",
     },
-    visual: "stack-rows",
+    visual: "integration",
   },
 ];
 
@@ -539,57 +539,7 @@ function CaseMetrics({ project }: { project: Project }) {
 }
 
 function CaseVisual({ project }: { project: Project }) {
-  return project.visual === "stack-rows" ? (
-    <StackRowsVisual />
-  ) : (
-    <ProjectArtwork kind={project.visual} />
-  );
-}
-
-function StackRowsVisual() {
-  const rows = [
-    { layer: "source", items: ["webhook", "form", "api"] },
-    { layer: "validation", items: ["zod schema", "rate limit", "auth"] },
-    { layer: "queue", items: ["bullmq", "retry exp.", "dlq"] },
-    { layer: "processor", items: ["adapter", "transformer", "logger"] },
-    { layer: "sink", items: ["crm", "sheet", "alert"] },
-  ];
-  return (
-    <motion.div
-      initial={false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay: 0.15 }}
-      className="rounded-2xl border border-border bg-[var(--slate-deep)] p-6 shadow-[var(--shadow-card)]"
-    >
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-        <span>// pipeline por evento</span>
-        <span className="text-cyan">idempotente</span>
-      </div>
-      <ol className="mt-5 space-y-2">
-        {rows.map((r, i) => (
-          <li
-            key={r.layer}
-            className="grid grid-cols-[110px_1fr] items-center gap-3 rounded border border-border bg-card px-3 py-2"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-widest text-cyan">
-              {r.layer}
-            </span>
-            <span className="flex flex-wrap gap-1.5">
-              {r.items.map((s) => (
-                <span
-                  key={s}
-                  className="rounded border border-border bg-[var(--slate-deep)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-                >
-                  {s}
-                </span>
-              ))}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </motion.div>
-  );
+  return <ProjectArtwork kind={project.visual} />;
 }
 
 function CaseDecision({ project }: { project: Project }) {

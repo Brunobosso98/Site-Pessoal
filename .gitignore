@@ -27,6 +27,10 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Local browser verification artifacts
+.playwright-cli/
+output/playwright/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
